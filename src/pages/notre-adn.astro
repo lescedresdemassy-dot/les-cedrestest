@@ -1,0 +1,286 @@
+---
+import PageLayout from '../layouts/PageLayout.astro';
+import Container from '../components/Container.astro';
+import SectionHeading from '../components/SectionHeading.astro';
+import Button from '../components/Button.astro';
+import { church } from '../data/church.ts';
+
+const pillars = [
+  {
+    id: 'chretiens',
+    label: 'Chrétiens',
+    title: 'Héritiers d\'une foi millénaire',
+    description: church.identity.chretiens,
+    detail:
+      'Notre identité puise ses racines dans l\'héritage transmis par tous ceux qui rendent témoignage depuis deux mille ans au Christ ressuscité, dans la soumission au Dieu éternel.',
+    icon: 'cross',
+  },
+  {
+    id: 'protestants',
+    label: 'Protestants',
+    title: 'Les grands principes de la Réforme',
+    description: church.identity.protestants,
+    detail:
+      'Le Christ seul, médiateur entre Dieu et les hommes. L\'Écriture seule, autorité ultime. La foi seule, pour le salut. La grâce seule, comme don. À Dieu seul, la gloire.',
+    icon: 'sparkles',
+  },
+  {
+    id: 'evangeliques',
+    label: 'Évangéliques',
+    title: 'Vivre selon l\'Évangile',
+    description: church.identity.evangeliques,
+    detail:
+      'Nous cherchons à vivre conformément à l\'Évangile. La Bible est, pour le croyant, la seule norme à laquelle se référer — un guide pratique pour aimer Dieu et son prochain.',
+    icon: 'book',
+  },
+  {
+    id: 'baptistes',
+    label: 'Baptistes',
+    title: 'Une église de professants',
+    description: church.identity.baptistes,
+    detail:
+      'Le baptisme se définit comme un mouvement d\'Églises de professants : chacun, conscient de sa foi personnelle en Jésus-Christ, demande à être baptisé. Une communauté qui repose sur l\'engagement libre et éclairé.',
+    icon: 'water',
+  },
+];
+
+const iconSvgs: Record<string, string> = {
+  cross: '<path d="M11 2h2v8h8v2h-8v10h-2V12H3v-2h8z"/>',
+  sparkles: '<path d="M12 3l1.9 5.5L19 10.4l-5.1 1.9L12 17.8l-1.9-5.5L5 10.4l5.1-1.9z"/><path d="M19 14l.9 2.5L22 17.4l-2.1.9L19 20.8l-.9-2.5L16 17.4l2.1-.9z"/><path d="M5 4l.9 2.5L8 7.4l-2.1.9L5 10.8l-.9-2.5L2 7.4l2.1-.9z"/>',
+  book: '<path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20"/>',
+  water: '<path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"/>',
+};
+export const prerender = true;
+---
+
+<PageLayout
+  title="Notre ADN — Qui sommes-nous ?"
+  description="Notre identité confessionnelle : chrétiens, protestants, évangéliques, baptistes. Une foi enracinée dans la Bible, ouverte à tous."
+  eyebrow="Notre ADN"
+  pageTitle="Qui sommes-nous ?"
+  pageLead="Notre église fait partie de l'Église universelle de Jésus-Christ. Nous partageons une même foi avec tous ceux qui suivent Jésus-Christ d'un cœur sincère, basée sur la Bible."
+>
+  <!-- Intro -->
+  <section class="py-12 md:py-20">
+    <Container size="default">
+      <div class="grid grid-cols-1 gap-12 lg:grid-cols-12">
+        <div class="lg:col-span-7">
+          <div class="prose max-w-prose text-ink-700 dark:text-ink-300">
+            <p class="text-lg leading-relaxed text-pretty">
+              Les Églises évangéliques baptistes existent <strong class="text-ink-900 dark:text-ink-50 font-medium">depuis 1609</strong> dans le monde, et <strong class="text-ink-900 dark:text-ink-50 font-medium">depuis 1820 en France</strong>. En commun avec d'autres églises évangéliques, elles sont composées de personnes qui ont reconnu leur besoin de la grâce de Dieu, qui s'est révélée pleinement en Jésus-Christ.
+            </p>
+            <p class="mt-6 text-lg leading-relaxed text-pretty">
+              Nos cultes et nos activités sont <strong class="text-ink-900 dark:text-ink-50 font-medium">ouverts à tous, sans aucune restriction</strong>, sur la base du respect mutuel envers ceux qui confessent que Jésus est leur Sauveur, ou qui veulent le découvrir en tant que tel.
+            </p>
+            <p class="mt-6 text-lg leading-relaxed text-pretty">
+              Que vous soyez de passage dans la région ou habitant des environs, vous serez les bienvenus à nos cultes le dimanche et à nos réunions en semaine.
+            </p>
+            <p class="mt-8 font-display italic text-terracotta-700 dark:text-terracotta-300">
+              — L'équipe pastorale
+            </p>
+          </div>
+        </div>
+
+        <!-- Sidebar : confession de foi -->
+        <aside class="lg:col-span-5">
+          <div class="rounded-3xl border border-sand-200 bg-gradient-to-br from-sand-50 to-sand-100 p-8 dark:border-ink-800 dark:from-ink-900 dark:to-ink-950">
+            <p class="text-xs font-medium uppercase tracking-[0.15em] text-terracotta-700 dark:text-terracotta-300">
+              Notre confession
+            </p>
+            <h3 class="mt-3 font-display text-2xl font-medium text-ink-900 dark:text-ink-50">
+              Une foi ancrée dans la Bible
+            </h3>
+            <p class="mt-4 text-sm leading-relaxed text-ink-700 dark:text-ink-300">
+              Notre foi est basée sur la Bible, Parole de Dieu, et nous maintenons les doctrines exprimées dans les <strong class="font-medium">confessions de foi historiques</strong> de l'Église chrétienne.
+            </p>
+
+            <ul class="mt-6 space-y-3">
+              {
+                pillars.map((p) => (
+                  <li class="flex items-center gap-3 text-sm">
+                    <span class="flex h-8 w-8 items-center justify-center rounded-full bg-terracotta-100 text-terracotta-700 dark:bg-terracotta-950/40 dark:text-terracotta-300">
+                      <svg class="h-4 w-4" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" set:html={iconSvgs[p.icon]} />
+                    </span>
+                    <a href={`#${p.id}`} class="font-medium text-ink-800 hover:text-terracotta-700 dark:text-ink-200 dark:hover:text-terracotta-300">
+                      {p.label}
+                    </a>
+                  </li>
+                ))
+              }
+            </ul>
+          </div>
+        </aside>
+      </div>
+    </Container>
+  </section>
+
+  <!-- ============ 4 PILLARS ============ -->
+  <section class="bg-gradient-to-b from-sand-50 to-white py-20 dark:from-ink-950 dark:to-ink-900 md:py-28">
+    <Container size="default">
+      <SectionHeading
+        eyebrow="Quatre piliers"
+        title="Une identité, quatre facettes"
+        lead="Pour comprendre qui nous sommes, voici les quatre dimensions complémentaires de notre identité confessionnelle."
+        align="center"
+        class="mb-16"
+      />
+
+      <div class="space-y-12 md:space-y-20">
+        {
+          pillars.map((p, i) => (
+            <article
+              id={p.id}
+              class={`grid grid-cols-1 gap-10 items-center lg:grid-cols-12 ${i % 2 === 1 ? 'lg:flex-row-reverse' : ''}`}
+            >
+              <div class={`lg:col-span-7 ${i % 2 === 1 ? 'lg:order-2' : ''}`}>
+                <p class="mb-4 text-xs font-medium uppercase tracking-[0.18em] text-terracotta-700 dark:text-terracotta-300">
+                  Pilier {String(i + 1).padStart(2, '0')} — {p.label}
+                </p>
+                <h3 class="font-display text-3xl font-medium tracking-tight text-ink-900 text-balance dark:text-ink-50 md:text-4xl lg:text-5xl">
+                  {p.title}
+                </h3>
+                <p class="mt-6 text-lg leading-relaxed text-ink-700 dark:text-ink-300 text-pretty">
+                  {p.description}
+                </p>
+                <p class="mt-4 text-base leading-relaxed text-ink-600 dark:text-ink-400 text-pretty">
+                  {p.detail}
+                </p>
+              </div>
+
+              <div class={`lg:col-span-5 ${i % 2 === 1 ? 'lg:order-1' : ''}`}>
+                <div class="relative aspect-square overflow-hidden rounded-[2rem] bg-gradient-to-br from-sand-100 via-sand-200 to-terracotta-100 dark:from-ink-900 dark:via-ink-800 dark:to-terracotta-950/30">
+                  <div class="absolute inset-0 flex items-center justify-center">
+                    <svg
+                      class="h-32 w-32 text-terracotta-700/80 dark:text-terracotta-400/80 md:h-40 md:w-40"
+                      viewBox="0 0 24 24"
+                      fill="currentColor"
+                      aria-hidden="true"
+                      set:html={iconSvgs[p.icon]}
+                    />
+                  </div>
+                  <!-- Décorative — petites traces géométriques -->
+                  <div class="pointer-events-none absolute inset-0 opacity-20" aria-hidden="true">
+                    <svg viewBox="0 0 100 100" class="h-full w-full">
+                      <circle cx="20" cy="20" r="2" fill="currentColor" class="text-sage-700"/>
+                      <circle cx="80" cy="30" r="1.5" fill="currentColor" class="text-sage-700"/>
+                      <circle cx="70" cy="80" r="2" fill="currentColor" class="text-sage-700"/>
+                      <circle cx="30" cy="70" r="1.5" fill="currentColor" class="text-sage-700"/>
+                    </svg>
+                  </div>
+                </div>
+              </div>
+            </article>
+          ))
+        }
+      </div>
+    </Container>
+  </section>
+
+  <!-- ============ NOTRE ÉGLISE — Histoire ============ -->
+  <section class="py-20 md:py-28">
+    <Container size="default">
+      <div class="grid grid-cols-1 gap-12 lg:grid-cols-12">
+        <div class="lg:col-span-5">
+          <p class="mb-4 text-xs font-medium uppercase tracking-[0.18em] text-terracotta-700 dark:text-terracotta-300">
+            Notre église
+          </p>
+          <h2 class="font-display text-4xl font-medium tracking-tight text-ink-900 text-balance dark:text-ink-50 md:text-5xl">
+            Les Cèdres,<br/>une histoire qui s'inscrit
+          </h2>
+          <p class="mt-6 text-lg leading-relaxed text-ink-700 dark:text-ink-300 text-pretty">
+            Notre Église de Massy est une église fondée par la <strong class="font-medium text-ink-900 dark:text-ink-50">FEEBF</strong>. Elle est hébergée depuis son origine par le Centre Évangélique <em>« Les Cèdres »</em>, ainsi appelé à cause des cèdres qui ornent son parc, mais aussi à cause du sigle <strong class="font-medium text-ink-900 dark:text-ink-50">C.E.D.R.E.S</strong> — Centre Évangélique de Recherches, d'Entraide et de Service.
+          </p>
+        </div>
+
+        <div class="lg:col-span-7">
+          <ol class="relative space-y-8 border-l-2 border-sand-300 pl-8 dark:border-ink-800">
+            {
+              [
+                { year: '1971', title: 'Construction du Centre Les Cèdres', desc: 'Édification du bâtiment qui hébergera depuis l\'origine notre communauté, ainsi que d\'autres œuvres évangéliques.' },
+                { year: '1972', title: 'Premiers cultes', desc: 'Naissance officielle de la vie ecclésiale à Massy, dans le bâtiment des Cèdres.' },
+                { year: '2001', title: 'Rénovation de la chapelle', desc: 'Travaux d\'aménagement permettant d\'accueillir 140 personnes confortablement.' },
+                { year: '2011', title: 'Deux services dominicaux', desc: 'À partir de mars 2011, deux cultes (9h et 10h30) permettent d\'accueillir 200 participants chaque dimanche.' },
+                { year: `${new Date().getFullYear()}`, title: 'Une communauté cosmopolite', desc: `Plus de ${church.history.nationalities} nationalités composent aujourd\'hui notre église. Une communauté vivante, ouverte, qui invite ses contemporains à devenir disciples du Christ.` },
+              ].map((step, i) => (
+                <li class="relative">
+                  <div class="absolute -left-[2.4rem] flex h-7 w-7 items-center justify-center rounded-full border-2 border-sand-300 bg-sand-50 dark:border-ink-800 dark:bg-ink-950">
+                    <div class="h-2 w-2 rounded-full bg-terracotta-600 dark:bg-terracotta-400"></div>
+                  </div>
+                  <time class="font-display text-2xl font-medium text-terracotta-700 dark:text-terracotta-300">
+                    {step.year}
+                  </time>
+                  <h3 class="mt-1 font-display text-xl font-medium text-ink-900 dark:text-ink-50">
+                    {step.title}
+                  </h3>
+                  <p class="mt-2 text-base leading-relaxed text-ink-700 dark:text-ink-300">
+                    {step.desc}
+                  </p>
+                </li>
+              ))
+            }
+          </ol>
+        </div>
+      </div>
+    </Container>
+  </section>
+
+  <!-- ============ AFFILIATIONS ============ -->
+  <section class="border-t border-sand-200 bg-sand-50 py-20 dark:border-ink-800 dark:bg-ink-950 md:py-28">
+    <Container size="default">
+      <SectionHeading
+        eyebrow="Nous ne sommes pas seuls"
+        title="Nos affiliations"
+        lead="Notre église s'inscrit dans un réseau plus large d'unions confessionnelles, en France et au-delà."
+        align="center"
+        class="mb-12"
+      />
+
+      <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
+        {
+          church.affiliations.map((a) => (
+            <a
+              href={a.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="group relative flex flex-col rounded-2xl border border-sand-200 bg-white p-6 transition-all duration-400 hover:-translate-y-1 hover:border-sand-300 hover:shadow-soft-md dark:border-ink-800 dark:bg-ink-900 dark:hover:border-ink-700"
+            >
+              <h3 class="font-display text-xl font-medium text-ink-900 dark:text-ink-50">
+                {a.name}
+              </h3>
+              <p class="mt-2 flex-1 text-sm leading-relaxed text-ink-600 dark:text-ink-400">
+                {a.fullName}
+              </p>
+              <span class="mt-4 inline-flex items-center gap-1.5 text-sm font-medium text-terracotta-700 dark:text-terracotta-300">
+                Visiter
+                <svg class="h-3.5 w-3.5 transition-transform group-hover:translate-x-0.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true">
+                  <path d="M7 7h10v10"/>
+                  <path d="M7 17 17 7"/>
+                </svg>
+              </span>
+            </a>
+          ))
+        }
+      </div>
+    </Container>
+  </section>
+
+  <!-- ============ CTA ============ -->
+  <section class="py-20 md:py-28">
+    <Container size="narrow" class="text-center">
+      <SectionHeading
+        title="Envie d'aller plus loin ?"
+        lead="Que vous soyez en recherche, en doute ou déjà engagé dans la foi, vous êtes le bienvenu. Une visite, un café, une question — n'hésitez pas."
+        align="center"
+        class="mb-10"
+      />
+      <div class="flex flex-wrap justify-center gap-4">
+        <Button href="/contact" variant="primary" size="lg" icon="arrow">
+          Nous rencontrer
+        </Button>
+        <Button href="/activites" variant="secondary" size="lg">
+          Voir nos activités
+        </Button>
+      </div>
+    </Container>
+  </section>
+</PageLayout>

@@ -1,0 +1,449 @@
+---
+import PageLayout from '../../layouts/PageLayout.astro';
+import Container from '../../components/Container.astro';
+import Button from '../../components/Button.astro';
+import { homeGroups } from '../../data/groups.ts';
+import { church } from '../../data/church.ts';
+
+const groupsByDay = {
+  mercredi: homeGroups.filter((g) => g.day === 'mercredi'),
+  jeudi: homeGroups.filter((g) => g.day === 'jeudi'),
+  vendredi: homeGroups.filter((g) => g.day === 'vendredi'),
+};
+export const prerender = true;
+---
+
+<PageLayout
+  title="Groupes de quartier — Trouvez celui près de chez vous"
+  description="Petits groupes de 8 à 12 personnes pour louer Dieu, prier et étudier la Bible ensemble. Mercredis, jeudis et vendredis soirs, à Massy et dans les environs."
+  eyebrow="Groupes de quartier"
+  pageTitle="Trouvez un groupe près de chez vous"
+  pageLead="Les groupes de quartier rassemblent 8 à 12 personnes pour louer Dieu, prier et étudier la Bible ensemble. Une ambiance chaleureuse et fraternelle, dans le confort d'un domicile, à Massy et dans les environs."
+>
+  <!-- Leaflet CSS (chargé seulement sur cette page) -->
+  <slot name="head">
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+      integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+      crossorigin=""
+    />
+  </slot>
+
+  <!-- ============ MAP ============ -->
+  <section class="pb-16 pt-8">
+    <Container size="wide">
+      <div
+        id="groups-map"
+        class="h-[60vh] min-h-[400px] w-full overflow-hidden rounded-3xl border border-sand-200 bg-sand-100 shadow-soft-md dark:border-ink-800 dark:bg-ink-900"
+        aria-label="Carte des groupes de quartier"
+      >
+        <!-- Fallback no-JS -->
+        <noscript>
+          <div class="flex h-full items-center justify-center p-8 text-center">
+            <p class="max-w-md text-sm text-ink-600">
+              La carte interactive nécessite JavaScript. Vous pouvez consulter la liste des groupes ci-dessous.
+            </p>
+          </div>
+        </noscript>
+      </div>
+    </Container>
+  </section>
+
+  <!-- ============ GROUPS GRID ============ -->
+  <section class="py-12 md:py-16">
+    <Container size="default">
+      <!-- Filter pills -->
+      <div class="mb-10 flex flex-wrap items-center gap-3">
+        <span class="text-sm font-medium text-ink-700 dark:text-ink-300">Filtrer :</span>
+        <button
+          type="button"
+          data-filter-day=""
+          class="filter-pill rounded-full border border-terracotta-600 bg-terracotta-600 px-4 py-1.5 text-sm font-medium text-white transition"
+        >
+          Tous
+        </button>
+        <button
+          type="button"
+          data-filter-day="mercredi"
+          class="filter-pill rounded-full border border-sand-200 bg-white px-4 py-1.5 text-sm font-medium text-ink-700 transition hover:border-sand-300 dark:border-ink-800 dark:bg-ink-900 dark:text-ink-300"
+        >
+          Mercredi ({groupsByDay.mercredi.length})
+        </button>
+        <button
+          type="button"
+          data-filter-day="jeudi"
+          class="filter-pill rounded-full border border-sand-200 bg-white px-4 py-1.5 text-sm font-medium text-ink-700 transition hover:border-sand-300 dark:border-ink-800 dark:bg-ink-900 dark:text-ink-300"
+        >
+          Jeudi ({groupsByDay.jeudi.length})
+        </button>
+        <button
+          type="button"
+          data-filter-day="vendredi"
+          class="filter-pill rounded-full border border-sand-200 bg-white px-4 py-1.5 text-sm font-medium text-ink-700 transition hover:border-sand-300 dark:border-ink-800 dark:bg-ink-900 dark:text-ink-300"
+        >
+          Vendredi ({groupsByDay.vendredi.length})
+        </button>
+      </div>
+
+      <div class="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3" data-groups-grid>
+        {
+          homeGroups.map((g) => (
+            <article
+              data-group-item
+              data-group-day={g.day}
+              data-group-id={g.id}
+              class="group relative flex flex-col rounded-3xl border border-sand-200 bg-white p-6 transition-all duration-400 hover:-translate-y-1 hover:border-sand-300 hover:shadow-soft-lg dark:border-ink-800 dark:bg-ink-900 dark:hover:border-ink-700"
+            >
+              <div class="mb-4 flex items-center justify-between">
+                <span class="inline-flex h-10 items-center rounded-full bg-sage-100 px-3 text-xs font-medium uppercase tracking-wide text-sage-700 dark:bg-sage-950/40 dark:text-sage-300">
+                  {g.day.charAt(0).toUpperCase() + g.day.slice(1)} · {g.time}
+                </span>
+                {g.accepting && (
+                  <span class="inline-flex items-center gap-1.5 text-xs font-medium text-sage-700 dark:text-sage-300">
+                    <span class="h-2 w-2 rounded-full bg-sage-500 animate-pulse-soft"/>
+                    Ouvert
+                  </span>
+                )}
+              </div>
+
+              <h3 class="font-display text-xl font-medium tracking-tight text-ink-900 dark:text-ink-50">
+                {g.name}
+              </h3>
+              <p class="mt-1 flex items-center gap-1.5 text-sm text-ink-500 dark:text-ink-400">
+                <svg class="h-3.5 w-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 10c0 7-8 13-8 13s-8-6-8-13a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>
+                {g.area}
+              </p>
+
+              <p class="mt-4 flex-1 text-sm leading-relaxed text-ink-600 dark:text-ink-400">
+                {g.description}
+              </p>
+
+              <div class="mt-6 flex items-center justify-between border-t border-sand-200 pt-4 text-xs dark:border-ink-800">
+                <span class="text-ink-500 dark:text-ink-400">
+                  Animé par <span class="font-medium text-ink-700 dark:text-ink-300">{g.leaderName}</span>
+                </span>
+                <span class="font-medium text-ink-600 dark:text-ink-300">
+                  {g.capacity} pers. max
+                </span>
+              </div>
+
+              <button
+                type="button"
+                class="mt-4 inline-flex items-center justify-center gap-2 rounded-full bg-terracotta-600 px-4 py-2.5 text-sm font-medium text-white transition-all hover:bg-terracotta-700 hover:shadow-soft-md dark:bg-terracotta-500 dark:text-ink-950 dark:hover:bg-terracotta-400"
+                data-group-join-button
+                data-group-name={g.name}
+                data-group-id={g.id}
+              >
+                Rejoindre ce groupe
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <path d="M5 12h14"/><path d="m12 5 7 7-7 7"/>
+                </svg>
+              </button>
+            </article>
+          ))
+        }
+      </div>
+    </Container>
+  </section>
+
+  <!-- ============ Modal Join ============ -->
+  <div
+    id="join-modal"
+    class="invisible fixed inset-0 z-50 opacity-0 transition-all duration-300"
+    aria-hidden="true"
+    role="dialog"
+    aria-labelledby="join-modal-title"
+    aria-modal="true"
+  >
+    <div class="absolute inset-0 bg-ink-950/60 backdrop-blur-sm" data-modal-backdrop></div>
+    <div class="absolute inset-0 flex items-center justify-center p-4">
+      <div class="relative max-h-[90vh] w-full max-w-lg overflow-y-auto rounded-3xl bg-white p-8 shadow-soft-xl dark:bg-ink-900">
+        <button
+          type="button"
+          class="absolute right-4 top-4 inline-flex h-10 w-10 items-center justify-center rounded-full text-ink-500 transition-colors hover:bg-sand-100 hover:text-ink-900 dark:text-ink-400 dark:hover:bg-ink-800 dark:hover:text-ink-50"
+          data-modal-close
+          aria-label="Fermer"
+        >
+          <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+        </button>
+
+        <h2 id="join-modal-title" class="font-display text-2xl font-medium tracking-tight text-ink-900 dark:text-ink-50">
+          Rejoindre <span data-modal-group-name class="text-terracotta-700 dark:text-terracotta-300"></span>
+        </h2>
+        <p class="mt-2 text-sm text-ink-600 dark:text-ink-400">
+          L'animateur du groupe vous contactera dans les plus brefs délais.
+        </p>
+
+        <form id="join-form" class="mt-6 space-y-4">
+          <input type="hidden" name="groupId" data-modal-group-id />
+          <input type="hidden" name="csrfToken" data-csrf-token />
+          <input type="text" name="website" class="honeypot" tabindex="-1" autocomplete="off" aria-hidden="true" />
+
+          <div>
+            <label for="join-name" class="block text-sm font-medium text-ink-800 dark:text-ink-200">
+              Nom complet *
+            </label>
+            <input
+              type="text"
+              id="join-name"
+              name="name"
+              required
+              minlength="2"
+              maxlength="100"
+              class="mt-1.5 w-full rounded-xl border border-sand-200 bg-white px-4 py-2.5 text-sm text-ink-900 placeholder:text-ink-400 focus:border-terracotta-500 focus:outline-none focus:ring-2 focus:ring-terracotta-500/20 dark:border-ink-800 dark:bg-ink-950 dark:text-ink-50"
+            />
+          </div>
+
+          <div>
+            <label for="join-email" class="block text-sm font-medium text-ink-800 dark:text-ink-200">
+              Email *
+            </label>
+            <input
+              type="email"
+              id="join-email"
+              name="email"
+              required
+              maxlength="254"
+              class="mt-1.5 w-full rounded-xl border border-sand-200 bg-white px-4 py-2.5 text-sm text-ink-900 placeholder:text-ink-400 focus:border-terracotta-500 focus:outline-none focus:ring-2 focus:ring-terracotta-500/20 dark:border-ink-800 dark:bg-ink-950 dark:text-ink-50"
+            />
+          </div>
+
+          <div>
+            <label for="join-phone" class="block text-sm font-medium text-ink-800 dark:text-ink-200">
+              Téléphone <span class="font-normal text-ink-500">(facultatif)</span>
+            </label>
+            <input
+              type="tel"
+              id="join-phone"
+              name="phone"
+              maxlength="20"
+              class="mt-1.5 w-full rounded-xl border border-sand-200 bg-white px-4 py-2.5 text-sm text-ink-900 placeholder:text-ink-400 focus:border-terracotta-500 focus:outline-none focus:ring-2 focus:ring-terracotta-500/20 dark:border-ink-800 dark:bg-ink-950 dark:text-ink-50"
+            />
+          </div>
+
+          <div>
+            <label for="join-message" class="block text-sm font-medium text-ink-800 dark:text-ink-200">
+              Un mot pour l'animateur <span class="font-normal text-ink-500">(facultatif)</span>
+            </label>
+            <textarea
+              id="join-message"
+              name="message"
+              rows="3"
+              maxlength="500"
+              class="mt-1.5 w-full rounded-xl border border-sand-200 bg-white px-4 py-2.5 text-sm text-ink-900 placeholder:text-ink-400 focus:border-terracotta-500 focus:outline-none focus:ring-2 focus:ring-terracotta-500/20 dark:border-ink-800 dark:bg-ink-950 dark:text-ink-50"
+            ></textarea>
+          </div>
+
+          <div class="flex gap-3 pt-2">
+            <button
+              type="submit"
+              class="inline-flex flex-1 items-center justify-center gap-2 rounded-full bg-terracotta-600 px-6 py-3 text-sm font-medium text-white transition-all hover:bg-terracotta-700 dark:bg-terracotta-500 dark:text-ink-950 dark:hover:bg-terracotta-400"
+            >
+              Envoyer la demande
+            </button>
+          </div>
+
+          <p data-form-result class="hidden text-sm" role="status" aria-live="polite"></p>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ Leaflet + interactivity ============ -->
+  <script
+    src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+    integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+    crossorigin=""
+    is:inline
+  ></script>
+
+  <script define:vars={{ groups: homeGroups, churchLat: church.address.coordinates.lat, churchLng: church.address.coordinates.lng, churchName: church.name }}>
+    function setupMap() {
+      // Wait for leaflet
+      if (typeof L === 'undefined') {
+        setTimeout(setupMap, 100);
+        return;
+      }
+      const mapEl = document.getElementById('groups-map');
+      if (!mapEl || mapEl.dataset.initialized === 'true') return;
+      mapEl.dataset.initialized = 'true';
+
+      const isDark = document.documentElement.classList.contains('dark');
+
+      const map = L.map(mapEl, {
+        center: [churchLat, churchLng],
+        zoom: 12,
+        scrollWheelZoom: false,
+      });
+
+      const tileLayer = L.tileLayer(
+        'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+        {
+          attribution: '© OpenStreetMap',
+          maxZoom: 18,
+        }
+      );
+      tileLayer.addTo(map);
+
+      // Custom church icon
+      const churchIcon = L.divIcon({
+        className: 'church-marker',
+        html: '<div style="background:#c44d2a;color:white;border-radius:50%;width:36px;height:36px;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 12px rgba(0,0,0,0.2);border:2px solid white;font-size:18px;">✦</div>',
+        iconSize: [36, 36],
+        iconAnchor: [18, 18],
+      });
+
+      L.marker([churchLat, churchLng], { icon: churchIcon })
+        .addTo(map)
+        .bindPopup(`<strong>${churchName}</strong><br/>Bâtiment principal`);
+
+      // Group markers
+      const markers = {};
+      groups.forEach((g) => {
+        const groupIcon = L.divIcon({
+          className: 'group-marker',
+          html: `<div style="background:#476645;color:white;border-radius:50%;width:28px;height:28px;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 8px rgba(0,0,0,0.15);border:2px solid white;font-size:13px;font-weight:600;font-family:system-ui;">${g.day.charAt(0).toUpperCase()}</div>`,
+          iconSize: [28, 28],
+          iconAnchor: [14, 14],
+        });
+        const marker = L.marker([g.latitude, g.longitude], { icon: groupIcon })
+          .addTo(map)
+          .bindPopup(
+            `<strong>${g.name}</strong><br/><span style="text-transform:capitalize">${g.day}</span> · ${g.time}<br/><span style="color:#666;font-size:12px">${g.area}</span>`
+          );
+        markers[g.id] = marker;
+      });
+
+      // Fit bounds
+      const allPoints = [
+        [churchLat, churchLng],
+        ...groups.map((g) => [g.latitude, g.longitude]),
+      ];
+      map.fitBounds(allPoints, { padding: [40, 40] });
+
+      // Re-enable scroll on click
+      map.on('click', () => map.scrollWheelZoom.enable());
+      map.on('mouseout', () => map.scrollWheelZoom.disable());
+
+      // Connect cards <-> markers
+      document.querySelectorAll('[data-group-item]').forEach((card) => {
+        card.addEventListener('mouseenter', () => {
+          const id = card.dataset.groupId;
+          if (id && markers[id]) markers[id].openPopup();
+        });
+      });
+    }
+
+    function setupFilters() {
+      const pills = document.querySelectorAll('.filter-pill');
+      const items = document.querySelectorAll('[data-group-item]');
+      pills.forEach((pill) => {
+        pill.addEventListener('click', () => {
+          const day = pill.dataset.filterDay ?? '';
+          pills.forEach((p) => {
+            p.classList.remove('bg-terracotta-600', 'border-terracotta-600', 'text-white');
+            p.classList.add('bg-white', 'border-sand-200', 'text-ink-700', 'dark:bg-ink-900', 'dark:border-ink-800', 'dark:text-ink-300');
+          });
+          pill.classList.add('bg-terracotta-600', 'border-terracotta-600', 'text-white');
+          pill.classList.remove('bg-white', 'border-sand-200', 'text-ink-700', 'dark:bg-ink-900', 'dark:border-ink-800', 'dark:text-ink-300');
+          items.forEach((item) => {
+            const itemDay = item.dataset.groupDay;
+            item.style.display = !day || itemDay === day ? '' : 'none';
+          });
+        });
+      });
+    }
+
+    function setupModal() {
+      const modal = document.getElementById('join-modal');
+      const form = document.getElementById('join-form');
+      const result = document.querySelector('[data-form-result]');
+      if (!modal || !form) return;
+
+      const open = (groupId, groupName) => {
+        const nameEl = modal.querySelector('[data-modal-group-name]');
+        const idEl = modal.querySelector('[data-modal-group-id]');
+        if (nameEl) nameEl.textContent = groupName;
+        if (idEl) idEl.value = groupId;
+        modal.classList.remove('invisible', 'opacity-0');
+        modal.setAttribute('aria-hidden', 'false');
+        document.body.style.overflow = 'hidden';
+      };
+      const close = () => {
+        modal.classList.add('invisible', 'opacity-0');
+        modal.setAttribute('aria-hidden', 'true');
+        document.body.style.overflow = '';
+        if (result) {
+          result.classList.add('hidden');
+          result.textContent = '';
+        }
+      };
+
+      document.querySelectorAll('[data-group-join-button]').forEach((btn) => {
+        btn.addEventListener('click', () => {
+          open(btn.dataset.groupId, btn.dataset.groupName);
+        });
+      });
+
+      modal.querySelector('[data-modal-close]')?.addEventListener('click', close);
+      modal.querySelector('[data-modal-backdrop]')?.addEventListener('click', close);
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && !modal.classList.contains('invisible')) close();
+      });
+
+      // Fetch CSRF token
+      fetch('/api/csrf')
+        .then((r) => r.json())
+        .then((d) => {
+          const tokenInput = modal.querySelector('[data-csrf-token]');
+          if (tokenInput && d.token) tokenInput.value = d.token;
+        })
+        .catch(() => {});
+
+      form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const formData = Object.fromEntries(new FormData(form).entries());
+        if (result) {
+          result.className = 'text-sm text-ink-600 dark:text-ink-400';
+          result.classList.remove('hidden');
+          result.textContent = 'Envoi en cours...';
+        }
+        try {
+          const res = await fetch('/api/group-join', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(formData),
+          });
+          const data = await res.json();
+          if (result) {
+            if (data.ok) {
+              result.className = 'text-sm text-sage-700 dark:text-sage-300';
+              result.textContent = '✓ Demande envoyée ! L\'animateur vous recontactera bientôt.';
+              form.reset();
+              setTimeout(close, 2000);
+            } else {
+              result.className = 'text-sm text-terracotta-700 dark:text-terracotta-300';
+              result.textContent = data.error || 'Une erreur est survenue. Veuillez réessayer.';
+            }
+          }
+        } catch (err) {
+          if (result) {
+            result.className = 'text-sm text-terracotta-700 dark:text-terracotta-300';
+            result.textContent = 'Erreur réseau. Vérifiez votre connexion.';
+          }
+        }
+      });
+    }
+
+    function init() {
+      setupMap();
+      setupFilters();
+      setupModal();
+    }
+
+    if (document.readyState !== 'loading') init();
+    else document.addEventListener('DOMContentLoaded', init);
+    document.addEventListener('astro:page-load', init);
+  </script>
+</PageLayout>

@@ -1,0 +1,55 @@
+---
+interface Props {
+  eyebrow?: string;
+  title: string;
+  lead?: string;
+  align?: 'left' | 'center';
+  level?: 'h1' | 'h2' | 'h3';
+  class?: string;
+}
+
+const {
+  eyebrow,
+  title,
+  lead,
+  align = 'left',
+  level = 'h2',
+  class: className = '',
+} = Astro.props;
+
+const Heading = level;
+const alignClasses = align === 'center' ? 'text-center mx-auto' : 'text-left';
+const sizeClasses = {
+  h1: 'text-4xl sm:text-5xl md:text-6xl lg:text-7xl',
+  h2: 'text-3xl sm:text-4xl md:text-5xl',
+  h3: 'text-2xl sm:text-3xl md:text-4xl',
+};
+---
+
+<div class={`${alignClasses} ${className} ${align === 'center' ? 'max-w-3xl' : ''}`}>
+  {
+    eyebrow && (
+      <p class="mb-4 flex items-center gap-3 text-xs font-medium uppercase tracking-[0.18em] text-terracotta-700 dark:text-terracotta-300">
+        {align === 'center' && (
+          <span class="h-px w-8 bg-terracotta-300 dark:bg-terracotta-700" aria-hidden="true" />
+        )}
+        <span>{eyebrow}</span>
+        <span class="h-px w-8 bg-terracotta-300 dark:bg-terracotta-700" aria-hidden="true" />
+      </p>
+    )
+  }
+
+  <Heading class={`font-display font-medium tracking-tight text-ink-900 dark:text-ink-50 text-balance ${sizeClasses[level]}`}>
+    <slot name="title">{title}</slot>
+  </Heading>
+
+  {
+    lead && (
+      <p class="mt-6 text-lg leading-relaxed text-ink-600 dark:text-ink-300 text-pretty sm:text-xl">
+        {lead}
+      </p>
+    )
+  }
+
+  <slot />
+</div>

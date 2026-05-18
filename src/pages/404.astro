@@ -1,0 +1,71 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Container from '../components/Container.astro';
+import Button from '../components/Button.astro';
+export const prerender = true;
+---
+
+<BaseLayout
+  title="Page introuvable"
+  description="La page que vous cherchez n'existe pas ou a été déplacée."
+  noindex={true}
+>
+  <section class="relative isolate flex min-h-[calc(100vh-4rem)] items-center overflow-hidden" style="background-image: var(--gradient-hero);">
+    <Container size="default" class="relative">
+      <div class="grid grid-cols-1 items-center gap-12 lg:grid-cols-2">
+        <div class="order-2 lg:order-1">
+          <p class="text-xs font-medium uppercase tracking-[0.18em] text-terracotta-700 dark:text-terracotta-300">
+            Erreur 404
+          </p>
+
+          <h1 class="mt-4 font-display text-5xl font-medium leading-[1.05] tracking-tight text-ink-900 text-balance dark:text-ink-50 sm:text-6xl md:text-7xl">
+            Cette page <br/>s'est <span class="text-gradient-warm">égarée</span>
+          </h1>
+
+          <p class="mt-6 max-w-md text-lg leading-relaxed text-ink-600 dark:text-ink-300 text-pretty">
+            Le lien que vous avez suivi ne mène nulle part — ou plus nulle part. Mais ne perdez pas le fil : voici quelques chemins pour vous retrouver.
+          </p>
+
+          <div class="mt-10 flex flex-wrap gap-3">
+            <Button href="/" variant="primary" size="lg" icon="arrow">
+              Retour à l'accueil
+            </Button>
+            <Button href="/sermons" variant="secondary" size="lg">
+              Les prédications
+            </Button>
+            <Button href="/contact" variant="ghost" size="lg">
+              Nous contacter
+            </Button>
+          </div>
+        </div>
+
+        <div class="order-1 lg:order-2">
+          <div class="relative mx-auto aspect-square max-w-md">
+            <!-- Decorative cedar -->
+            <svg viewBox="0 0 40 40" fill="none" class="h-full w-full" aria-hidden="true">
+              <defs>
+                <linearGradient id="cedar-404" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" stop-color="#5d7f58"/>
+                  <stop offset="100%" stop-color="#3a5239"/>
+                </linearGradient>
+              </defs>
+              <path
+                d="M20 4 L29 16 L26 16 L32 26 L25 26 L28 32 L12 32 L15 26 L8 26 L14 16 L11 16 Z"
+                fill="url(#cedar-404)"
+                opacity="0.6"
+              />
+              <rect x="18.5" y="28" width="3" height="8" rx="0.5" fill="#866d40" opacity="0.7"/>
+            </svg>
+
+            <!-- 404 floating -->
+            <div class="absolute inset-0 flex items-center justify-center">
+              <span class="font-display text-[8rem] font-medium text-terracotta-700/90 dark:text-terracotta-400/90 leading-none">
+                404
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </Container>
+  </section>
+</BaseLayout>

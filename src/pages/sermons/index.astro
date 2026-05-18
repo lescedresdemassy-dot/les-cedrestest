@@ -1,0 +1,238 @@
+---
+import PageLayout from '../../layouts/PageLayout.astro';
+import Container from '../../components/Container.astro';
+import Button from '../../components/Button.astro';
+import SermonCard from '../../components/SermonCard.astro';
+import {
+  sermons,
+  getFeaturedSermon,
+  getAllSpeakers,
+  getAllSeries,
+} from '../../data/sermons.ts';
+import { church } from '../../data/church.ts';
+
+const featured = getFeaturedSermon();
+const otherSermons = sermons.filter((s) => s.id !== featured.id);
+const speakers = getAllSpeakers();
+const series = getAllSeries();
+
+// Année par année pour le filtre
+const years = Array.from(
+  new Set(sermons.map((s) => s.date.substring(0, 4)))
+).sort((a, b) => b.localeCompare(a));
+export const prerender = true;
+---
+
+<PageLayout
+  title="Prédications — Tous les enseignements bibliques en vidéo"
+  description="Retrouvez toutes nos prédications en vidéo : enseignements bibliques, séries thématiques, fêtes chrétiennes. Plus de 30 prédications disponibles."
+  eyebrow="Prédications"
+  pageTitle="Toutes nos prédications"
+  pageLead={`${sermons.length} enseignements bibliques en vidéo, par notre pasteur et nos prédicateurs invités. Disponibles à la demande, ou directement sur notre chaîne YouTube.`}
+>
+  <slot name="hero-extra">
+    <div class="mt-8 flex flex-wrap gap-3">
+      <Button
+        href={church.social.youtube.sermonsPlaylist}
+        variant="primary"
+        size="md"
+        external
+        icon="youtube"
+      >
+        Playlist YouTube complète
+      </Button>
+      <Button
+        href={church.social.youtube.channel}
+        variant="secondary"
+        size="md"
+        external
+      >
+        Chaîne YouTube EEB Massy
+      </Button>
+    </div>
+  </slot>
+
+  <!-- ============ FEATURED ============ -->
+  <section class="py-12 md:py-16">
+    <Container size="default">
+      <SermonCard sermon={featured} featured={true} />
+    </Container>
+  </section>
+
+  <!-- ============ FILTERS + GRID ============ -->
+  <section class="bg-sand-50 py-16 dark:bg-ink-950 md:py-20">
+    <Container size="default">
+      <!-- Toolbar -->
+      <div class="mb-10 flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
+        <div class="flex-1">
+          <label for="sermon-search" class="sr-only">Rechercher une prédication</label>
+          <div class="relative max-w-md">
+            <svg
+              class="pointer-events-none absolute left-4 top-1/2 h-5 w-5 -translate-y-1/2 text-ink-400"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              aria-hidden="true"
+            >
+              <circle cx="11" cy="11" r="8"></circle>
+              <path d="m21 21-4.3-4.3"></path>
+            </svg>
+            <input
+              type="search"
+              id="sermon-search"
+              placeholder="Rechercher : titre, prédicateur, série..."
+              class="w-full rounded-full border border-sand-200 bg-white py-3 pl-12 pr-4 text-sm text-ink-900 placeholder:text-ink-400 focus:border-terracotta-500 focus:outline-none focus:ring-2 focus:ring-terracotta-500/20 dark:border-ink-800 dark:bg-ink-900 dark:text-ink-50"
+              data-sermon-search
+            />
+          </div>
+        </div>
+
+        <div class="flex flex-wrap gap-2">
+          <select
+            class="rounded-full border border-sand-200 bg-white px-4 py-2.5 text-sm text-ink-700 focus:border-terracotta-500 focus:outline-none focus:ring-2 focus:ring-terracotta-500/20 dark:border-ink-800 dark:bg-ink-900 dark:text-ink-300"
+            data-sermon-filter="series"
+            aria-label="Filtrer par série"
+          >
+            <option value="">Toutes les séries</option>
+            {series.map((s) => <option value={s}>{s}</option>)}
+          </select>
+
+          <select
+            class="rounded-full border border-sand-200 bg-white px-4 py-2.5 text-sm text-ink-700 focus:border-terracotta-500 focus:outline-none focus:ring-2 focus:ring-terracotta-500/20 dark:border-ink-800 dark:bg-ink-900 dark:text-ink-300"
+            data-sermon-filter="speaker"
+            aria-label="Filtrer par prédicateur"
+          >
+            <option value="">Tous les prédicateurs</option>
+            {speakers.map((s) => <option value={s}>{s}</option>)}
+          </select>
+
+          <select
+            class="rounded-full border border-sand-200 bg-white px-4 py-2.5 text-sm text-ink-700 focus:border-terracotta-500 focus:outline-none focus:ring-2 focus:ring-terracotta-500/20 dark:border-ink-800 dark:bg-ink-900 dark:text-ink-300"
+            data-sermon-filter="year"
+            aria-label="Filtrer par année"
+          >
+            <option value="">Toutes les années</option>
+            {years.map((y) => <option value={y}>{y}</option>)}
+          </select>
+        </div>
+      </div>
+
+      <!-- Empty state (hidden by default, shown by JS) -->
+      <div
+        data-sermon-empty
+        class="hidden rounded-3xl border border-dashed border-sand-300 bg-white p-12 text-center dark:border-ink-700 dark:bg-ink-900"
+      >
+        <svg
+          class="mx-auto h-12 w-12 text-ink-400"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.5"
+          aria-hidden="true"
+        >
+          <circle cx="11" cy="11" r="8"></circle>
+          <path d="m21 21-4.3-4.3"></path>
+        </svg>
+        <h3 class="mt-4 font-display text-xl font-medium text-ink-900 dark:text-ink-50">
+          Aucune prédication ne correspond à votre recherche
+        </h3>
+        <p class="mt-2 text-sm text-ink-600 dark:text-ink-400">
+          Essayez d'élargir vos filtres ou de modifier vos termes.
+        </p>
+      </div>
+
+      <!-- Grid -->
+      <div
+        class="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3"
+        data-sermon-grid
+      >
+        {
+          otherSermons.map((sermon) => (
+            <div
+              data-sermon-item
+              data-sermon-title={sermon.title.toLowerCase()}
+              data-sermon-speaker={sermon.speaker}
+              data-sermon-series={sermon.series ?? ''}
+              data-sermon-year={sermon.date.substring(0, 4)}
+              data-sermon-scripture={sermon.scripture?.toLowerCase() ?? ''}
+            >
+              <SermonCard sermon={sermon} />
+            </div>
+          ))
+        }
+      </div>
+    </Container>
+  </section>
+
+  <script>
+    function setupSermonFilters() {
+      const search = document.querySelector<HTMLInputElement>(
+        '[data-sermon-search]'
+      );
+      const filters = document.querySelectorAll<HTMLSelectElement>(
+        '[data-sermon-filter]'
+      );
+      const items = document.querySelectorAll<HTMLElement>('[data-sermon-item]');
+      const empty = document.querySelector<HTMLElement>('[data-sermon-empty]');
+      const grid = document.querySelector<HTMLElement>('[data-sermon-grid]');
+      if (!search || !empty || !grid) return;
+
+      const apply = () => {
+        const q = search.value.trim().toLowerCase();
+        const series =
+          (document.querySelector(
+            '[data-sermon-filter="series"]'
+          ) as HTMLSelectElement | null)?.value ?? '';
+        const speaker =
+          (document.querySelector(
+            '[data-sermon-filter="speaker"]'
+          ) as HTMLSelectElement | null)?.value ?? '';
+        const year =
+          (document.querySelector(
+            '[data-sermon-filter="year"]'
+          ) as HTMLSelectElement | null)?.value ?? '';
+
+        let visible = 0;
+        items.forEach((item) => {
+          const title = item.dataset.sermonTitle ?? '';
+          const itemSpeaker = item.dataset.sermonSpeaker ?? '';
+          const itemSeries = item.dataset.sermonSeries ?? '';
+          const itemYear = item.dataset.sermonYear ?? '';
+          const scripture = item.dataset.sermonScripture ?? '';
+
+          const matchQ =
+            !q ||
+            title.includes(q) ||
+            itemSpeaker.toLowerCase().includes(q) ||
+            itemSeries.toLowerCase().includes(q) ||
+            scripture.includes(q);
+          const matchSeries = !series || itemSeries === series;
+          const matchSpeaker = !speaker || itemSpeaker === speaker;
+          const matchYear = !year || itemYear === year;
+
+          const show = matchQ && matchSeries && matchSpeaker && matchYear;
+          item.style.display = show ? '' : 'none';
+          if (show) visible++;
+        });
+
+        if (visible === 0) {
+          grid.classList.add('hidden');
+          empty.classList.remove('hidden');
+        } else {
+          grid.classList.remove('hidden');
+          empty.classList.add('hidden');
+        }
+      };
+
+      search.addEventListener('input', apply);
+      filters.forEach((f) => f.addEventListener('change', apply));
+    }
+
+    if (document.readyState !== 'loading') setupSermonFilters();
+    else document.addEventListener('DOMContentLoaded', setupSermonFilters);
+    document.addEventListener('astro:page-load', setupSermonFilters);
+  </script>
+</PageLayout>

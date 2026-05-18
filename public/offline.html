@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Hors ligne — EEB Massy</title>
+    <style>
+      :root {
+        --bg: #fdfbf6;
+        --text: #1a1612;
+        --muted: #564f44;
+        --accent: #c44d2a;
+      }
+      @media (prefers-color-scheme: dark) {
+        :root {
+          --bg: #0d0a07;
+          --text: #f5f4f1;
+          --muted: #cfccc1;
+          --accent: #e5876a;
+        }
+      }
+      * { box-sizing: border-box; margin: 0; padding: 0; }
+      html, body { height: 100%; }
+      body {
+        font-family: 'Inter', system-ui, -apple-system, sans-serif;
+        background: var(--bg);
+        color: var(--text);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 2rem;
+        text-align: center;
+      }
+      .container { max-width: 28rem; }
+      h1 {
+        font-family: 'Fraunces', Georgia, serif;
+        font-size: clamp(2rem, 5vw, 3rem);
+        font-weight: 500;
+        line-height: 1.1;
+        margin-bottom: 1rem;
+      }
+      p { color: var(--muted); line-height: 1.6; margin-bottom: 2rem; }
+      a {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 0.75rem 1.5rem;
+        background: var(--accent);
+        color: white;
+        text-decoration: none;
+        border-radius: 999px;
+        font-weight: 500;
+        transition: transform 0.2s;
+      }
+      a:hover { transform: translateY(-2px); }
+      svg.cedar { width: 80px; height: 80px; margin: 0 auto 2rem; opacity: 0.4; }
+    </style>
+  </head>
+  <body>
+    <main class="container">
+      <svg class="cedar" viewBox="0 0 40 40" fill="currentColor" aria-hidden="true">
+        <path d="M20 4 L29 16 L26 16 L32 26 L25 26 L28 32 L12 32 L15 26 L8 26 L14 16 L11 16 Z"/>
+      </svg>
+      <h1>Vous êtes hors ligne</h1>
+      <p>
+        Cette page n'a pas pu être chargée car vous n'avez pas de connexion Internet. Reconnectez-vous, puis rechargez la page.
+      </p>
+      <a href="/">↻ Réessayer</a>
+    </main>
+  </body>
+</html>

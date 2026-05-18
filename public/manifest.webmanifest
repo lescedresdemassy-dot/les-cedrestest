@@ -1,0 +1,55 @@
+{
+  "name": "Église Évangélique Baptiste de Massy",
+  "short_name": "EEB Massy",
+  "description": "Une communauté ouverte, vivante et fraternelle au cœur de Massy.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#fdfbf6",
+  "theme_color": "#c44d2a",
+  "orientation": "portrait-primary",
+  "lang": "fr-FR",
+  "categories": ["religion", "community", "lifestyle"],
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    },
+    {
+      "src": "/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/icon-maskable-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Prochain culte",
+      "short_name": "Culte",
+      "description": "Informations sur le prochain culte dominical",
+      "url": "/?source=pwa-shortcut",
+      "icons": [{ "src": "/favicon.svg", "sizes": "any" }]
+    },
+    {
+      "name": "Prédications",
+      "short_name": "Sermons",
+      "description": "Toutes les prédications en vidéo",
+      "url": "/sermons?source=pwa-shortcut",
+      "icons": [{ "src": "/favicon.svg", "sizes": "any" }]
+    }
+  ]
+}

@@ -1,0 +1,20 @@
+User-agent: *
+Allow: /
+
+# Bloquer les bots agressifs
+User-agent: GPTBot
+Disallow: /api/
+
+User-agent: CCBot
+Disallow: /api/
+
+User-agent: AhrefsBot
+Crawl-delay: 10
+
+User-agent: SemrushBot
+Crawl-delay: 10
+
+# API noindex
+Disallow: /api/
+
+Sitemap: https://eglise-massy.fr/sitemap-index.xml

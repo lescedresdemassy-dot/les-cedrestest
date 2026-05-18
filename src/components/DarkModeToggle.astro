@@ -1,0 +1,127 @@
+---
+/**
+ * Toggle Light / Dark mode.
+ * Préférence sauvegardée dans localStorage.
+ * Respecte prefers-color-scheme par défaut.
+ */
+---
+
+<button
+  type="button"
+  id="theme-toggle"
+  class="inline-flex h-10 w-10 items-center justify-center rounded-full border border-ink-900/10 bg-white/60 text-ink-700 backdrop-blur transition-all duration-300 hover:border-ink-900/20 hover:bg-white hover:text-terracotta-700 dark:border-ink-50/10 dark:bg-ink-900/60 dark:text-ink-300 dark:hover:bg-ink-900 dark:hover:text-terracotta-300"
+  aria-label="Basculer le thème clair/sombre"
+  title="Basculer le thème clair/sombre"
+>
+  <!-- Soleil (light mode) -->
+  <svg
+    class="h-5 w-5 dark:hidden"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    stroke-width="2"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    aria-hidden="true"
+  >
+    <circle cx="12" cy="12" r="4"></circle>
+    <path d="M12 2v2"></path>
+    <path d="M12 20v2"></path>
+    <path d="m4.93 4.93 1.41 1.41"></path>
+    <path d="m17.66 17.66 1.41 1.41"></path>
+    <path d="M2 12h2"></path>
+    <path d="M20 12h2"></path>
+    <path d="m6.34 17.66-1.41 1.41"></path>
+    <path d="m19.07 4.93-1.41 1.41"></path>
+  </svg>
+
+  <!-- Lune (dark mode) -->
+  <svg
+    class="hidden h-5 w-5 dark:block"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    stroke-width="2"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    aria-hidden="true"
+  >
+    <path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"></path>
+  </svg>
+</button>
+
+<script is:inline>
+  // Init le plus tôt possible (placé en haut du <head>) — pas de flash
+  (function () {
+    const STORAGE_KEY = 'eeb-theme';
+    function applyTheme(theme) {
+      const root = document.documentElement;
+      if (theme === 'dark') root.classList.add('dark');
+      else root.classList.remove('dark');
+    }
+    function getStored() {
+      try {
+        return localStorage.getItem(STORAGE_KEY);
+      } catch {
+        return null;
+      }
+    }
+    function getSystem() {
+      return window.matchMedia('(prefers-color-scheme: dark)').matches
+        ? 'dark'
+        : 'light';
+    }
+    const stored = getStored();
+    applyTheme(stored ?? getSystem());
+
+    window.__toggleTheme = function () {
+      const current = document.documentElement.classList.contains('dark')
+        ? 'dark'
+        : 'light';
+      const next = current === 'dark' ? 'light' : 'dark';
+      applyTheme(next);
+      try {
+        localStorage.setItem(STORAGE_KEY, next);
+      } catch {}
+    };
+  })();
+</script>
+
+<script>
+  document.addEventListener('astro:page-load', () => {
+    const button = document.getElementById('theme-toggle');
+    if (button && !button.dataset.bound) {
+      button.dataset.bound = 'true';
+      button.addEventListener('click', () => {
+        if (typeof (window as any).__toggleTheme === 'function') {
+          (window as any).__toggleTheme();
+        }
+      });
+    }
+  });
+
+  // Fallback for non-view-transition pages
+  if (document.readyState !== 'loading') {
+    const button = document.getElementById('theme-toggle');
+    if (button && !button.dataset.bound) {
+      button.dataset.bound = 'true';
+      button.addEventListener('click', () => {
+        if (typeof (window as any).__toggleTheme === 'function') {
+          (window as any).__toggleTheme();
+        }
+      });
+    }
+  } else {
+    document.addEventListener('DOMContentLoaded', () => {
+      const button = document.getElementById('theme-toggle');
+      if (button && !button.dataset.bound) {
+        button.dataset.bound = 'true';
+        button.addEventListener('click', () => {
+          if (typeof (window as any).__toggleTheme === 'function') {
+            (window as any).__toggleTheme();
+          }
+        });
+      }
+    });
+  }
+</script>

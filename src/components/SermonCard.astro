@@ -1,0 +1,152 @@
+---
+import type { Sermon } from '../data/sermons';
+
+interface Props {
+  sermon: Sermon;
+  featured?: boolean;
+  class?: string;
+}
+
+const { sermon, featured = false, class: className = '' } = Astro.props;
+
+// YouTube thumbnail (haute qualité)
+const thumbnail = `https://i.ytimg.com/vi/${sermon.youtubeId}/maxresdefault.jpg`;
+const thumbnailFallback = `https://i.ytimg.com/vi/${sermon.youtubeId}/hqdefault.jpg`;
+
+const dateFr = new Date(sermon.date).toLocaleDateString('fr-FR', {
+  day: 'numeric',
+  month: 'long',
+  year: 'numeric',
+});
+---
+
+<article
+  class:list={[
+    'group relative isolate flex flex-col overflow-hidden rounded-3xl border border-sand-200 bg-white transition-all duration-500 ease-out-expo hover:-translate-y-1 hover:border-sand-300 hover:shadow-soft-lg dark:border-ink-800 dark:bg-ink-900 dark:hover:border-ink-700',
+    featured && 'md:flex-row md:rounded-[2rem]',
+    className,
+  ]}
+>
+  <!-- Thumbnail -->
+  <a
+    href={`/sermons/${sermon.id}`}
+    class={`group/thumb relative block overflow-hidden bg-sand-100 dark:bg-ink-800 ${featured ? 'md:w-1/2 md:aspect-auto aspect-video' : 'aspect-video'}`}
+    aria-label={`Voir la prédication : ${sermon.title}`}
+  >
+    <img
+      src={thumbnail}
+      onerror={`this.onerror=null;this.src='${thumbnailFallback}';`}
+      alt=""
+      loading="lazy"
+      decoding="async"
+      width="640"
+      height="360"
+      class="absolute inset-0 h-full w-full object-cover transition-transform duration-700 ease-out-expo group-hover:scale-105"
+    />
+
+    <!-- Gradient overlay -->
+    <div
+      class="absolute inset-0 bg-gradient-to-t from-ink-950/50 via-ink-950/10 to-transparent transition-opacity duration-300 group-hover/thumb:opacity-90"
+      aria-hidden="true"
+    >
+    </div>
+
+    <!-- Play button -->
+    <div class="absolute inset-0 flex items-center justify-center">
+      <span
+        class="flex h-16 w-16 items-center justify-center rounded-full bg-white/90 text-terracotta-600 shadow-soft-lg backdrop-blur transition-all duration-300 ease-spring group-hover/thumb:scale-110 group-hover/thumb:bg-white"
+        aria-hidden="true"
+      >
+        <svg class="ml-1 h-7 w-7" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M8 5v14l11-7z"></path>
+        </svg>
+      </span>
+    </div>
+
+    <!-- Duration badge -->
+    {
+      sermon.durationMinutes && (
+        <span class="absolute bottom-3 right-3 rounded-md bg-ink-950/80 px-2 py-1 text-xs font-medium text-white backdrop-blur">
+          {sermon.durationMinutes} min
+        </span>
+      )
+    }
+
+    <!-- Series badge -->
+    {
+      sermon.series && (
+        <span class="absolute left-3 top-3 rounded-full bg-white/95 px-3 py-1 text-xs font-medium text-terracotta-700 backdrop-blur">
+          {sermon.series}
+        </span>
+      )
+    }
+  </a>
+
+  <!-- Content -->
+  <div class={`flex flex-1 flex-col p-6 ${featured ? 'md:p-10' : ''}`}>
+    <div class="mb-2 flex items-center gap-3 text-xs">
+      <time
+        datetime={sermon.date}
+        class="text-ink-500 dark:text-ink-400"
+      >
+        {dateFr}
+      </time>
+      {
+        sermon.scripture && (
+          <>
+            <span class="text-ink-300 dark:text-ink-700" aria-hidden="true">·</span>
+            <span class="font-medium text-sage-700 dark:text-sage-300">{sermon.scripture}</span>
+          </>
+        )
+      }
+    </div>
+
+    <h3
+      class:list={[
+        'font-display font-medium tracking-tight text-ink-900 dark:text-ink-50 text-balance',
+        featured ? 'text-2xl md:text-3xl lg:text-4xl' : 'text-xl',
+      ]}
+    >
+      <a
+        href={`/sermons/${sermon.id}`}
+        class="transition-colors hover:text-terracotta-700 dark:hover:text-terracotta-300"
+      >
+        <span class="absolute inset-0" aria-hidden="true"></span>
+        {sermon.title}
+      </a>
+    </h3>
+
+    <p class="mt-3 text-sm text-ink-600 dark:text-ink-400">
+      {sermon.speaker}
+    </p>
+
+    {
+      featured && sermon.description && (
+        <p class="mt-4 text-base leading-relaxed text-ink-700 dark:text-ink-300">
+          {sermon.description}
+        </p>
+      )
+    }
+
+    <div class={`mt-auto flex items-center gap-2 pt-6 ${featured ? 'pt-8' : ''}`}>
+      <span
+        class="inline-flex items-center gap-1.5 text-sm font-medium text-terracotta-700 transition-colors group-hover:gap-2.5 dark:text-terracotta-300"
+      >
+        Écouter
+        <svg
+          class="h-4 w-4 transition-transform"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          aria-hidden="true"
+        >
+          <path d="M5 12h14"></path>
+          <path d="m12 5 7 7-7 7"></path>
+        </svg>
+      </span>
+    </div>
+  </div>
+</article>

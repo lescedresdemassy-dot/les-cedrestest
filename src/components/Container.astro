@@ -1,0 +1,21 @@
+---
+interface Props {
+  size?: 'narrow' | 'default' | 'wide' | 'full';
+  class?: string;
+  as?: 'div' | 'section' | 'article' | 'main' | 'header' | 'footer';
+}
+
+const { size = 'default', class: className = '', as = 'div' } = Astro.props;
+const Element = as;
+
+const sizes = {
+  narrow: 'max-w-3xl',
+  default: 'max-w-7xl',
+  wide: 'max-w-screen-2xl',
+  full: 'max-w-none',
+};
+---
+
+<Element class={`mx-auto w-full px-4 sm:px-6 lg:px-8 ${sizes[size]} ${className}`}>
+  <slot />
+</Element>

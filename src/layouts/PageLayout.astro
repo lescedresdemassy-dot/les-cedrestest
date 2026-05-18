@@ -1,0 +1,81 @@
+---
+import BaseLayout from './BaseLayout.astro';
+import Container from '../components/Container.astro';
+
+interface Props {
+  title: string;
+  description?: string;
+  eyebrow?: string;
+  pageTitle: string;
+  pageLead?: string;
+  schema?: 'organization' | 'article' | 'event' | 'none';
+  schemaData?: Record<string, unknown>;
+}
+
+const {
+  title,
+  description,
+  eyebrow,
+  pageTitle,
+  pageLead,
+  schema,
+  schemaData,
+} = Astro.props;
+---
+
+<BaseLayout
+  title={title}
+  description={description}
+  schema={schema}
+  schemaData={schemaData}
+>
+  <!-- Page hero — warm gradient, ample whitespace -->
+  <section
+    class="relative overflow-hidden pb-12 pt-16 sm:pt-24 lg:pt-32"
+    style="background-image: var(--gradient-hero);"
+  >
+    <!-- Subtle decorative cedar -->
+    <div
+      class="pointer-events-none absolute -right-12 top-12 hidden opacity-[0.04] sm:block lg:right-0"
+      aria-hidden="true"
+    >
+      <svg width="300" height="300" viewBox="0 0 40 40" fill="currentColor">
+        <path
+          d="M20 4 L29 16 L26 16 L32 26 L25 26 L28 32 L12 32 L15 26 L8 26 L14 16 L11 16 Z"
+          class="text-sage-700"
+        />
+      </svg>
+    </div>
+
+    <Container size="default" as="header" class="relative">
+      <div class="max-w-3xl">
+        {
+          eyebrow && (
+            <p class="mb-6 inline-flex items-center gap-3 text-xs font-medium uppercase tracking-[0.18em] text-terracotta-700 dark:text-terracotta-300">
+              <span class="h-px w-8 bg-terracotta-300 dark:bg-terracotta-700" aria-hidden="true" />
+              <span>{eyebrow}</span>
+            </p>
+          )
+        }
+
+        <h1
+          class="font-display text-4xl font-medium leading-[1.05] tracking-tight text-ink-900 text-balance dark:text-ink-50 sm:text-5xl md:text-6xl lg:text-7xl"
+        >
+          {pageTitle}
+        </h1>
+
+        {
+          pageLead && (
+            <p class="mt-6 max-w-2xl text-lg leading-relaxed text-ink-600 dark:text-ink-300 sm:text-xl">
+              {pageLead}
+            </p>
+          )
+        }
+
+        <slot name="hero-extra" />
+      </div>
+    </Container>
+  </section>
+
+  <slot />
+</BaseLayout>

@@ -1,0 +1,96 @@
+---
+/**
+ * "Lite YouTube" — pas de player chargé tant que l'utilisateur ne clique pas.
+ * Bénéfice : ~600KB économisés sur chaque page (player YT poids brut).
+ *
+ * Au clic, on remplace l'image par l'iframe officielle YT.
+ */
+interface Props {
+  videoId: string;
+  title: string;
+  /** Si true, charge l'iframe directement (pour page sermon detail) */
+  autoload?: boolean;
+  class?: string;
+}
+
+const { videoId, title, autoload = false, class: className = '' } = Astro.props;
+
+const thumbnail = `https://i.ytimg.com/vi/${videoId}/maxresdefault.jpg`;
+const fallbackThumbnail = `https://i.ytimg.com/vi/${videoId}/hqdefault.jpg`;
+---
+
+<div
+  class:list={[
+    'lite-yt relative aspect-video w-full overflow-hidden rounded-2xl bg-ink-950 shadow-soft-xl',
+    className,
+  ]}
+  data-video-id={videoId}
+  data-autoload={autoload ? 'true' : 'false'}
+>
+  {
+    autoload ? (
+      <iframe
+        src={`https://www.youtube-nocookie.com/embed/${videoId}?rel=0&modestbranding=1`}
+        title={title}
+        loading="lazy"
+        frameborder="0"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+        allowfullscreen
+        class="absolute inset-0 h-full w-full"
+      />
+    ) : (
+      <button
+        type="button"
+        class="lite-yt-trigger group/yt absolute inset-0 cursor-pointer border-0 bg-transparent p-0"
+        aria-label={`Lire la vidéo : ${title}`}
+      >
+        <img
+          src={thumbnail}
+          onerror={`this.onerror=null;this.src='${fallbackThumbnail}';`}
+          alt=""
+          loading="lazy"
+          decoding="async"
+          class="absolute inset-0 h-full w-full object-cover transition-transform duration-700 ease-out-expo group-hover/yt:scale-105"
+        />
+        <span class="absolute inset-0 bg-gradient-to-t from-ink-950/40 to-transparent transition-opacity group-hover/yt:opacity-70" aria-hidden="true" />
+        <span
+          class="absolute left-1/2 top-1/2 flex h-20 w-20 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full bg-white/95 text-terracotta-600 shadow-soft-xl backdrop-blur transition-transform duration-300 ease-spring group-hover/yt:scale-110"
+          aria-hidden="true"
+        >
+          <svg class="ml-1 h-9 w-9" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M8 5v14l11-7z" />
+          </svg>
+        </span>
+      </button>
+    )
+  }
+</div>
+
+<script>
+  function setupLiteYT() {
+    document.querySelectorAll<HTMLElement>('.lite-yt').forEach((wrapper) => {
+      if (wrapper.dataset.autoload === 'true' || wrapper.dataset.bound === 'true') return;
+      wrapper.dataset.bound = 'true';
+
+      const trigger = wrapper.querySelector('.lite-yt-trigger') as HTMLButtonElement | null;
+      const videoId = wrapper.dataset.videoId;
+      if (!trigger || !videoId) return;
+
+      trigger.addEventListener('click', () => {
+        const iframe = document.createElement('iframe');
+        iframe.src = `https://www.youtube-nocookie.com/embed/${videoId}?rel=0&modestbranding=1&autoplay=1`;
+        iframe.title = trigger.getAttribute('aria-label') ?? '';
+        iframe.allow =
+          'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share';
+        iframe.setAttribute('allowfullscreen', 'true');
+        iframe.frameBorder = '0';
+        iframe.className = 'absolute inset-0 h-full w-full';
+        trigger.replaceWith(iframe);
+      });
+    });
+  }
+
+  if (document.readyState !== 'loading') setupLiteYT();
+  else document.addEventListener('DOMContentLoaded', setupLiteYT);
+  document.addEventListener('astro:page-load', setupLiteYT);
+</script>

@@ -1,0 +1,343 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Container from '../components/Container.astro';
+import SectionHeading from '../components/SectionHeading.astro';
+import Button from '../components/Button.astro';
+import SermonCard from '../components/SermonCard.astro';
+import ActivityCard from '../components/ActivityCard.astro';
+import { church } from '../data/church.ts';
+import { getRecentSermons, getFeaturedSermon } from '../data/sermons.ts';
+import { getHighlightActivities } from '../data/activities.ts';
+import { getUpcomingEvents } from '../data/events.ts';
+
+const featured = getFeaturedSermon();
+const recent = getRecentSermons(3);
+const highlights = getHighlightActivities();
+const upcoming = getUpcomingEvents(3);
+
+// Prochain dimanche (calculé côté serveur)
+const today = new Date();
+const daysUntilSunday = (7 - today.getDay()) % 7 || 7;
+const nextSunday = new Date(today);
+nextSunday.setDate(today.getDate() + daysUntilSunday);
+const nextSundayFormatted = nextSunday.toLocaleDateString('fr-FR', {
+  weekday: 'long',
+  day: 'numeric',
+  month: 'long',
+});
+export const prerender = true;
+---
+
+<BaseLayout
+  title={`${church.name} — Une communauté ouverte à Massy`}
+  description={church.description}
+  schema="organization"
+>
+  <!-- ===================================================================== -->
+  <!-- HERO -->
+  <!-- ===================================================================== -->
+  <section
+    class="relative isolate overflow-hidden"
+    style="background-image: var(--gradient-hero);"
+  >
+    <!-- Decorative cedar silhouette (background) -->
+    <div
+      class="pointer-events-none absolute inset-y-0 right-0 hidden w-1/2 opacity-[0.05] lg:block"
+      aria-hidden="true"
+    >
+      <svg viewBox="0 0 40 40" fill="currentColor" class="h-full w-full text-sage-700">
+        <path d="M20 4 L29 16 L26 16 L32 26 L25 26 L28 32 L12 32 L15 26 L8 26 L14 16 L11 16 Z" />
+      </svg>
+    </div>
+
+    <Container size="default" class="relative">
+      <div class="grid grid-cols-1 gap-12 pb-20 pt-20 sm:pt-28 lg:grid-cols-12 lg:gap-8 lg:pb-32 lg:pt-36">
+        <!-- Left : Headline -->
+        <div class="lg:col-span-7">
+          <p
+            class="mb-6 inline-flex items-center gap-3 rounded-full border border-terracotta-200/60 bg-terracotta-50/60 px-4 py-1.5 text-xs font-medium uppercase tracking-[0.15em] text-terracotta-700 backdrop-blur dark:border-terracotta-900/40 dark:bg-terracotta-950/30 dark:text-terracotta-300"
+          >
+            <span class="relative flex h-2 w-2">
+              <span class="absolute inline-flex h-full w-full animate-ping rounded-full bg-terracotta-500 opacity-75"></span>
+              <span class="relative inline-flex h-2 w-2 rounded-full bg-terracotta-600"></span>
+            </span>
+            Prochain culte · {nextSundayFormatted} · 10h30
+          </p>
+
+          <h1
+            class="font-display text-5xl font-medium leading-[0.95] tracking-tight text-ink-900 text-balance dark:text-ink-50 sm:text-6xl md:text-7xl lg:text-[5.5rem]"
+          >
+            Une communauté <br />
+            <span class="text-gradient-warm">ouverte, vivante,</span>
+            <br />
+            fraternelle.
+          </h1>
+
+          <p
+            class="mt-8 max-w-xl text-lg leading-relaxed text-ink-600 text-pretty dark:text-ink-300 sm:text-xl"
+          >
+            L'Église Évangélique Baptiste de Massy est une communauté de personnes qui aiment Dieu et veulent partager leur foi en Jésus-Christ. <strong class="font-medium text-ink-900 dark:text-ink-50">Toutes les tranches d'âge et plus de {church.history.nationalities} nationalités</strong> s'y mêlent harmonieusement.
+          </p>
+
+          <div class="mt-10 flex flex-wrap items-center gap-4">
+            <Button href="/contact" variant="primary" size="lg" icon="arrow">
+              Venir un dimanche
+            </Button>
+            <Button href="/sermons" variant="secondary" size="lg" icon="play" iconPosition="left">
+              Découvrir les prédications
+            </Button>
+          </div>
+
+          <!-- Trust line -->
+          <div class="mt-12 flex flex-wrap items-center gap-x-8 gap-y-3 text-xs text-ink-500 dark:text-ink-400">
+            <span class="flex items-center gap-2">
+              <svg class="h-4 w-4 text-sage-600 dark:text-sage-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+              Affilié FEEBF · CNEF · FPF
+            </span>
+            <span class="flex items-center gap-2">
+              <svg class="h-4 w-4 text-sage-600 dark:text-sage-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+              Communauté depuis {church.history.foundingYear}
+            </span>
+            <span class="flex items-center gap-2">
+              <svg class="h-4 w-4 text-sage-600 dark:text-sage-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><line x1="2" x2="22" y1="12" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+              {church.history.nationalities}+ nationalités
+            </span>
+          </div>
+        </div>
+
+        <!-- Right : Liquid glass info card -->
+        <div class="lg:col-span-5 lg:pl-8">
+          <div
+            class="glass relative overflow-hidden rounded-[2rem] p-8 sm:p-10"
+          >
+            <p class="text-xs font-medium uppercase tracking-[0.18em] text-terracotta-700 dark:text-terracotta-300">
+              Nous rejoindre
+            </p>
+
+            <h2 class="mt-3 font-display text-2xl font-medium tracking-tight text-ink-900 dark:text-ink-50 sm:text-3xl">
+              Chaque dimanche, à <span class="text-terracotta-700 dark:text-terracotta-300">10h30</span>
+            </h2>
+
+            <p class="mt-4 text-sm leading-relaxed text-ink-600 dark:text-ink-300">
+              {church.services.sunday.description}
+            </p>
+
+            <ul class="mt-6 space-y-3 text-sm">
+              {
+                church.services.sunday.features.map((f) => (
+                  <li class="flex items-start gap-3">
+                    <span class="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-sage-100 text-sage-700 dark:bg-sage-950/40 dark:text-sage-300">
+                      <svg class="h-3 w-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                        <polyline points="20 6 9 17 4 12" />
+                      </svg>
+                    </span>
+                    <span class="text-ink-700 dark:text-ink-200">{f.label}</span>
+                  </li>
+                ))
+              }
+            </ul>
+
+            <div class="mt-8 border-t border-ink-900/10 pt-6 dark:border-ink-50/10">
+              <p class="flex items-start gap-2 text-sm text-ink-700 dark:text-ink-200">
+                <svg class="mt-0.5 h-4 w-4 shrink-0 text-terracotta-600 dark:text-terracotta-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 10c0 7-8 13-8 13s-8-6-8-13a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>
+                <span>
+                  {church.address.street}<br/>
+                  {church.address.postalCode} {church.address.city}
+                </span>
+              </p>
+              <a
+                href={church.address.googleMapsDirections}
+                target="_blank"
+                rel="noopener noreferrer"
+                class="mt-3 inline-flex items-center gap-1.5 text-sm font-medium text-terracotta-700 hover:text-terracotta-800 dark:text-terracotta-300 dark:hover:text-terracotta-200"
+              >
+                Itinéraire en RER + bus
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 7h10v10"/><path d="M7 17 17 7"/></svg>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </Container>
+  </section>
+
+  <!-- ===================================================================== -->
+  <!-- METRICS — Communauté en chiffres -->
+  <!-- ===================================================================== -->
+  <section class="border-y border-sand-200 bg-white/40 py-16 backdrop-blur dark:border-ink-800 dark:bg-ink-900/40">
+    <Container size="default">
+      <div class="grid grid-cols-2 gap-8 md:grid-cols-4">
+        {
+          [
+            { value: `${new Date().getFullYear() - church.history.foundingYear}+`, label: "Années de présence à Massy", sub: `Depuis ${church.history.foundingYear}` },
+            { value: `${church.history.nationalities}+`, label: 'Nationalités représentées', sub: 'Une église cosmopolite' },
+            { value: `${church.history.chapelCapacity}`, label: 'Places dans la chapelle', sub: 'Rénovée en 2001' },
+            { value: '4', label: 'Affiliations nationales', sub: 'FEEBF · CNEF · FPF · Alpha' },
+          ].map((m) => (
+            <div class="text-center md:text-left">
+              <p class="font-display text-4xl font-medium tracking-tight text-terracotta-700 dark:text-terracotta-300 sm:text-5xl">
+                {m.value}
+              </p>
+              <p class="mt-2 text-sm font-medium text-ink-900 dark:text-ink-100">
+                {m.label}
+              </p>
+              <p class="mt-1 text-xs text-ink-500 dark:text-ink-400">
+                {m.sub}
+              </p>
+            </div>
+          ))
+        }
+      </div>
+    </Container>
+  </section>
+
+  <!-- ===================================================================== -->
+  <!-- FEATURED SERMON -->
+  <!-- ===================================================================== -->
+  <section class="section-padding">
+    <Container size="default">
+      <div class="mb-12 flex flex-wrap items-end justify-between gap-6">
+        <SectionHeading
+          eyebrow="À l'écoute"
+          title="Dernière prédication"
+          lead="Retrouvez les enseignements bibliques de notre communauté, en vidéo, à votre rythme."
+        />
+        <Button href="/sermons" variant="link" icon="arrow">
+          Toutes les prédications
+        </Button>
+      </div>
+
+      <SermonCard sermon={featured} featured={true} />
+
+      <div class="mt-8 grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+        {recent.filter((s) => s.id !== featured.id).slice(0, 3).map((sermon) => <SermonCard sermon={sermon} />)}
+      </div>
+    </Container>
+  </section>
+
+  <!-- ===================================================================== -->
+  <!-- ACTIVITIES highlights -->
+  <!-- ===================================================================== -->
+  <section
+    class="section-padding bg-gradient-to-b from-sand-50 via-sand-100/50 to-sand-50 dark:from-ink-950 dark:via-ink-900/50 dark:to-ink-950"
+  >
+    <Container size="default">
+      <div class="mb-12 flex flex-wrap items-end justify-between gap-6">
+        <SectionHeading
+          eyebrow="Vivre la communauté"
+          title="Nos rendez-vous"
+          lead="Au-delà du dimanche, l'église vit toute la semaine à travers des moments de partage, de formation et de prière."
+        />
+        <Button href="/activites" variant="link" icon="arrow">
+          Toutes les activités
+        </Button>
+      </div>
+
+      <div class="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+        {highlights.map((activity) => <ActivityCard activity={activity} />)}
+      </div>
+    </Container>
+  </section>
+
+  <!-- ===================================================================== -->
+  <!-- UPCOMING EVENTS -->
+  <!-- ===================================================================== -->
+  {
+    upcoming.length > 0 && (
+      <section class="section-padding">
+        <Container size="default">
+          <SectionHeading
+            eyebrow="À venir"
+            title="Prochains événements"
+            class="mb-12"
+          />
+
+          <div class="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
+            {upcoming.map((evt) => {
+              const dateObj = new Date(evt.date);
+              const dayLabel = dateObj.toLocaleDateString('fr-FR', {
+                weekday: 'long',
+              });
+              const dateLabel = dateObj.toLocaleDateString('fr-FR', {
+                day: 'numeric',
+                month: 'long',
+              });
+              return (
+                <article class="group relative flex flex-col rounded-3xl border border-sand-200 bg-white p-6 transition-all duration-400 ease-out-expo hover:-translate-y-1 hover:border-sand-300 hover:shadow-soft-lg dark:border-ink-800 dark:bg-ink-900 dark:hover:border-ink-700">
+                  <div class="mb-4 inline-flex h-14 w-14 flex-col items-center justify-center rounded-2xl bg-gradient-to-br from-terracotta-50 to-terracotta-100 text-terracotta-700 dark:from-terracotta-950/40 dark:to-terracotta-900/40 dark:text-terracotta-300">
+                    <span class="text-xs font-medium uppercase">
+                      {dateObj.toLocaleDateString('fr-FR', { month: 'short' }).replace('.', '')}
+                    </span>
+                    <span class="font-display text-xl font-medium leading-none">
+                      {dateObj.getDate()}
+                    </span>
+                  </div>
+                  <p class="text-xs font-medium uppercase tracking-wide text-ink-500 dark:text-ink-400">
+                    {dayLabel} · {evt.time}
+                  </p>
+                  <h3 class="mt-2 font-display text-xl font-medium text-ink-900 dark:text-ink-50">
+                    {evt.title}
+                  </h3>
+                  <p class="mt-2 text-sm text-ink-600 dark:text-ink-400">
+                    {evt.description}
+                  </p>
+                  <p class="mt-4 flex items-center gap-1.5 text-xs text-ink-500 dark:text-ink-400">
+                    <svg class="h-3.5 w-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 10c0 7-8 13-8 13s-8-6-8-13a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>
+                    {evt.location}
+                  </p>
+                </article>
+              );
+            })}
+          </div>
+        </Container>
+      </section>
+    )
+  }
+
+  <!-- ===================================================================== -->
+  <!-- CTA — Premier contact -->
+  <!-- ===================================================================== -->
+  <section class="relative isolate overflow-hidden">
+    <Container size="default" class="py-20 md:py-28">
+      <div
+        class="relative overflow-hidden rounded-[2.5rem] bg-gradient-to-br from-terracotta-700 via-terracotta-600 to-terracotta-800 px-8 py-16 text-white shadow-soft-xl md:px-16 md:py-20"
+      >
+        <!-- Decorative cedar -->
+        <div class="pointer-events-none absolute -bottom-12 -right-12 opacity-20" aria-hidden="true">
+          <svg width="400" height="400" viewBox="0 0 40 40" fill="currentColor">
+            <path d="M20 4 L29 16 L26 16 L32 26 L25 26 L28 32 L12 32 L15 26 L8 26 L14 16 L11 16 Z"/>
+          </svg>
+        </div>
+
+        <div class="relative max-w-2xl">
+          <p class="mb-4 inline-flex items-center gap-3 text-xs font-medium uppercase tracking-[0.18em] text-terracotta-100">
+            <span class="h-px w-8 bg-terracotta-200" aria-hidden="true"></span>
+            Bienvenue à tous
+          </p>
+          <h2 class="font-display text-3xl font-medium tracking-tight text-balance sm:text-4xl md:text-5xl">
+            Une question, une visite, un besoin de prière ?
+          </h2>
+          <p class="mt-6 text-lg leading-relaxed text-terracotta-50 text-pretty">
+            Que vous soyez de passage dans la région ou habitant des environs, vous serez les bienvenus à nos cultes et à nos réunions en semaine. N'hésitez pas à nous écrire.
+          </p>
+          <div class="mt-10 flex flex-wrap gap-4">
+            <a
+              href="/contact"
+              class="inline-flex h-12 items-center gap-2 rounded-full bg-white px-7 text-base font-medium text-terracotta-700 shadow-soft-md transition-all duration-300 hover:bg-sand-50 hover:shadow-soft-lg hover:-translate-y-0.5"
+            >
+              Nous écrire
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+            </a>
+            <a
+              href={`tel:${church.contact.phoneE164}`}
+              class="inline-flex h-12 items-center gap-2 rounded-full border border-white/20 bg-white/10 px-7 text-base font-medium text-white backdrop-blur transition-all duration-300 hover:bg-white/20"
+            >
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+              {church.contact.phone}
+            </a>
+          </div>
+        </div>
+      </div>
+    </Container>
+  </section>
+</BaseLayout>

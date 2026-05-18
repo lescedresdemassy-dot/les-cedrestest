@@ -1,0 +1,204 @@
+---
+import '../styles/global.css';
+import Navigation from '../components/Navigation.astro';
+import Footer from '../components/Footer.astro';
+import { church } from '../data/church.ts';
+import { ClientRouter } from 'astro:transitions'; // ✅ Mis à jour pour Astro v6
+
+interface Props {
+  title: string;
+  description?: string;
+  /** OG image (path absolu depuis /public ou URL complète) */
+  ogImage?: string;
+  /** Type d'élément JSON-LD à inclure */
+  schema?: 'organization' | 'article' | 'event' | 'none';
+  /** Données du schema pour event/article */
+  schemaData?: Record<string, unknown>;
+  /** noindex pour pages techniques */
+  noindex?: boolean;
+  /** Classe du <body> */
+  bodyClass?: string;
+  /** Désactive le header */
+  hideHeader?: boolean;
+  /** Désactive le footer */
+  hideFooter?: boolean;
+  /** canonical custom (sinon Astro.url.pathname) */
+  canonical?: string;
+}
+
+const {
+  title,
+  description = church.baseline,
+  ogImage = '/og-default.jpg',
+  schema = 'none',
+  schemaData,
+  noindex = false,
+  bodyClass = '',
+  hideHeader = false,
+  hideFooter = false,
+  canonical,
+} = Astro.props;
+
+const fullTitle =
+  title.includes(church.shortName) || title.includes(church.name)
+    ? title
+    : `${title}${church.seo.titleSuffix}`;
+
+const canonicalURL = canonical
+  ? new URL(canonical, Astro.site).toString()
+  : new URL(Astro.url.pathname, Astro.site).toString();
+
+const ogImageURL = ogImage.startsWith('http')
+  ? ogImage
+  : new URL(ogImage, Astro.site).toString();
+
+// JSON-LD schemas
+const organizationSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Church',
+  name: church.name,
+  alternateName: church.shortName,
+  url: Astro.site?.toString() ?? 'https://eglise-massy.fr',
+  logo: new URL('/logo.png', Astro.site).toString(),
+  description: church.description,
+  address: {
+    '@type': 'PostalAddress',
+    streetAddress: church.address.street,
+    postalCode: church.address.postalCode,
+    addressLocality: church.address.city,
+    addressCountry: church.address.country,
+  },
+  telephone: church.contact.phoneE164,
+  email: church.contact.email,
+  geo: {
+    '@type': 'GeoCoordinates',
+    latitude: church.address.coordinates.lat,
+    longitude: church.address.coordinates.lng,
+  },
+  openingHoursSpecification: [
+    {
+      '@type': 'OpeningHoursSpecification',
+      dayOfWeek: 'Sunday',
+      opens: '10:30',
+      closes: '12:00',
+    },
+  ],
+  sameAs: [church.social.youtube.channel],
+};
+
+const finalSchema =
+  schema === 'organization'
+    ? organizationSchema
+    : schema === 'none'
+      ? null
+      : schemaData ?? null;
+---
+
+<!doctype html>
+<html lang="fr" class="scroll-smooth">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+    <script is:inline>
+      (function () {
+        try {
+          const t = localStorage.getItem('eeb-theme');
+          const dark =
+            t === 'dark' ||
+            (t === null &&
+              window.matchMedia('(prefers-color-scheme: dark)').matches);
+          if (dark) document.documentElement.classList.add('dark');
+        } catch {}
+      })();
+    </script>
+
+    <title>{fullTitle}</title>
+    <meta name="title" content={fullTitle} />
+    <meta name="description" content={description} />
+    <meta name="keywords" content={church.seo.keywords.join(', ')} />
+    <meta name="author" content={church.name} />
+    <link rel="canonical" href={canonicalURL} />
+    {noindex && <meta name="robots" content="noindex, nofollow" />}
+
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content={canonicalURL} />
+    <meta property="og:title" content={fullTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content={ogImageURL} />
+    <meta property="og:site_name" content={church.name} />
+    <meta property="og:locale" content="fr_FR" />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:url" content={canonicalURL} />
+    <meta name="twitter:title" content={fullTitle} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImageURL} />
+
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/manifest.webmanifest" />
+
+    <meta name="theme-color" media="(prefers-color-scheme: light)" content="#fdfbf6" />
+    <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#0d0a07" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Inter:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+
+    <link rel="dns-prefetch" href="https://www.youtube.com" />
+    <link rel="dns-prefetch" href="https://i.ytimg.com" />
+
+    <link rel="sitemap" type="application/xml" href="/sitemap-index.xml" />
+
+    {
+      finalSchema && (
+        <script
+          type="application/ld+json"
+          set:html={JSON.stringify(finalSchema)}
+        />
+      )
+    }
+
+    <ClientRouter /> <slot name="head" />
+  </head>
+
+  <body
+    class={`min-h-screen flex flex-col bg-grain ${bodyClass}`}
+    data-pathname={Astro.url.pathname}
+  >
+    {!hideHeader && <Navigation />}
+
+    <main id="main-content" class={!hideHeader ? 'flex-1 pt-16' : 'flex-1'}>
+      <slot />
+    </main>
+
+    {!hideFooter && <Footer />}
+
+    <script>
+      // Track Core Web Vitals dans la console en dev pour debug rapide
+      if (import.meta.env.DEV) {
+        ['LCP', 'FID', 'CLS', 'INP'].forEach((metric) => {
+          try {
+            new PerformanceObserver((list) => {
+              list.getEntries().forEach((entry) => {
+                console.log(`[${metric}]`, entry);
+              });
+            }).observe({
+              type: metric === 'LCP' ? 'largest-contentful-paint' :
+                    metric === 'FID' ? 'first-input' :
+                    metric === 'CLS' ? 'layout-shift' :
+                    'event',
+              buffered: true,
+            } as PerformanceObserverInit);
+          } catch {}
+        });
+      }
+    </script>
+  </body>
+</html>
