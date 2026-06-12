@@ -20,29 +20,30 @@ export const sermons: Sermon[] = [
   {
     id: 'sermon-2026-05-24',
     youtubeId: 'BJu4OqsLuas',
-    title: 'Culte 24 mai 2026',
-    speaker: 'Orateur de l’EEB Massy',
+    title: "Pourquoi le Christ envoie-t-il l'Esprit Saint aux chrétiens ?",
+    speaker: 'Simon KEGLO',
     date: '2026-05-24',
-    scripture: 'Romains 12:1-2',
+    scripture: 'Jean 14:16-18 ; Jean 16:13 ; Actes 1:8 ; Romains 8:26-27 ; Éphésiens 1:13-14',
     durationMinutes: 40,
     featured: true,
   },
   {
     id: 'sermon-2026-05-17',
     youtubeId: 'vvYX-bYPjls',
-    title: 'Culte 17 mai 2026',
-    speaker: 'Orateur de l’EEB Massy',
+    title: 'La consolation de DIEU pour ceux qui écoutent sa parole',
+    speaker: 'Anne DEBA',
     date: '2026-05-17',
-    scripture: 'Romains 12:1-2',
+    scripture: 'Ésaïe 66:5-14',
     durationMinutes: 40,
   },
   {
     id: 'sermon-2026-05-10',
     youtubeId: 'LkRUEBNIED0',
-    title: 'Culte 10 mai 2026',
-    speaker: 'Orateur de l’EEB Massy',
+    title: 'Portrait de disciples (5)',
+    speaker: 'Éric Le Guéhennec',
     date: '2026-05-10',
-    scripture: 'Romains 12:1-2',
+    scripture: 'Matthieu 7:1-12',
+    series: 'Portrait de disciples',
     durationMinutes: 40,
   },
   {
@@ -51,7 +52,6 @@ export const sermons: Sermon[] = [
     title: 'Culte 03 mai 2026',
     speaker: 'Orateur de l’EEB Massy',
     date: '2026-05-03',
-    scripture: 'Romains 12:1-2',
     durationMinutes: 40,
   },
   {
@@ -60,7 +60,6 @@ export const sermons: Sermon[] = [
     title: 'Culte 26 Avril 2026',
     speaker: 'Orateur de l’EEB Massy',
     date: '2026-04-26',
-    scripture: 'Matthieu 28:1-10',
     durationMinutes: 40,
   },
   {
@@ -69,7 +68,6 @@ export const sermons: Sermon[] = [
     title: 'Culte 12 Avril 2026 1',
     speaker: 'Orateur de l’EEB Massy',
     date: '2026-04-12',
-    scripture: 'Matthieu 28:1-10',
     durationMinutes: 40,
   },
   {
@@ -78,7 +76,6 @@ export const sermons: Sermon[] = [
     title: 'Culte 05 Avril 2026',
     speaker: 'Orateur de l’EEB Massy',
     date: '2026-04-05',
-    scripture: 'Matthieu 28:1-10',
     durationMinutes: 40,
   },
   {
@@ -87,7 +84,6 @@ export const sermons: Sermon[] = [
     title: 'Culte 22 Mars 2026',
     speaker: 'Orateur de l’EEB Massy',
     date: '2026-03-22',
-    scripture: 'Romains 12:1-2',
     durationMinutes: 40,
   },
   {
@@ -96,7 +92,6 @@ export const sermons: Sermon[] = [
     title: 'Culte 15 Mars 2026',
     speaker: 'Orateur de l’EEB Massy',
     date: '2026-03-15',
-    scripture: 'Romains 12:1-2',
     durationMinutes: 40,
   },
   {
@@ -105,7 +100,6 @@ export const sermons: Sermon[] = [
     title: 'Culte 8 Mars 2026 1',
     speaker: 'Orateur de l’EEB Massy',
     date: '2026-03-08',
-    scripture: 'Romains 12:1-2',
     durationMinutes: 40,
   },
   {
@@ -114,7 +108,6 @@ export const sermons: Sermon[] = [
     title: 'Culte 22 février 2026',
     speaker: 'Orateur de l’EEB Massy',
     date: '2026-02-22',
-    scripture: 'Romains 12:1-2',
     durationMinutes: 40,
   },
   {
@@ -123,7 +116,6 @@ export const sermons: Sermon[] = [
     title: 'Culte 15 février 2026',
     speaker: 'Orateur de l’EEB Massy',
     date: '2026-02-15',
-    scripture: 'Romains 12:1-2',
     durationMinutes: 40,
   },
   {
@@ -132,7 +124,6 @@ export const sermons: Sermon[] = [
     title: 'Culte 08 février 2026 1',
     speaker: 'Orateur de l’EEB Massy',
     date: '2026-02-08',
-    scripture: 'Romains 12:1-2',
     durationMinutes: 40,
   },
   {
@@ -141,7 +132,6 @@ export const sermons: Sermon[] = [
     title: 'Culte 01 février 2026',
     speaker: 'Orateur de l’EEB Massy',
     date: '2026-02-01',
-    scripture: 'Romains 12:1-2',
     durationMinutes: 40,
   },
   {
@@ -150,7 +140,6 @@ export const sermons: Sermon[] = [
     title: 'Culte 25 Janvier 2026',
     speaker: 'Orateur de l’EEB Massy',
     date: '2026-01-25',
-    scripture: 'Romains 12:1-2',
     durationMinutes: 40,
   },
   {
@@ -159,7 +148,6 @@ export const sermons: Sermon[] = [
     title: 'Culte 18 Janvier 2026',
     speaker: 'Orateur de l’EEB Massy',
     date: '2026-01-18',
-    scripture: 'Romains 12:1-2',
     durationMinutes: 40,
   },
   {
@@ -168,7 +156,6 @@ export const sermons: Sermon[] = [
     title: 'Culte 11 Janvier 2026',
     speaker: 'Orateur de l’EEB Massy',
     date: '2026-01-11',
-    scripture: 'Romains 12:1-2',
     durationMinutes: 40,
   },
   {
@@ -177,7 +164,6 @@ export const sermons: Sermon[] = [
     title: 'Culte 4 Janvier 2026',
     speaker: 'Orateur de l’EEB Massy',
     date: '2026-01-04',
-    scripture: 'Romains 12:1-2',
     durationMinutes: 40,
   },
   {
@@ -186,7 +172,6 @@ export const sermons: Sermon[] = [
     title: 'Culte 14 décembre 2025',
     speaker: 'Orateur de l’EEB Massy',
     date: '2025-12-14',
-    scripture: 'Luc 2:1-20',
     durationMinutes: 40,
   },
   {
@@ -195,7 +180,6 @@ export const sermons: Sermon[] = [
     title: 'Culte 30 novembre 2025',
     speaker: 'Orateur de l’EEB Massy',
     date: '2025-11-30',
-    scripture: 'Romains 12:1-2',
     durationMinutes: 40,
   },
   {
@@ -204,7 +188,6 @@ export const sermons: Sermon[] = [
     title: 'Culte 23 novembre 2025',
     speaker: 'Orateur de l’EEB Massy',
     date: '2025-11-23',
-    scripture: 'Romains 12:1-2',
     durationMinutes: 40,
   },
   {
@@ -213,7 +196,6 @@ export const sermons: Sermon[] = [
     title: 'Culte 16 novembre 2025',
     speaker: 'Orateur de l’EEB Massy',
     date: '2025-11-16',
-    scripture: 'Romains 12:1-2',
     durationMinutes: 40,
   },
   {
@@ -222,7 +204,6 @@ export const sermons: Sermon[] = [
     title: 'Culte 9 novembre 2025',
     speaker: 'Orateur de l’EEB Massy',
     date: '2025-11-09',
-    scripture: 'Romains 12:1-2',
     durationMinutes: 40,
   },
   {
@@ -231,7 +212,6 @@ export const sermons: Sermon[] = [
     title: 'Culte 2 novembre 2025',
     speaker: 'Orateur de l’EEB Massy',
     date: '2025-11-02',
-    scripture: 'Romains 12:1-2',
     durationMinutes: 40,
   },
   {
@@ -240,7 +220,6 @@ export const sermons: Sermon[] = [
     title: 'Dimanche 26 octobre 2025 dimanche de la réformation',
     speaker: 'Orateur de l’EEB Massy',
     date: '2025-10-26',
-    scripture: 'Romains 12:1-2',
     durationMinutes: 40,
   },
   {
@@ -249,7 +228,6 @@ export const sermons: Sermon[] = [
     title: 'Culte du 19 octobre 2025',
     speaker: 'Orateur de l’EEB Massy',
     date: '2025-10-19',
-    scripture: 'Romains 12:1-2',
     durationMinutes: 40,
   },
   {
@@ -258,7 +236,6 @@ export const sermons: Sermon[] = [
     title: 'Culte du 5 octobre 2025',
     speaker: 'Orateur de l’EEB Massy',
     date: '2025-10-05',
-    scripture: 'Romains 12:1-2',
     durationMinutes: 40,
   },
   {
@@ -267,7 +244,6 @@ export const sermons: Sermon[] = [
     title: 'Culte 21 Septembre 2025',
     speaker: 'Orateur de l’EEB Massy',
     date: '2025-09-21',
-    scripture: 'Romains 12:1-2',
     durationMinutes: 40,
   },
   {
@@ -276,7 +252,6 @@ export const sermons: Sermon[] = [
     title: 'Culte 14 Septembre 2025',
     speaker: 'Orateur de l’EEB Massy',
     date: '2025-09-14',
-    scripture: 'Romains 12:1-2',
     durationMinutes: 40,
   },
   {
@@ -285,7 +260,6 @@ export const sermons: Sermon[] = [
     title: 'Culte 07 Septembre 2025',
     speaker: 'Orateur de l’EEB Massy',
     date: '2025-09-07',
-    scripture: 'Romains 12:1-2',
     durationMinutes: 40,
   },
   {
@@ -294,7 +268,6 @@ export const sermons: Sermon[] = [
     title: 'Culte 24 Août 2025',
     speaker: 'Orateur de l’EEB Massy',
     date: '2025-08-24',
-    scripture: 'Romains 12:1-2',
     durationMinutes: 40,
   },
   {
@@ -303,7 +276,6 @@ export const sermons: Sermon[] = [
     title: 'Culte 17 Août 2025',
     speaker: 'Orateur de l’EEB Massy',
     date: '2025-08-17',
-    scripture: 'Romains 12:1-2',
     durationMinutes: 40,
   },
   {
@@ -312,7 +284,6 @@ export const sermons: Sermon[] = [
     title: 'Culte 10 Août 2025',
     speaker: 'Orateur de l’EEB Massy',
     date: '2025-08-10',
-    scripture: 'Romains 12:1-2',
     durationMinutes: 40,
   },
   {
@@ -321,7 +292,6 @@ export const sermons: Sermon[] = [
     title: 'Culte 03 Août 2025',
     speaker: 'Orateur de l’EEB Massy',
     date: '2025-08-03',
-    scripture: 'Romains 12:1-2',
     durationMinutes: 40,
   },
   {
@@ -330,7 +300,6 @@ export const sermons: Sermon[] = [
     title: 'Culte 20 juillet 2025',
     speaker: 'Orateur de l’EEB Massy',
     date: '2025-07-20',
-    scripture: 'Romains 12:1-2',
     durationMinutes: 40,
   },
   {
@@ -339,7 +308,6 @@ export const sermons: Sermon[] = [
     title: 'Culte 13 juillet 2025',
     speaker: 'Orateur de l’EEB Massy',
     date: '2025-07-13',
-    scripture: 'Romains 12:1-2',
     durationMinutes: 40,
   },
   {
@@ -348,7 +316,6 @@ export const sermons: Sermon[] = [
     title: 'Culte 20 avril 2025',
     speaker: 'Orateur de l’EEB Massy',
     date: '2025-04-20',
-    scripture: 'Matthieu 28:1-10',
     durationMinutes: 40,
   },
   {
@@ -357,7 +324,6 @@ export const sermons: Sermon[] = [
     title: 'Culte 13 avril 2025',
     speaker: 'Orateur de l’EEB Massy',
     date: '2025-04-13',
-    scripture: 'Matthieu 28:1-10',
     durationMinutes: 40,
   },
   {
@@ -366,7 +332,6 @@ export const sermons: Sermon[] = [
     title: 'Culte 06 AVRIL 2025 1',
     speaker: 'Orateur de l’EEB Massy',
     date: '2025-04-06',
-    scripture: 'Matthieu 28:1-10',
     durationMinutes: 40,
   },
   {
@@ -375,7 +340,6 @@ export const sermons: Sermon[] = [
     title: 'Culte 30 mars 2025',
     speaker: 'Orateur de l’EEB Massy',
     date: '2025-03-30',
-    scripture: 'Romains 12:1-2',
     durationMinutes: 40,
   },
   {
@@ -384,7 +348,6 @@ export const sermons: Sermon[] = [
     title: 'Culte 23 mars 2025',
     speaker: 'Orateur de l’EEB Massy',
     date: '2025-03-23',
-    scripture: 'Romains 12:1-2',
     durationMinutes: 40,
   },
   {
@@ -393,7 +356,6 @@ export const sermons: Sermon[] = [
     title: 'Culte 16 mars 2025',
     speaker: 'Orateur de l’EEB Massy',
     date: '2025-03-16',
-    scripture: 'Romains 12:1-2',
     durationMinutes: 40,
   },
   {
@@ -402,7 +364,6 @@ export const sermons: Sermon[] = [
     title: 'Culte 09 mars 2025',
     speaker: 'Orateur de l’EEB Massy',
     date: '2025-03-09',
-    scripture: 'Romains 12:1-2',
     durationMinutes: 40,
   },
   {
@@ -411,7 +372,6 @@ export const sermons: Sermon[] = [
     title: 'Culte 02 mars 2025',
     speaker: 'Orateur de l’EEB Massy',
     date: '2025-03-02',
-    scripture: 'Romains 12:1-2',
     durationMinutes: 40,
   },
   {
@@ -420,7 +380,6 @@ export const sermons: Sermon[] = [
     title: 'Culte 23 février 2025',
     speaker: 'Orateur de l’EEB Massy',
     date: '2025-02-23',
-    scripture: 'Romains 12:1-2',
     durationMinutes: 40,
   },
   {
@@ -429,7 +388,6 @@ export const sermons: Sermon[] = [
     title: 'Culte 16 février 2025',
     speaker: 'Orateur de l’EEB Massy',
     date: '2025-02-16',
-    scripture: 'Romains 12:1-2',
     durationMinutes: 40,
   },
   {
@@ -438,7 +396,6 @@ export const sermons: Sermon[] = [
     title: 'Culte 02 février 2025',
     speaker: 'Orateur de l’EEB Massy',
     date: '2025-02-02',
-    scripture: 'Romains 12:1-2',
     durationMinutes: 40,
   },
   {
@@ -447,7 +404,6 @@ export const sermons: Sermon[] = [
     title: 'Culte 26 janvier 2025',
     speaker: 'Orateur de l’EEB Massy',
     date: '2025-01-26',
-    scripture: 'Romains 12:1-2',
     durationMinutes: 40,
   },
   {
@@ -456,7 +412,6 @@ export const sermons: Sermon[] = [
     title: 'Culte 19 janvier 2025',
     speaker: 'Orateur de l’EEB Massy',
     date: '2025-01-19',
-    scripture: 'Romains 12:1-2',
     durationMinutes: 40,
   },
   {
@@ -465,7 +420,6 @@ export const sermons: Sermon[] = [
     title: 'Culte 12 janvier 2025',
     speaker: 'Orateur de l’EEB Massy',
     date: '2025-01-12',
-    scripture: 'Romains 12:1-2',
     durationMinutes: 40,
   },
   {
@@ -474,7 +428,6 @@ export const sermons: Sermon[] = [
     title: 'Culte 5 janvier 2025',
     speaker: 'Orateur de l’EEB Massy',
     date: '2025-01-05',
-    scripture: 'Romains 12:1-2',
     durationMinutes: 40,
   },
 ];
