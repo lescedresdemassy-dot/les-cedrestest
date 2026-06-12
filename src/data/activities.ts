@@ -83,7 +83,7 @@ export const activities: Activity[] = [
     location: 'Salle dédiée aux jeunes — Les Cèdres',
     audience: '15–20 ans',
     description:
-      'Un rendez-vous pour les jeunes le samedi soir dans une salle qui leur est réservée (babyfoot, boissons, espace de détente). Temps d’étude de la Bible et de partage dans une ambiance amicale.',
+      'Un rendez-vous hebdomadaire pour les adolescents et jeunes adultes. Partages conviviaux, moments de détente et étude de la Bible.',
     highlight: true,
     icon: 'youth',
   },
@@ -102,7 +102,7 @@ export const activities: Activity[] = [
     location: 'Chez des particuliers, à Massy et dans les environs',
     audience: 'Groupes de 8 à 12 personnes en moyenne',
     description:
-      'Petites réunions chaleureuses où l’on se retrouve pour louer Dieu, prier et étudier la Bible ensemble. L’occasion de tisser des liens fraternels durables dans une ambiance simple et accueillante.',
+      'Des rencontres fraternelles en semaine dans différents foyers pour prier, partager et approfondir ensemble les textes bibliques.',
     highlight: true,
     icon: 'home',
   },
@@ -128,7 +128,7 @@ export const activities: Activity[] = [
     location: 'Les Cèdres (en commun avec l’Église d’Antony)',
     audience: 'Une quinzaine de participants',
     description:
-      'Depuis plusieurs années, une quinzaine de personnes se retrouvent autour d’un brunch le samedi matin pour échanger leurs découvertes et s’encourager dans la lecture de toute la Bible en un an, selon un plan chronologique. 20 à 30 minutes de lecture par jour suffisent.',
+      'Une lecture suivie et partagée de toute la Bible sur une année, avec un rendez-vous hebdomadaire convivial autour d’un brunch.',
     highlight: true,
     icon: 'book',
   },
