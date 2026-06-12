@@ -1,0 +1,178 @@
+---
+import PageLayout from '../layouts/PageLayout.astro';
+import Container from '../components/Container.astro';
+import Button from '../components/Button.astro';
+import { church } from '../data/church.ts';
+
+export const prerender = true;
+---
+
+<PageLayout
+  title="Première visite — Préparer votre venue le dimanche"
+  description="Horaires, accès, accueil des enfants, déroulement du culte... Tout ce qu'il faut savoir pour votre première visite à l'Église de Massy."
+  eyebrow="Première visite"
+  pageTitle="Venir le dimanche"
+  pageLead="Il est tout à fait naturel de se poser des questions avant de franchir le seuil d'une église. Voici un guide simple et transparent pour vous aider à préparer votre visite."
+>
+  <slot name="hero-extra">
+    <div class="mt-8 flex flex-wrap gap-3">
+      <Button href="/contact" variant="primary" size="md">
+        Poser une question
+      </Button>
+      <Button href={church.address.googleMapsDirections} variant="secondary" size="md" external>
+        Itinéraire transports
+      </Button>
+    </div>
+  </slot>
+
+  <!-- ============ EDITORIAL NARRATIVE FLOW ============ -->
+  <section class="py-20 md:py-28 bg-grain">
+    <Container size="default">
+      <div class="grid grid-cols-1 gap-16 lg:grid-cols-12 lg:gap-16">
+        
+        <!-- Main Timeline Content (Left 8 Cols) -->
+        <div class="lg:col-span-8">
+          <h2 class="sr-only">Le déroulement de votre matinée</h2>
+          
+          <div class="space-y-16">
+            <!-- Step 1: L'Arrivée -->
+            <article class="relative pl-8 sm:pl-12 border-l border-editorial pb-2">
+              <span class="absolute -left-[0.65rem] top-1 flex h-3 w-3 rounded-none bg-terracotta-600 dark:bg-terracotta-400"></span>
+              
+              <h3 class="font-display text-2xl font-medium text-ink-900 dark:text-ink-50 sm:text-3xl">
+                01. L'arrivée aux Cèdres
+              </h3>
+              <p class="mt-4 text-base leading-relaxed text-ink-700 dark:text-ink-300 editorial-indent">
+                Le culte commence à <strong class="font-medium text-ink-900 dark:text-ink-50">10h30</strong>. Nous vous suggérons d'arriver 10 à 15 minutes en avance. À votre entrée au Centre Les Cèdres, nos équipes d'accueil vous salueront à la porte et pourront répondre à vos questions ou vous guider vers la chapelle.
+              </p>
+              <p class="mt-3 text-sm text-ink-500 dark:text-ink-400">
+                ✦ <strong class="font-medium">Tenue :</strong> Venez comme vous êtes. Il n'y a pas de code vestimentaire particulier dans notre communauté.
+              </p>
+            </article>
+
+            <!-- Step 2: Le Culte -->
+            <article class="relative pl-8 sm:pl-12 border-l border-editorial pb-2">
+              <span class="absolute -left-[0.65rem] top-1 flex h-3 w-3 rounded-none bg-terracotta-600 dark:bg-terracotta-400"></span>
+              
+              <h3 class="font-display text-2xl font-medium text-ink-900 dark:text-ink-50 sm:text-3xl">
+                02. Déroulement de la rencontre
+              </h3>
+              <p class="mt-4 text-base leading-relaxed text-ink-700 dark:text-ink-300 editorial-indent">
+                Le service dure environ <strong class="font-medium text-ink-900 dark:text-ink-50">1h15 à 1h30</strong>. Le culte est composé de prières, de chants en commun, de lectures bibliques et d'un sermon (environ 35 minutes) cherchant à expliquer le sens des textes et à les appliquer à notre quotidien de manière claire.
+              </p>
+              <p class="mt-3 text-sm text-ink-600 dark:text-ink-400">
+                Vous êtes libre de participer à votre rythme : vous pouvez chanter ou simplement écouter. Rien ne vous est imposé.
+              </p>
+            </article>
+
+            <!-- Step 3: Les Enfants -->
+            <article class="relative pl-8 sm:pl-12 border-l border-editorial pb-2">
+              <span class="absolute -left-[0.65rem] top-1 flex h-3 w-3 rounded-none bg-terracotta-600 dark:bg-terracotta-400"></span>
+              
+              <h3 class="font-display text-2xl font-medium text-ink-900 dark:text-ink-50 sm:text-3xl">
+                03. Groupes d'enfants
+              </h3>
+              <p class="mt-4 text-base leading-relaxed text-ink-700 dark:text-ink-300 editorial-indent">
+                Les familles sont au cœur de notre église. Deux dispositifs sont en place pour les plus jeunes le dimanche matin :
+              </p>
+              <div class="mt-6 space-y-4 text-sm text-ink-700 dark:text-ink-300 pl-4 border-l-2 border-sage-600/30 dark:border-sage-400/20">
+                <p>
+                  <strong class="font-medium text-ink-900 dark:text-ink-50">Moins de 3 ans (Nursery) :</strong> Une garderie accueille les tout-petits dès le début du culte à 10h30. Les parents peuvent y laisser leurs bébés en toute confiance.
+                </p>
+                <p>
+                  <strong class="font-medium text-ink-900 dark:text-ink-50">De 3 à 15 ans (Sunday School) :</strong> Les enfants participent au début du culte avec leurs parents. Après 30 minutes de chants et d'introductions, ils rejoignent leurs groupes d'âge respectifs pour des partages et animations adaptés.
+                </p>
+              </div>
+            </article>
+
+            <!-- Step 4: L'Après-Culte -->
+            <article class="relative pl-8 sm:pl-12 border-l border-editorial pb-2">
+              <span class="absolute -left-[0.65rem] top-1 flex h-3 w-3 rounded-none bg-terracotta-600 dark:bg-terracotta-400"></span>
+              
+              <h3 class="font-display text-2xl font-medium text-ink-900 dark:text-ink-50 sm:text-3xl">
+                04. Autour d'un café
+              </h3>
+              <p class="mt-4 text-base leading-relaxed text-ink-700 dark:text-ink-300 editorial-indent">
+                Après le culte, nous partageons un thé ou un café dans le hall principal. C'est un temps convivial idéal pour faire connaissance de manière simple et informelle.
+              </p>
+              <p class="mt-3 text-sm text-ink-500 dark:text-ink-400">
+                ✦ <strong class="font-medium">Troisième dimanche du mois :</strong> Un repas partagé communautaire est ouvert à tous les participants et invités.
+              </p>
+            </article>
+          </div>
+        </div>
+
+        <!-- Sidebar Summary & Q&A (Right 4 Cols) -->
+        <aside class="space-y-12 lg:col-span-4 lg:border-l border-editorial lg:pl-10">
+          
+          <!-- Summary List -->
+          <div>
+            <h3 class="text-xs font-semibold uppercase tracking-[0.2em] text-ink-900 dark:text-ink-50 border-b border-editorial pb-3">
+              Informations clés
+            </h3>
+            <dl class="mt-6 space-y-4 text-sm">
+              <div>
+                <dt class="font-medium text-ink-500 dark:text-ink-400">Horaires</dt>
+                <dd class="mt-1 text-ink-900 dark:text-ink-100">Culte tous les dimanches à 10h30</dd>
+              </div>
+              <div class="border-t border-editorial-subtle pt-3">
+                <dt class="font-medium text-ink-500 dark:text-ink-400">Lieu d'entrée</dt>
+                <dd class="mt-1 text-ink-900 dark:text-ink-100">{church.address.full}</dd>
+              </div>
+              <div class="border-t border-editorial-subtle pt-3">
+                <dt class="font-medium text-ink-500 dark:text-ink-400">Accessibilité PMR</dt>
+                <dd class="mt-1 text-ink-900 dark:text-ink-100">Rampe d'accès et chapelle de plain-pied</dd>
+              </div>
+              <div class="border-t border-editorial-subtle pt-3">
+                <dt class="font-medium text-ink-500 dark:text-ink-400">Stationnement</dt>
+                <dd class="mt-1 text-ink-900 dark:text-ink-100">Parking gratuit dans la cour des Cèdres</dd>
+              </div>
+            </dl>
+          </div>
+
+          <!-- Q&A list -->
+          <div>
+            <h3 class="text-xs font-semibold uppercase tracking-[0.2em] text-ink-900 dark:text-ink-50 border-b border-editorial pb-3">
+              Puis-je venir si...
+            </h3>
+            <ul class="mt-6 space-y-6 text-sm text-ink-700 dark:text-ink-300">
+              <li>
+                <p class="font-medium text-ink-900 dark:text-ink-50">...je ne suis pas croyant ?</p>
+                <p class="mt-1 text-ink-600 dark:text-ink-400">Oui, tout à fait. Nos réunions sont publiques et ouvertes à toute personne en recherche ou simplement curieuse.</p>
+              </li>
+              <li>
+                <p class="font-medium text-ink-900 dark:text-ink-50">...je n'ai jamais ouvert la Bible ?</p>
+                <p class="mt-1 text-ink-600 dark:text-ink-400">Aucune connaissance ou pratique préalable n'est nécessaire. Les lectures sont expliquées pas à pas.</p>
+              </li>
+              <li>
+                <p class="font-medium text-ink-900 dark:text-ink-50">...je viens avec un bébé ?</p>
+                <p class="mt-1 text-ink-600 dark:text-ink-400">La présence des bébés fait partie de la vie de l'église. Si nécessaire, un espace équipé vous permet d'allaiter ou de calmer votre enfant tout en suivant le culte en vidéo/son.</p>
+              </li>
+            </ul>
+          </div>
+
+        </aside>
+      </div>
+    </Container>
+  </section>
+
+  <!-- CTA -->
+  <section class="border-t border-editorial bg-sand-50/50 py-20 dark:bg-ink-950/40">
+    <Container size="narrow" class="text-center">
+      <h2 class="font-display text-3xl font-light text-ink-900 dark:text-ink-50">
+        Une question avant votre venue ?
+      </h2>
+      <p class="mt-4 text-base text-ink-600 dark:text-ink-300">
+        N'hésitez pas à nous envoyer un court message via le formulaire ou à nous appeler directement si vous souhaitez que quelqu'un vous accueille à l'entrée.
+      </p>
+      <div class="mt-8 flex justify-center gap-4">
+        <Button href="/contact" variant="primary" size="lg">
+          Nous écrire
+        </Button>
+        <Button href={`tel:${church.contact.phoneE164}`} variant="secondary" size="lg">
+          Appeler le {church.contact.phone}
+        </Button>
+      </div>
+    </Container>
+  </section>
+</PageLayout>

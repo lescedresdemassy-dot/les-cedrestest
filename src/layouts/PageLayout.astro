@@ -29,12 +29,11 @@ const {
   schema={schema}
   schemaData={schemaData}
 >
-  <!-- Page hero — warm gradient, ample whitespace -->
+  <!-- Page hero — ample whitespace, clean and solid paper base -->
   <section
-    class="relative overflow-hidden pb-12 pt-16 sm:pt-24 lg:pt-32"
-    style="background-image: var(--gradient-hero);"
+    class="relative overflow-hidden pb-12 pt-16 sm:pt-24 lg:pt-32 bg-grain border-b border-editorial"
   >
-    <!-- Subtle decorative cedar -->
+    <!-- Subtle decorative cedar (asymmetric) -->
     <div
       class="pointer-events-none absolute -right-12 top-12 hidden opacity-[0.04] sm:block lg:right-0"
       aria-hidden="true"
@@ -51,22 +50,22 @@ const {
       <div class="max-w-3xl">
         {
           eyebrow && (
-            <p class="mb-6 inline-flex items-center gap-3 text-xs font-medium uppercase tracking-[0.18em] text-terracotta-700 dark:text-terracotta-300">
-              <span class="h-px w-8 bg-terracotta-300 dark:bg-terracotta-700" aria-hidden="true" />
+            <p class="mb-6 inline-flex items-center gap-3 text-xs font-semibold uppercase tracking-[0.2em] text-terracotta-700 dark:text-terracotta-300">
+              <span class="h-px w-8 bg-terracotta-400 dark:bg-terracotta-600" aria-hidden="true" />
               <span>{eyebrow}</span>
             </p>
           )
         }
 
         <h1
-          class="font-display text-4xl font-medium leading-[1.05] tracking-tight text-ink-900 text-balance dark:text-ink-50 sm:text-5xl md:text-6xl lg:text-7xl"
+          class="font-display text-4xl font-light leading-[1.05] tracking-tight text-ink-900 text-balance dark:text-ink-50 sm:text-5xl md:text-6xl lg:text-7.5xl"
         >
           {pageTitle}
         </h1>
 
         {
           pageLead && (
-            <p class="mt-6 max-w-2xl text-lg leading-relaxed text-ink-600 dark:text-ink-300 sm:text-xl">
+            <p class="mt-6 max-w-2xl text-lg leading-relaxed text-ink-600 dark:text-ink-300 sm:text-xl editorial-indent">
               {pageLead}
             </p>
           )

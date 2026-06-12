@@ -7,17 +7,18 @@ export const prerender = true;
 
 <PageLayout
   title="Contact — Nous écrire, nous appeler, nous rendre visite"
-  description={`Adresse, téléphone, formulaire de contact et accès en transport. EEB Massy, ${church.address.full}. Téléphone : ${church.contact.phone}.`}
+  description={`Adresse, téléphone, formulaire de contact et accès en transport. EEB Massy, ${church.address.full}.`}
   eyebrow="Contact"
-  pageTitle="Une question, une visite, un mot ?"
-  pageLead="Que vous soyez de passage ou habitant des environs, nous serons heureux de vous rencontrer. Écrivez-nous, appelez-nous, ou simplement venez à un culte."
+  pageTitle="Nous contacter"
+  pageLead="Que vous ayez une question sur nos activités, un besoin de prière ou l'envie de nous rendre visite le dimanche, n'hésitez pas à nous écrire."
 >
-  <section class="py-12 md:py-16">
+  <section class="py-16 bg-grain">
     <Container size="default">
-      <div class="grid grid-cols-1 gap-12 lg:grid-cols-12">
-        <!-- Form -->
+      <div class="grid grid-cols-1 gap-16 lg:grid-cols-12 lg:gap-16">
+        
+        <!-- Contact Form (Left 7 Cols) -->
         <div class="lg:col-span-7">
-          <form id="contact-form" class="space-y-5" novalidate>
+          <form id="contact-form" class="space-y-6" novalidate>
             <input type="hidden" name="csrfToken" data-csrf-token />
             <input
               type="text"
@@ -28,13 +29,13 @@ export const prerender = true;
               aria-hidden="true"
             />
 
-            <div class="grid grid-cols-1 gap-5 sm:grid-cols-2">
+            <div class="grid grid-cols-1 gap-6 sm:grid-cols-2">
               <div>
                 <label
                   for="name"
-                  class="block text-sm font-medium text-ink-800 dark:text-ink-200"
+                  class="block text-xs font-semibold uppercase tracking-wider text-ink-700 dark:text-ink-200"
                 >
-                  Nom *
+                  Nom complet *
                 </label>
                 <input
                   type="text"
@@ -44,16 +45,16 @@ export const prerender = true;
                   minlength="2"
                   maxlength="100"
                   autocomplete="name"
-                  class="mt-1.5 w-full rounded-xl border border-sand-200 bg-white px-4 py-3 text-sm text-ink-900 placeholder:text-ink-400 transition focus:border-terracotta-500 focus:outline-none focus:ring-2 focus:ring-terracotta-500/20 dark:border-ink-800 dark:bg-ink-900 dark:text-ink-50"
+                  class="input-editorial mt-1"
                 />
               </div>
 
               <div>
                 <label
                   for="email"
-                  class="block text-sm font-medium text-ink-800 dark:text-ink-200"
+                  class="block text-xs font-semibold uppercase tracking-wider text-ink-700 dark:text-ink-200"
                 >
-                  Email *
+                  Adresse email *
                 </label>
                 <input
                   type="email"
@@ -62,7 +63,7 @@ export const prerender = true;
                   required
                   maxlength="254"
                   autocomplete="email"
-                  class="mt-1.5 w-full rounded-xl border border-sand-200 bg-white px-4 py-3 text-sm text-ink-900 placeholder:text-ink-400 transition focus:border-terracotta-500 focus:outline-none focus:ring-2 focus:ring-terracotta-500/20 dark:border-ink-800 dark:bg-ink-900 dark:text-ink-50"
+                  class="input-editorial mt-1"
                 />
               </div>
             </div>
@@ -70,9 +71,9 @@ export const prerender = true;
             <div>
               <label
                 for="phone"
-                class="block text-sm font-medium text-ink-800 dark:text-ink-200"
+                class="block text-xs font-semibold uppercase tracking-wider text-ink-700 dark:text-ink-200"
               >
-                Téléphone <span class="font-normal text-ink-500">(facultatif)</span>
+                Numéro de téléphone <span class="font-normal text-ink-500">(facultatif)</span>
               </label>
               <input
                 type="tel"
@@ -80,37 +81,37 @@ export const prerender = true;
                 name="phone"
                 maxlength="20"
                 autocomplete="tel"
-                placeholder="06 12 34 56 78"
-                class="mt-1.5 w-full rounded-xl border border-sand-200 bg-white px-4 py-3 text-sm text-ink-900 placeholder:text-ink-400 transition focus:border-terracotta-500 focus:outline-none focus:ring-2 focus:ring-terracotta-500/20 dark:border-ink-800 dark:bg-ink-900 dark:text-ink-50"
+                placeholder="Ex. 06 12 34 56 78"
+                class="input-editorial mt-1"
               />
             </div>
 
             <div>
               <label
                 for="subject"
-                class="block text-sm font-medium text-ink-800 dark:text-ink-200"
+                class="block text-xs font-semibold uppercase tracking-wider text-ink-700 dark:text-ink-200"
               >
-                Sujet *
+                Sujet de votre message *
               </label>
               <select
                 id="subject"
                 name="subject"
                 required
-                class="mt-1.5 w-full rounded-xl border border-sand-200 bg-white px-4 py-3 text-sm text-ink-900 transition focus:border-terracotta-500 focus:outline-none focus:ring-2 focus:ring-terracotta-500/20 dark:border-ink-800 dark:bg-ink-900 dark:text-ink-50"
+                class="input-editorial mt-1"
               >
-                <option value="">Sélectionnez un sujet…</option>
-                <option value="general">Question générale</option>
-                <option value="visite">Venir nous visiter</option>
-                <option value="priere">Demande de prière</option>
-                <option value="pastoral">Demande pastorale (entretien)</option>
-                <option value="autre">Autre</option>
+                <option value="" class="dark:bg-ink-950">Sélectionnez une option...</option>
+                <option value="general" class="dark:bg-ink-950">Question générale</option>
+                <option value="visite" class="dark:bg-ink-950">Venir nous visiter</option>
+                <option value="priere" class="dark:bg-ink-950">Demande de prière</option>
+                <option value="pastoral" class="dark:bg-ink-950">Demande d'entretien pastoral</option>
+                <option value="autre" class="dark:bg-ink-950">Autre demande</option>
               </select>
             </div>
 
             <div>
               <label
                 for="message"
-                class="block text-sm font-medium text-ink-800 dark:text-ink-200"
+                class="block text-xs font-semibold uppercase tracking-wider text-ink-700 dark:text-ink-200"
               >
                 Votre message *
               </label>
@@ -118,161 +119,125 @@ export const prerender = true;
                 id="message"
                 name="message"
                 required
-                rows="6"
+                rows="5"
                 minlength="10"
                 maxlength="5000"
-                placeholder="Parlez-nous de votre demande..."
-                class="mt-1.5 w-full rounded-xl border border-sand-200 bg-white px-4 py-3 text-sm text-ink-900 placeholder:text-ink-400 transition focus:border-terracotta-500 focus:outline-none focus:ring-2 focus:ring-terracotta-500/20 dark:border-ink-800 dark:bg-ink-900 dark:text-ink-50"
+                placeholder="Écrivez votre message ici..."
+                class="input-editorial mt-1 resize-y"
               ></textarea>
-              <p class="mt-2 text-xs text-ink-500 dark:text-ink-400">
+              <p class="mt-2 text-[10px] text-ink-400 dark:text-ink-500 uppercase tracking-wider">
                 <span data-char-count>0</span> / 5000 caractères
               </p>
             </div>
 
-            <div class="rounded-xl bg-sand-100 p-4 text-xs text-ink-600 dark:bg-ink-900 dark:text-ink-400">
+            <div class="border-t border-b border-editorial py-5 text-xs text-ink-600 dark:text-ink-400">
               <p>
-                <strong class="font-medium text-ink-800 dark:text-ink-200">Confidentialité :</strong> vos données ne seront utilisées que pour vous répondre. Aucun partage à des tiers, aucune lettre commerciale.
+                <strong class="font-medium text-ink-800 dark:text-ink-200">Confidentialité :</strong> Les informations recueillies sur ce formulaire sont uniquement destinées au traitement de votre demande par l'équipe d'animation. Elles ne sont ni vendues ni cédées à des tiers.
               </p>
             </div>
 
-            <div class="flex flex-wrap items-center gap-4 pt-2">
+            <div class="flex flex-wrap items-center gap-6 pt-2">
               <button
                 type="submit"
-                class="group inline-flex items-center gap-2 rounded-full bg-terracotta-600 px-7 py-3.5 text-base font-medium text-white shadow-soft-md transition-all duration-300 hover:bg-terracotta-700 hover:shadow-soft-lg hover:-translate-y-0.5 dark:bg-terracotta-500 dark:text-ink-950 dark:hover:bg-terracotta-400"
+                class="inline-flex h-12 items-center gap-2 rounded-none bg-ink-900 px-8 text-xs font-semibold uppercase tracking-[0.15em] text-white hover:bg-terracotta-700 transition-colors duration-200 dark:bg-ink-100 dark:text-ink-950 dark:hover:bg-terracotta-400"
               >
                 Envoyer le message
-                <svg
-                  class="h-4 w-4 transition-transform group-hover:translate-x-0.5"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="2"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  aria-hidden="true"
-                >
-                  <path d="M5 12h14"></path>
-                  <path d="m12 5 7 7-7 7"></path>
-                </svg>
+                <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
               </button>
 
-              <p data-form-result class="hidden text-sm" role="status" aria-live="polite"></p>
+              <p data-form-result class="hidden text-sm font-medium" role="status" aria-live="polite"></p>
             </div>
           </form>
         </div>
 
-        <!-- Contact info sidebar -->
-        <aside class="lg:col-span-5">
+        <!-- Sidebar Info (Right 5 Cols) -->
+        <aside class="space-y-8 lg:col-span-5 lg:border-l border-editorial lg:pl-10">
+          
+          <!-- Quick contact entries -->
           <div class="space-y-6">
-            <!-- Phone -->
-            <a
-              href={`tel:${church.contact.phoneE164}`}
-              class="group flex items-start gap-4 rounded-3xl border border-sand-200 bg-white p-6 transition-all hover:-translate-y-0.5 hover:border-sand-300 hover:shadow-soft-md dark:border-ink-800 dark:bg-ink-900"
-            >
-              <div class="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-terracotta-100 text-terracotta-700 dark:bg-terracotta-950/40 dark:text-terracotta-300">
-                <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                  <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>
-                </svg>
-              </div>
-              <div>
-                <p class="text-xs font-medium uppercase tracking-wide text-ink-500 dark:text-ink-400">Téléphone</p>
-                <p class="mt-1 font-display text-xl font-medium text-ink-900 dark:text-ink-50">
-                  {church.contact.phone}
-                </p>
-                <p class="mt-0.5 text-xs text-ink-500 dark:text-ink-400">Cliquez pour appeler</p>
-              </div>
-            </a>
+            <div>
+              <p class="text-xs font-semibold uppercase tracking-[0.2em] text-ink-500 dark:text-ink-450">
+                Téléphone de l'accueil
+              </p>
+              <a
+                href={`tel:${church.contact.phoneE164}`}
+                class="mt-1.5 inline-block font-display text-xl font-medium text-ink-900 hover:text-terracotta-700 dark:text-ink-50 dark:hover:text-terracotta-300 transition-colors"
+              >
+                {church.contact.phone}
+              </a>
+              <p class="mt-1 text-xs text-ink-550 dark:text-ink-400">
+                Ligne fixe. En cas d'absence, laissez un message vocal.
+              </p>
+            </div>
 
-            <!-- Address -->
-            <div class="rounded-3xl border border-sand-200 bg-white p-6 dark:border-ink-800 dark:bg-ink-900">
-              <div class="flex items-start gap-4">
-                <div class="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-sage-100 text-sage-700 dark:bg-sage-950/40 dark:text-sage-300">
-                  <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                    <path d="M20 10c0 7-8 13-8 13s-8-6-8-13a8 8 0 0 1 16 0Z"/>
-                    <circle cx="12" cy="10" r="3"/>
-                  </svg>
+            <div class="border-t border-editorial pt-6">
+              <p class="text-xs font-semibold uppercase tracking-[0.2em] text-ink-500 dark:text-ink-450">
+                Adresse postale & Culte
+              </p>
+              <address class="mt-2 not-italic text-sm text-ink-800 dark:text-ink-200 space-y-1">
+                <p class="font-medium text-ink-900 dark:text-ink-50">Centre Évangélique Les Cèdres</p>
+                <p>{church.address.street}</p>
+                <p>{church.address.postalCode} {church.address.city}</p>
+              </address>
+              <p class="mt-3 text-xs text-ink-550 dark:text-ink-400">
+                Rejoignez-nous tous les dimanches matin à 10h30.
+              </p>
+            </div>
+
+            <!-- Transport details -->
+            <div class="border-t border-editorial pt-6">
+              <p class="text-xs font-semibold uppercase tracking-[0.2em] text-ink-500 dark:text-ink-450">
+                Itinéraires et Transports
+              </p>
+              <div class="mt-3 space-y-4 text-xs text-ink-700 dark:text-ink-300">
+                <div>
+                  <span class="font-bold text-terracotta-700 dark:text-terracotta-300 mr-2">[DIMANCHE]</span>
+                  <span>{church.transport.sunday}</span>
                 </div>
                 <div>
-                  <p class="text-xs font-medium uppercase tracking-wide text-ink-500 dark:text-ink-400">Adresse</p>
-                  <address class="mt-1 not-italic text-ink-900 dark:text-ink-50">
-                    Église Évangélique Baptiste<br/>
-                    {church.address.street}<br/>
-                    {church.address.postalCode} {church.address.city}
-                  </address>
-                  <a
-                    href={church.address.googleMapsDirections}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    class="mt-3 inline-flex items-center gap-1.5 text-sm font-medium text-terracotta-700 hover:text-terracotta-800 dark:text-terracotta-300"
-                  >
-                    Itinéraire Google Maps
-                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true">
-                      <path d="M7 7h10v10"/>
-                      <path d="M7 17 17 7"/>
-                    </svg>
-                  </a>
+                  <span class="font-bold text-sage-700 dark:text-sage-300 mr-2">[SEMAINE]</span>
+                  <span>{church.transport.weekday}</span>
+                </div>
+                <div>
+                  <span class="font-bold text-ink-500 mr-2">[ALTERNATIVE]</span>
+                  <span>{church.transport.alternative}</span>
                 </div>
               </div>
             </div>
 
-            <!-- Transport -->
-            <div class="rounded-3xl border border-sand-200 bg-white p-6 dark:border-ink-800 dark:bg-ink-900">
-              <p class="text-xs font-medium uppercase tracking-wide text-ink-500 dark:text-ink-400">
-                Venir en transports
-              </p>
-              <div class="mt-3 space-y-3 text-sm text-ink-700 dark:text-ink-300">
-                <p class="flex items-start gap-2">
-                  <span class="mt-0.5 inline-flex h-5 items-center rounded bg-sage-100 px-1.5 text-xs font-bold text-sage-800 dark:bg-sage-950/40 dark:text-sage-300">DIM</span>
-                  <span>{church.transport.sunday}</span>
-                </p>
-                <p class="flex items-start gap-2">
-                  <span class="mt-0.5 inline-flex h-5 items-center rounded bg-sand-200 px-1.5 text-xs font-bold text-ink-800 dark:bg-ink-800 dark:text-ink-300">SEM</span>
-                  <span>{church.transport.weekday}</span>
-                </p>
-                <p class="flex items-start gap-2 border-t border-sand-200 pt-3 dark:border-ink-800">
-                  <span class="mt-0.5 inline-flex h-5 items-center rounded bg-terracotta-100 px-1.5 text-xs font-bold text-terracotta-800 dark:bg-terracotta-950/40 dark:text-terracotta-300">ALT</span>
-                  <span>{church.transport.alternative}</span>
-                </p>
-              </div>
-            </div>
-
-            <!-- Sunday service info -->
-            <div class="rounded-3xl bg-gradient-to-br from-terracotta-600 to-terracotta-700 p-6 text-white shadow-soft-md dark:from-terracotta-700 dark:to-terracotta-800">
-              <p class="text-xs font-medium uppercase tracking-wide text-terracotta-100">
-                Culte hebdomadaire
-              </p>
-              <p class="mt-2 font-display text-2xl font-medium">
-                Dimanche · 10h30
-              </p>
-              <p class="mt-2 text-sm text-terracotta-50">
-                Ouvert à tous, sans inscription. Garderie disponible pour les moins de 3 ans.
+            <!-- Response time expectations -->
+            <div class="border-t border-editorial pt-6 text-xs text-ink-500 dark:text-ink-400">
+              <p>
+                ✦ Nous lisons les courriels régulièrement et nous efforçons d'y répondre sous 24h à 48h (jours ouvrés).
               </p>
             </div>
           </div>
+
         </aside>
       </div>
     </Container>
   </section>
 
-  <!-- ============ MAP ============ -->
-  <section class="pb-20">
-    <Container size="wide">
-      <div class="overflow-hidden rounded-3xl border border-sand-200 shadow-soft-md dark:border-ink-800">
+  <!-- Interactive Map section -->
+  <section class="pb-20 bg-grain">
+    <Container size="default">
+      <div class="overflow-hidden border border-editorial">
         <iframe
           src={church.address.googleMapsEmbed}
           width="100%"
           height="450"
           style="border:0;"
-          allowfullscreen
+          allowfullscreen=""
           loading="lazy"
           referrerpolicy="no-referrer-when-downgrade"
-          title="Carte de l'Église Évangélique Baptiste de Massy"
-          class="block w-full"
+          title="Carte interactive de l'EEB Massy"
+          class="block"
         ></iframe>
       </div>
     </Container>
   </section>
 
+  <!-- Contact Form client-side handling JS -->
   <script>
     function setupContactForm() {
       const form = document.getElementById('contact-form') as HTMLFormElement | null;
@@ -282,14 +247,14 @@ export const prerender = true;
       const csrfInput = document.querySelector<HTMLInputElement>('[data-csrf-token]');
       if (!form || !result) return;
 
-      // Char count
+      // Message Char Count
       if (messageEl && charCount) {
         messageEl.addEventListener('input', () => {
           charCount.textContent = String(messageEl.value.length);
         });
       }
 
-      // Fetch CSRF
+      // CSRF request
       fetch('/api/csrf')
         .then((r) => r.json())
         .then((d) => {
@@ -300,9 +265,10 @@ export const prerender = true;
       form.addEventListener('submit', async (e) => {
         e.preventDefault();
         const formData = Object.fromEntries(new FormData(form).entries());
-        result.className = 'text-sm text-ink-600 dark:text-ink-400';
+        
+        result.className = 'text-xs font-semibold uppercase tracking-wider text-ink-500';
         result.classList.remove('hidden');
-        result.textContent = 'Envoi en cours…';
+        result.textContent = 'Envoi du message...';
 
         try {
           const res = await fetch('/api/contact', {
@@ -311,18 +277,18 @@ export const prerender = true;
             body: JSON.stringify(formData),
           });
           const data = await res.json();
-          if (data.ok) {
-            result.className = 'text-sm text-sage-700 dark:text-sage-300';
+          if (data.success || data.ok) {
+            result.className = 'text-sm font-medium text-sage-700 dark:text-sage-400';
             result.textContent = '✓ Message envoyé ! Nous vous répondrons rapidement.';
             form.reset();
             if (charCount) charCount.textContent = '0';
           } else {
-            result.className = 'text-sm text-terracotta-700 dark:text-terracotta-300';
-            result.textContent = data.error || 'Une erreur est survenue. Réessayez plus tard.';
+            result.className = 'text-sm font-medium text-terracotta-700 dark:text-terracotta-400';
+            result.textContent = data.error || 'Erreur lors de l\'envoi. Réessayez.';
           }
         } catch (err) {
-          result.className = 'text-sm text-terracotta-700 dark:text-terracotta-300';
-          result.textContent = 'Erreur réseau. Vérifiez votre connexion.';
+          result.className = 'text-sm font-medium text-terracotta-700 dark:text-terracotta-400';
+          result.textContent = 'Erreur de connexion. Vérifiez votre réseau.';
         }
       });
     }

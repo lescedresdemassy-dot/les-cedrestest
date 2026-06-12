@@ -3,6 +3,7 @@
  * Bouton — variantes : primary, secondary, ghost, link
  * Polymorphique : <a> si href présent, <button> sinon.
  * Accessible : focus visible, touch target 44px+.
+ * Design : Architecture sharp (angles droits), contraste élevé, sans effet SaaS.
  */
 
 interface Props {
@@ -37,40 +38,37 @@ const Element = href ? 'a' : 'button';
 
 const baseClasses = [
   'group relative inline-flex items-center justify-center gap-2',
-  'font-medium tracking-tight',
-  'transition-all duration-300 ease-out-expo',
-  'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-terracotta-500 focus-visible:ring-offset-2 focus-visible:ring-offset-sand-50 dark:focus-visible:ring-offset-ink-950',
+  'font-medium tracking-tight uppercase text-xs tracking-[0.15em]',
+  'transition-all duration-200',
+  'focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-terracotta-600 focus-visible:ring-offset-1 focus-visible:ring-offset-sand-50 dark:focus-visible:ring-offset-ink-950',
   'disabled:cursor-not-allowed disabled:opacity-50',
   fullWidth ? 'w-full' : '',
 ];
 
 const variantClasses = {
   primary: [
-    'rounded-full bg-terracotta-600 text-white shadow-soft-md',
-    'hover:bg-terracotta-700 hover:shadow-soft-lg hover:-translate-y-0.5',
-    'active:translate-y-0 active:shadow-soft',
-    'dark:bg-terracotta-500 dark:hover:bg-terracotta-400 dark:text-ink-950',
+    'rounded-none bg-ink-900 text-white dark:bg-ink-100 dark:text-ink-950',
+    'hover:bg-terracotta-700 dark:hover:bg-terracotta-400 hover:text-white',
   ],
   secondary: [
-    'rounded-full border border-ink-900/15 bg-white/80 text-ink-900 backdrop-blur',
-    'hover:bg-white hover:border-ink-900/25 hover:-translate-y-0.5 hover:shadow-soft',
-    'dark:border-ink-50/15 dark:bg-ink-900/80 dark:text-ink-50 dark:hover:bg-ink-800',
+    'rounded-none border border-ink-900 bg-transparent text-ink-900 dark:border-ink-100 dark:text-ink-100',
+    'hover:bg-ink-900 hover:text-white dark:hover:bg-ink-100 dark:hover:text-ink-950',
   ],
   ghost: [
-    'rounded-full text-ink-800 hover:bg-sand-100',
-    'dark:text-ink-100 dark:hover:bg-ink-800',
+    'rounded-none text-ink-800 hover:bg-sand-100',
+    'dark:text-ink-200 dark:hover:bg-ink-900',
   ],
   link: [
     'text-terracotta-700 underline-offset-4 hover:underline hover:text-terracotta-800',
     'dark:text-terracotta-300 dark:hover:text-terracotta-200',
-    'rounded p-0',
+    'p-0 rounded-none inline-flex items-center gap-1.5 normal-case font-normal text-sm tracking-normal',
   ],
 };
 
 const sizeClasses = {
-  sm: variant === 'link' ? 'text-sm' : 'h-10 px-4 text-sm',
-  md: variant === 'link' ? 'text-base' : 'h-12 px-6 text-base',
-  lg: variant === 'link' ? 'text-lg' : 'h-14 px-8 text-base',
+  sm: variant === 'link' ? '' : 'h-10 px-4',
+  md: variant === 'link' ? '' : 'h-12 px-6',
+  lg: variant === 'link' ? '' : 'h-14 px-8',
 };
 
 const allClasses = [
@@ -98,13 +96,13 @@ const externalProps =
 >
   {
     icon && iconPosition === 'left' && (
-      <span class="inline-flex shrink-0 transition-transform duration-300 group-hover:-translate-x-0.5">
+      <span class="inline-flex shrink-0">
         <slot name="icon-left">
           {icon === 'arrow' && (
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12H5"/><path d="m12 19-7-7 7-7"/></svg>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12H5"/><path d="m12 19-7-7 7-7"/></svg>
           )}
           {icon === 'play' && (
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>
           )}
         </slot>
       </span>
@@ -115,28 +113,28 @@ const externalProps =
 
   {
     icon && iconPosition === 'right' && (
-      <span class="inline-flex shrink-0 transition-transform duration-300 group-hover:translate-x-0.5">
+      <span class="inline-flex shrink-0 transition-transform duration-200 group-hover:translate-x-0.5">
         <slot name="icon-right">
           {icon === 'arrow' && (
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
           )}
           {icon === 'play' && (
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>
           )}
           {icon === 'mail' && (
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="20" height="16" x="2" y="4" rx="0"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
           )}
           {icon === 'phone' && (
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
           )}
           {icon === 'calendar' && (
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="18" height="18" x="3" y="4" rx="2" ry="2"/><line x1="16" x2="16" y1="2" y2="6"/><line x1="8" x2="8" y1="2" y2="6"/><line x1="3" x2="21" y1="10" y2="10"/></svg>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="18" height="18" x="3" y="4" rx="0" ry="0"/><line x1="16" x2="16" y1="2" y2="6"/><line x1="8" x2="8" y1="2" y2="6"/><line x1="3" x2="21" y1="10" y2="10"/></svg>
           )}
           {icon === 'pin' && (
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 10c0 7-8 13-8 13s-8-6-8-13a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 10c0 7-8 13-8 13s-8-6-8-13a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>
           )}
           {icon === 'youtube' && (
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
           )}
         </slot>
       </span>

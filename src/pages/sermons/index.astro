@@ -20,15 +20,16 @@ const series = getAllSeries();
 const years = Array.from(
   new Set(sermons.map((s) => s.date.substring(0, 4)))
 ).sort((a, b) => b.localeCompare(a));
+
 export const prerender = true;
 ---
 
 <PageLayout
-  title="Prédications — Tous les enseignements bibliques en vidéo"
-  description="Retrouvez toutes nos prédications en vidéo : enseignements bibliques, séries thématiques, fêtes chrétiennes. Plus de 30 prédications disponibles."
-  eyebrow="Prédications"
+  title="Prédications — Enseignements bibliques en vidéo"
+  description="Parcourez notre bibliothèque d'enseignements bibliques : vidéos de culte, thématiques de rentrée, et messages d'espérance."
+  eyebrow="Bibliothèque"
   pageTitle="Toutes nos prédications"
-  pageLead={`${sermons.length} enseignements bibliques en vidéo, par notre pasteur et nos prédicateurs invités. Disponibles à la demande, ou directement sur notre chaîne YouTube.`}
+  pageLead={`${sermons.length} enseignements à écouter en vidéo. Retrouvez ici nos messages dominicaux, classés par orateur, thème ou série biblique.`}
 >
   <slot name="hero-extra">
     <div class="mt-8 flex flex-wrap gap-3">
@@ -39,7 +40,7 @@ export const prerender = true;
         external
         icon="youtube"
       >
-        Playlist YouTube complète
+        Playlist YouTube
       </Button>
       <Button
         href={church.social.youtube.channel}
@@ -47,28 +48,43 @@ export const prerender = true;
         size="md"
         external
       >
-        Chaîne YouTube EEB Massy
+        Chaîne YouTube de l'église
       </Button>
     </div>
   </slot>
 
-  <!-- ============ FEATURED ============ -->
-  <section class="py-12 md:py-16">
+  <!-- ============ FEATURED SERMON SECTION ============ -->
+  <section class="py-16 md:py-24 border-b border-editorial bg-grain">
     <Container size="default">
+      <div class="mb-10">
+        <p class="text-xs font-semibold uppercase tracking-[0.2em] text-terracotta-700 dark:text-terracotta-300">
+          À la une
+        </p>
+      </div>
       <SermonCard sermon={featured} featured={true} />
     </Container>
   </section>
 
-  <!-- ============ FILTERS + GRID ============ -->
-  <section class="bg-sand-50 py-16 dark:bg-ink-950 md:py-20">
+  <!-- ============ FILTER BAR & GRID ============ -->
+  <section class="py-16 md:py-24 bg-grain">
     <Container size="default">
-      <!-- Toolbar -->
-      <div class="mb-10 flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
-        <div class="flex-1">
+      
+      <!-- Custom Typographic Filter Bar (No rounded search box or templates) -->
+      <div class="mb-16 flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between border-b border-editorial pb-10">
+        
+        <!-- Search Input -->
+        <div class="w-full lg:max-w-md">
           <label for="sermon-search" class="sr-only">Rechercher une prédication</label>
-          <div class="relative max-w-md">
+          <div class="relative">
+            <input
+              type="search"
+              id="sermon-search"
+              placeholder="Rechercher par titre, texte biblique, orateur..."
+              class="input-editorial pl-2 pr-10"
+              data-sermon-search
+            />
             <svg
-              class="pointer-events-none absolute left-4 top-1/2 h-5 w-5 -translate-y-1/2 text-ink-400"
+              class="absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 text-ink-400"
               viewBox="0 0 24 24"
               fill="none"
               stroke="currentColor"
@@ -80,93 +96,76 @@ export const prerender = true;
               <circle cx="11" cy="11" r="8"></circle>
               <path d="m21 21-4.3-4.3"></path>
             </svg>
-            <input
-              type="search"
-              id="sermon-search"
-              placeholder="Rechercher : titre, prédicateur, série..."
-              class="w-full rounded-full border border-sand-200 bg-white py-3 pl-12 pr-4 text-sm text-ink-900 placeholder:text-ink-400 focus:border-terracotta-500 focus:outline-none focus:ring-2 focus:ring-terracotta-500/20 dark:border-ink-800 dark:bg-ink-900 dark:text-ink-50"
-              data-sermon-search
-            />
           </div>
         </div>
 
-        <div class="flex flex-wrap gap-2">
+        <!-- Filter Selects -->
+        <div class="flex flex-wrap gap-4">
           <select
-            class="rounded-full border border-sand-200 bg-white px-4 py-2.5 text-sm text-ink-700 focus:border-terracotta-500 focus:outline-none focus:ring-2 focus:ring-terracotta-500/20 dark:border-ink-800 dark:bg-ink-900 dark:text-ink-300"
+            class="bg-transparent border-b border-editorial py-2.5 text-xs font-semibold uppercase tracking-wider text-ink-700 focus:outline-none focus:border-terracotta-500 dark:text-ink-300"
             data-sermon-filter="series"
             aria-label="Filtrer par série"
           >
-            <option value="">Toutes les séries</option>
-            {series.map((s) => <option value={s}>{s}</option>)}
+            <option value="" class="dark:bg-ink-950">Toutes les séries</option>
+            {series.map((s) => <option value={s} class="dark:bg-ink-950">{s}</option>)}
           </select>
 
           <select
-            class="rounded-full border border-sand-200 bg-white px-4 py-2.5 text-sm text-ink-700 focus:border-terracotta-500 focus:outline-none focus:ring-2 focus:ring-terracotta-500/20 dark:border-ink-800 dark:bg-ink-900 dark:text-ink-300"
+            class="bg-transparent border-b border-editorial py-2.5 text-xs font-semibold uppercase tracking-wider text-ink-700 focus:outline-none focus:border-terracotta-500 dark:text-ink-300"
             data-sermon-filter="speaker"
             aria-label="Filtrer par prédicateur"
           >
-            <option value="">Tous les prédicateurs</option>
-            {speakers.map((s) => <option value={s}>{s}</option>)}
+            <option value="" class="dark:bg-ink-950">Tous les prédicateurs</option>
+            {speakers.map((s) => <option value={s} class="dark:bg-ink-950">{s}</option>)}
           </select>
 
           <select
-            class="rounded-full border border-sand-200 bg-white px-4 py-2.5 text-sm text-ink-700 focus:border-terracotta-500 focus:outline-none focus:ring-2 focus:ring-terracotta-500/20 dark:border-ink-800 dark:bg-ink-900 dark:text-ink-300"
+            class="bg-transparent border-b border-editorial py-2.5 text-xs font-semibold uppercase tracking-wider text-ink-700 focus:outline-none focus:border-terracotta-500 dark:text-ink-300"
             data-sermon-filter="year"
             aria-label="Filtrer par année"
           >
-            <option value="">Toutes les années</option>
-            {years.map((y) => <option value={y}>{y}</option>)}
+            <option value="" class="dark:bg-ink-950">Toutes les années</option>
+            {years.map((y) => <option value={y} class="dark:bg-ink-950">{y}</option>)}
           </select>
         </div>
       </div>
 
-      <!-- Empty state (hidden by default, shown by JS) -->
+      <!-- Empty State -->
       <div
         data-sermon-empty
-        class="hidden rounded-3xl border border-dashed border-sand-300 bg-white p-12 text-center dark:border-ink-700 dark:bg-ink-900"
+        class="hidden border border-editorial p-16 text-center bg-grain"
       >
-        <svg
-          class="mx-auto h-12 w-12 text-ink-400"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          stroke-width="1.5"
-          aria-hidden="true"
-        >
-          <circle cx="11" cy="11" r="8"></circle>
-          <path d="m21 21-4.3-4.3"></path>
-        </svg>
-        <h3 class="mt-4 font-display text-xl font-medium text-ink-900 dark:text-ink-50">
-          Aucune prédication ne correspond à votre recherche
+        <h3 class="font-display text-xl font-light text-ink-900 dark:text-ink-50">
+          Aucun résultat
         </h3>
-        <p class="mt-2 text-sm text-ink-600 dark:text-ink-400">
-          Essayez d'élargir vos filtres ou de modifier vos termes.
+        <p class="mt-4 text-sm text-ink-500 dark:text-ink-400 max-w-sm mx-auto">
+          Nous n'avons trouvé aucune prédication correspondant à ces critères. Essayez de simplifier votre recherche.
         </p>
       </div>
 
-      <!-- Grid -->
+      <!-- Sermon Grid -->
       <div
-        class="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3"
+        class="grid grid-cols-1 gap-x-8 gap-y-16 sm:grid-cols-2 lg:grid-cols-3"
         data-sermon-grid
       >
-        {
-          otherSermons.map((sermon) => (
-            <div
-              data-sermon-item
-              data-sermon-title={sermon.title.toLowerCase()}
-              data-sermon-speaker={sermon.speaker}
-              data-sermon-series={sermon.series ?? ''}
-              data-sermon-year={sermon.date.substring(0, 4)}
-              data-sermon-scripture={sermon.scripture?.toLowerCase() ?? ''}
-            >
-              <SermonCard sermon={sermon} />
-            </div>
-          ))
-        }
+        {otherSermons.map((sermon) => (
+          <div
+            data-sermon-item
+            data-sermon-title={sermon.title.toLowerCase()}
+            data-sermon-speaker={sermon.speaker}
+            data-sermon-series={sermon.series ?? ''}
+            data-sermon-year={sermon.date.substring(0, 4)}
+            data-sermon-scripture={sermon.scripture?.toLowerCase() ?? ''}
+          >
+            <SermonCard sermon={sermon} />
+          </div>
+        ))}
       </div>
+
     </Container>
   </section>
 
+  <!-- JS search client-side script -->
   <script>
     function setupSermonFilters() {
       const search = document.querySelector<HTMLInputElement>(

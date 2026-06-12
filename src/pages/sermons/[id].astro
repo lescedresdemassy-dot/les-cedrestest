@@ -41,6 +41,7 @@ const schemaData = {
     },
   },
 };
+
 export const prerender = true;
 ---
 
@@ -50,151 +51,129 @@ export const prerender = true;
   schema="event"
   schemaData={schemaData}
 >
-  <!-- ============ HERO ============ -->
-  <section
-    class="relative pb-12 pt-12 md:pt-20"
-    style="background-image: var(--gradient-hero);"
-  >
+  <!-- ============ HERO DETAILS ============ -->
+  <section class="relative pt-12 pb-10 border-b border-editorial bg-grain">
     <Container size="default">
-      <!-- Breadcrumb -->
+      
+      <!-- Ariane -->
       <nav aria-label="Fil d'Ariane" class="mb-8">
-        <ol class="flex items-center gap-2 text-sm text-ink-500 dark:text-ink-400">
+        <ol class="flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-ink-400 dark:text-ink-500">
           <li>
-            <a href="/" class="hover:text-terracotta-700 dark:hover:text-terracotta-300">
-              Accueil
-            </a>
+            <a href="/" class="hover:text-terracotta-700 dark:hover:text-terracotta-300">Accueil</a>
           </li>
-          <li class="opacity-60">/</li>
+          <li class="opacity-40">/</li>
           <li>
-            <a href="/sermons" class="hover:text-terracotta-700 dark:hover:text-terracotta-300">
-              Prédications
-            </a>
+            <a href="/sermons" class="hover:text-terracotta-700 dark:hover:text-terracotta-300">Prédications</a>
           </li>
-          <li class="opacity-60">/</li>
-          <li class="truncate text-ink-700 dark:text-ink-300">{sermon.title}</li>
+          <li class="opacity-40">/</li>
+          <li class="truncate text-ink-750 dark:text-ink-300">{sermon.title}</li>
         </ol>
       </nav>
 
       <div class="max-w-4xl">
-        {
-          sermon.series && (
-            <p class="mb-4 inline-flex items-center gap-3 rounded-full border border-terracotta-200/60 bg-terracotta-50/60 px-4 py-1.5 text-xs font-medium uppercase tracking-[0.15em] text-terracotta-700 backdrop-blur dark:border-terracotta-900/40 dark:bg-terracotta-950/30 dark:text-terracotta-300">
-              Série · {sermon.series}
-            </p>
-          )
-        }
+        {sermon.series && (
+          <p class="mb-5 inline-flex items-center rounded-none border border-terracotta-300/80 bg-transparent px-3 py-1 text-[10px] font-bold uppercase tracking-[0.2em] text-terracotta-700 dark:border-terracotta-900/60 dark:text-terracotta-300">
+            Série · {sermon.series}
+          </p>
+        )}
 
-        <h1
-          class="font-display text-4xl font-medium leading-[1.05] tracking-tight text-ink-900 text-balance dark:text-ink-50 sm:text-5xl md:text-6xl"
-        >
+        <h1 class="font-display text-3xl font-light leading-[1.15] tracking-tight text-ink-900 text-balance dark:text-ink-50 sm:text-4xl md:text-5xl">
           {sermon.title}
         </h1>
 
-        <div class="mt-6 flex flex-wrap items-center gap-x-6 gap-y-2 text-sm text-ink-600 dark:text-ink-400">
+        <div class="mt-6 flex flex-wrap items-center gap-x-6 gap-y-3 text-sm text-ink-600 dark:text-ink-400">
           <span class="flex items-center gap-2">
-            <svg class="h-4 w-4 text-terracotta-600 dark:text-terracotta-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+            <svg class="h-4 w-4 text-terracotta-600 dark:text-terracotta-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
             <time datetime={sermon.date}>{dateFr}</time>
           </span>
           <span class="flex items-center gap-2">
-            <svg class="h-4 w-4 text-terracotta-600 dark:text-terracotta-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-            {sermon.speaker}
+            <svg class="h-4 w-4 text-terracotta-600 dark:text-terracotta-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+            Orateur : {sermon.speaker}
           </span>
-          {
-            sermon.scripture && (
-              <span class="flex items-center gap-2">
-                <svg class="h-4 w-4 text-terracotta-600 dark:text-terracotta-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20"/></svg>
-                <span class="font-medium text-sage-700 dark:text-sage-300">{sermon.scripture}</span>
-              </span>
-            )
-          }
-          {
-            sermon.durationMinutes && (
-              <span class="flex items-center gap-2">
-                <svg class="h-4 w-4 text-terracotta-600 dark:text-terracotta-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-                {sermon.durationMinutes} minutes
-              </span>
-            )
-          }
+          {sermon.scripture && (
+            <span class="flex items-center gap-2">
+              <svg class="h-4 w-4 text-terracotta-600 dark:text-terracotta-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20"/></svg>
+              Scripture : <span class="font-medium text-terracotta-700 dark:text-terracotta-300">{sermon.scripture}</span>
+            </span>
+          )}
+          {sermon.durationMinutes && (
+            <span class="flex items-center gap-2">
+              <svg class="h-4 w-4 text-terracotta-600 dark:text-terracotta-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+              Durée : {sermon.durationMinutes} min
+            </span>
+          )}
         </div>
       </div>
+
     </Container>
   </section>
 
-  <!-- ============ VIDEO ============ -->
-  <section class="pb-20">
+  <!-- ============ PLAYER & TEXT ============ -->
+  <section class="py-16 bg-grain">
     <Container size="default">
+      
+      <!-- Video embed player frame -->
       <YouTubeEmbed videoId={sermon.youtubeId} title={sermon.title} autoload={true} />
 
-      {
-        sermon.description && (
-          <div class="mx-auto mt-12 max-w-3xl">
-            <p class="text-xs font-medium uppercase tracking-[0.15em] text-terracotta-700 dark:text-terracotta-300">
-              À propos de cette prédication
-            </p>
-            <p class="mt-4 text-lg leading-relaxed text-ink-700 dark:text-ink-300 text-pretty">
-              {sermon.description}
-            </p>
-          </div>
-        )
-      }
+      {sermon.description && (
+        <div class="mx-auto mt-16 max-w-3xl border-t border-editorial pt-10">
+          <p class="text-xs font-semibold uppercase tracking-[0.2em] text-terracotta-700 dark:text-terracotta-300">
+            Résumé de l'enseignement
+          </p>
+          <p class="mt-4 text-lg leading-relaxed text-ink-700 dark:text-ink-300 text-pretty editorial-indent">
+            {sermon.description}
+          </p>
+        </div>
+      )}
 
-      <!-- Share buttons -->
-      <div class="mx-auto mt-12 flex max-w-3xl flex-wrap items-center gap-3 border-t border-sand-200 pt-8 dark:border-ink-800">
-        <p class="text-sm font-medium text-ink-700 dark:text-ink-300">Partager :</p>
+      <!-- Share cluster -->
+      <div class="mx-auto mt-12 flex max-w-3xl flex-wrap items-center gap-3 border-t border-editorial pt-8">
+        <p class="text-xs font-semibold uppercase tracking-wider text-ink-400 dark:text-ink-500 mr-2">Partager :</p>
         <a
           href={`https://www.youtube.com/watch?v=${sermon.youtubeId}`}
           target="_blank"
           rel="noopener noreferrer"
-          class="inline-flex h-10 items-center gap-2 rounded-full border border-sand-200 bg-white px-4 text-sm font-medium text-ink-700 transition-all hover:border-terracotta-300 hover:bg-terracotta-50 hover:text-terracotta-700 dark:border-ink-800 dark:bg-ink-900 dark:text-ink-300"
+          class="inline-flex h-9 items-center gap-2 rounded-none border border-ink-900 bg-transparent px-4 text-xs font-semibold uppercase tracking-wider text-ink-900 hover:bg-ink-900 hover:text-white dark:border-ink-100 dark:text-ink-100 dark:hover:bg-ink-100 dark:hover:text-ink-950 transition-colors"
         >
-          <svg class="h-4 w-4" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-            <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
-          </svg>
-          Sur YouTube
+          Regarder sur YouTube
         </a>
         <button
           type="button"
           data-share-button
-          class="inline-flex h-10 items-center gap-2 rounded-full border border-sand-200 bg-white px-4 text-sm font-medium text-ink-700 transition-all hover:border-terracotta-300 hover:bg-terracotta-50 hover:text-terracotta-700 dark:border-ink-800 dark:bg-ink-900 dark:text-ink-300"
+          class="inline-flex h-9 items-center gap-2 rounded-none border border-ink-900 bg-transparent px-4 text-xs font-semibold uppercase tracking-wider text-ink-900 hover:bg-ink-900 hover:text-white dark:border-ink-100 dark:text-ink-100 dark:hover:bg-ink-100 dark:hover:text-ink-950 transition-colors"
         >
-          <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-            <path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/>
-            <polyline points="16 6 12 2 8 6"/>
-            <line x1="12" x2="12" y1="2" y2="15"/>
-          </svg>
           Copier le lien
         </button>
-        <span data-share-success class="hidden text-sm text-sage-700 dark:text-sage-300">✓ Copié !</span>
+        <span data-share-success class="hidden text-xs font-medium text-sage-700 dark:text-sage-300">✓ Lien copié !</span>
       </div>
+
     </Container>
   </section>
 
-  <!-- ============ RELATED ============ -->
-  {
-    related.length > 0 && (
-      <section class="border-t border-sand-200 bg-sand-50 py-20 dark:border-ink-800 dark:bg-ink-950 md:py-28">
-        <Container size="default">
-          <div class="mb-12 flex flex-wrap items-end justify-between gap-6">
-            <div>
-              <p class="text-xs font-medium uppercase tracking-[0.18em] text-terracotta-700 dark:text-terracotta-300">
-                Pour aller plus loin
-              </p>
-              <h2 class="mt-3 font-display text-3xl font-medium tracking-tight text-ink-900 dark:text-ink-50 md:text-4xl">
-                Prédications connexes
-              </h2>
-            </div>
-            <Button href="/sermons" variant="link" icon="arrow">
-              Toutes les prédications
-            </Button>
+  <!-- ============ RELATED SERMONS ============ -->
+  {related.length > 0 && (
+    <section class="border-t border-editorial bg-sand-50/50 py-20 dark:bg-ink-950/40">
+      <Container size="default">
+        <div class="mb-12 flex flex-wrap items-end justify-between gap-6">
+          <div>
+            <p class="text-xs font-semibold uppercase tracking-[0.2em] text-terracotta-700 dark:text-terracotta-300">
+              Continuer l'écoute
+            </p>
+            <h2 class="mt-3 font-display text-2xl font-medium tracking-tight text-ink-900 dark:text-ink-50 sm:text-3xl">
+              Prédications similaires
+            </h2>
           </div>
+          <Button href="/sermons" variant="link" icon="arrow">
+            Toutes les prédications
+          </Button>
+        </div>
 
-          <div class="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
-            {related.map((s) => <SermonCard sermon={s} />)}
-          </div>
-        </Container>
-      </section>
-    )
-  }
+        <div class="grid grid-cols-1 gap-x-8 gap-y-12 md:grid-cols-2 lg:grid-cols-3">
+          {related.map((s) => <SermonCard sermon={s} />)}
+        </div>
+      </Container>
+    </section>
+  )}
 
   <script>
     function setupShare() {

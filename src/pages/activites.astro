@@ -1,205 +1,262 @@
 ---
 import PageLayout from '../layouts/PageLayout.astro';
 import Container from '../components/Container.astro';
-import SectionHeading from '../components/SectionHeading.astro';
 import Button from '../components/Button.astro';
-import ActivityCard from '../components/ActivityCard.astro';
 import {
   activities,
   activityTestimonies,
-  getActivitiesByCategory,
 } from '../data/activities.ts';
 
-const categories: { id: any; label: string; intro: string }[] = [
-  {
-    id: 'dimanche',
-    label: 'Le dimanche',
-    intro:
-      'Notre temps fort hebdomadaire — la rencontre avec Dieu et la communauté.',
-  },
-  {
-    id: 'famille',
-    label: 'Pour les familles',
-    intro:
-      'Les enfants ne sont pas un public à part — ils sont au cœur de la vie de l\'église.',
-  },
-  {
-    id: 'jeunes',
-    label: 'Les jeunes',
-    intro:
-      'Un espace dédié aux 15-20 ans, où grandir dans la foi avec ses pairs.',
-  },
-  {
-    id: 'semaine',
-    label: 'En semaine',
-    intro:
-      'L\'église ne s\'arrête pas le dimanche soir — la vie communautaire se prolonge toute la semaine.',
-  },
-  {
-    id: 'biblique',
-    label: 'Études bibliques',
-    intro:
-      'Des temps dédiés pour creuser la Parole, ensemble.',
-  },
-];
+const sundayActivities = activities.filter(
+  (a) => a.category === 'dimanche' || a.category === 'famille'
+);
+
+const weeklyActivities = activities.filter(
+  (a) => a.category === 'semaine'
+);
+
+const youthActivities = activities.filter(
+  (a) => a.category === 'jeunes'
+);
+
+const bibleActivities = activities.filter(
+  (a) => a.category === 'biblique'
+);
 
 const bibleTestimonies = activityTestimonies.filter(
   (t) => t.activityId === 'bible-en-1-an'
 );
+
 export const prerender = true;
 ---
 
 <PageLayout
-  title="Activités — Nos rendez-vous hebdomadaires et réguliers"
-  description="Cultes, groupes de quartier, école du dimanche, groupe de jeunes, Bible en 1 an, repas fraternels... Découvrez la vie de notre communauté."
-  eyebrow="Nos activités"
-  pageTitle="Une vie d'église, toute la semaine"
-  pageLead="Cultes, groupes, repas fraternels, études bibliques, rencontres pour les jeunes et les seniors — l'EEB Massy vit toute la semaine. Tous sont les bienvenus, croyants ou en recherche."
+  title="Activités — Notre vie communautaire toute la semaine"
+  description="Cultes, école du dimanche, groupes de quartier, étude de la Bible, repas partagés... Découvrez tous les rendez-vous réguliers de l'EEB Massy."
+  eyebrow="Vie communautaire"
+  pageTitle="Nos activités"
+  pageLead="La vie de notre église ne se limite pas au dimanche matin. Découvrez les différents moments de rencontre, d'apprentissage et de fraternité qui rythment nos semaines."
 >
-  <!-- Highlight cards en haut -->
-  <section class="pb-12 pt-4">
+
+  <!-- ============ SECTION 1: LE DIMANCHE (CHRONOLOGICAL FLOW) ============ -->
+  <section class="py-20 md:py-24 border-b border-editorial bg-grain">
     <Container size="default">
-      <div class="grid grid-cols-1 gap-6 md:grid-cols-3">
-        {
-          [
-            { label: 'Culte', value: 'Dimanche 10h30', sub: 'Ouvert à tous, sans inscription', accent: 'terracotta' },
-            { label: 'Groupes de quartier', value: 'Mer · Jeu · Ven', sub: '20h00 ou 20h30, partout dans la région', accent: 'sage' },
-            { label: 'Jeunes 15-20 ans', value: 'Samedi soir', sub: 'Salle dédiée, ambiance détendue', accent: 'sand' },
-          ].map((stat) => {
-            const accentClasses = {
-              terracotta: 'from-terracotta-50 to-terracotta-100 dark:from-terracotta-950/30 dark:to-terracotta-900/20 text-terracotta-700 dark:text-terracotta-300',
-              sage: 'from-sage-50 to-sage-100 dark:from-sage-950/30 dark:to-sage-900/20 text-sage-700 dark:text-sage-300',
-              sand: 'from-sand-100 to-sand-200 dark:from-sand-950/30 dark:to-sand-900/20 text-sand-800 dark:text-sand-200',
-            }[stat.accent];
-            return (
-              <div class={`rounded-3xl bg-gradient-to-br ${accentClasses} p-8`}>
-                <p class="text-xs font-medium uppercase tracking-[0.15em] opacity-80">
-                  {stat.label}
-                </p>
-                <p class="mt-3 font-display text-3xl font-medium tracking-tight md:text-4xl">
-                  {stat.value}
-                </p>
-                <p class="mt-2 text-sm opacity-80">{stat.sub}</p>
-              </div>
-            );
-          })
-        }
-      </div>
-    </Container>
-  </section>
-
-  <!-- Sections par catégorie -->
-  {
-    categories.map((cat, idx) => {
-      const acts = getActivitiesByCategory(cat.id);
-      if (acts.length === 0) return null;
-
-      return (
-        <section
-          class={`section-padding-sm ${idx % 2 === 1 ? 'bg-sand-50 dark:bg-ink-950' : ''}`}
-          id={cat.id}
-        >
-          <Container size="default">
-            <SectionHeading
-              eyebrow={`Section ${String(idx + 1).padStart(2, '0')}`}
-              title={cat.label}
-              lead={cat.intro}
-              class="mb-10"
-            />
-
-            <div class="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
-              {acts.map((activity) => <ActivityCard activity={activity} />)}
-            </div>
-          </Container>
-        </section>
-      );
-    })
-  }
-
-  <!-- ============ TÉMOIGNAGES "Bible en 1 an" ============ -->
-  {
-    bibleTestimonies.length > 0 && (
-      <section class="bg-gradient-to-b from-sand-50 to-white py-20 dark:from-ink-950 dark:to-ink-900 md:py-28">
-        <Container size="default">
-          <SectionHeading
-            eyebrow="Témoignages"
-            title="« La Bible en 1 an » par ceux qui la vivent"
-            lead="Depuis plusieurs années, une quinzaine de personnes se retrouvent autour d'un brunch chaque samedi matin pour échanger sur leur lecture de la Bible. Voici leurs mots."
-            align="center"
-            class="mb-16"
-          />
-
-          <div class="grid grid-cols-1 gap-8 md:grid-cols-3">
-            {
-              bibleTestimonies.map((t, i) => (
-                <figure class="relative flex flex-col rounded-3xl border border-sand-200 bg-white p-8 dark:border-ink-800 dark:bg-ink-900">
-                  <svg
-                    class="absolute -top-5 left-8 h-10 w-10 text-terracotta-500 dark:text-terracotta-400"
-                    viewBox="0 0 24 24"
-                    fill="currentColor"
-                    aria-hidden="true"
-                  >
-                    <path d="M3 21c3 0 7-1 7-8V5c0-1.25-.756-2.017-2-2H4c-1.25 0-2 .75-2 1.972V11c0 1.25.75 2 2 2 1 0 1 0 1 1v1c0 1-1 2-2 2s-1 .008-1 1.031V20c0 1 0 1 1 1z"/>
-                    <path d="M15 21c3 0 7-1 7-8V5c0-1.25-.757-2.017-2-2h-4c-1.25 0-2 .75-2 1.972V11c0 1.25.75 2 2 2h.75c0 2.25.25 4-2.75 4v3c0 1 0 1 1 1z"/>
-                  </svg>
-                  <blockquote class="flex-1 pt-4 text-base leading-relaxed text-ink-700 dark:text-ink-300">
-                    « {t.text} »
-                  </blockquote>
-                  <figcaption class="mt-6 border-t border-sand-200 pt-4 dark:border-ink-800">
-                    <p class="font-display text-lg font-medium text-ink-900 dark:text-ink-50">
-                      {t.name}
-                    </p>
-                    <p class="text-xs uppercase tracking-wide text-ink-500 dark:text-ink-400">
-                      Participant·e
-                    </p>
-                  </figcaption>
-                </figure>
-              ))
-            }
-          </div>
-
-          <div class="mt-12 text-center">
-            <Button href="/contact" variant="primary" size="lg" icon="arrow">
-              Rejoindre la Bible en 1 an
+      <div class="grid grid-cols-1 gap-12 lg:grid-cols-12 lg:gap-16">
+        
+        <!-- Left Title (4 cols) -->
+        <div class="lg:col-span-4 lg:sticky lg:top-24 self-start">
+          <p class="text-xs font-semibold uppercase tracking-[0.2em] text-terracotta-700 dark:text-terracotta-300">
+            Dimanche aux Cèdres
+          </p>
+          <h2 class="mt-4 font-display text-4xl font-light leading-[1.05] tracking-tight text-ink-900 dark:text-ink-50 sm:text-5xl">
+            Le dimanche matin
+          </h2>
+          <p class="mt-6 text-sm leading-relaxed text-ink-600 dark:text-ink-400 editorial-indent">
+            Le dimanche est notre temps fort hebdomadaire. Toutes les tranches d'âge s'y retrouvent pour célébrer et grandir ensemble.
+          </p>
+          <div class="mt-8">
+            <Button href="/premiere-visite" variant="primary" size="md">
+              Préparer ma venue
             </Button>
           </div>
-        </Container>
-      </section>
-    )
-  }
-
-  <!-- ============ CTA — Groupes ============ -->
-  <section class="py-20 md:py-28">
-    <Container size="default">
-      <div class="relative overflow-hidden rounded-[2.5rem] bg-gradient-to-br from-sage-700 via-sage-600 to-sage-800 px-8 py-16 text-white shadow-soft-xl md:px-16 md:py-20">
-        <div class="pointer-events-none absolute -bottom-12 -right-12 opacity-20" aria-hidden="true">
-          <svg width="400" height="400" viewBox="0 0 40 40" fill="currentColor">
-            <path d="M20 4 L29 16 L26 16 L32 26 L25 26 L28 32 L12 32 L15 26 L8 26 L14 16 L11 16 Z"/>
-          </svg>
         </div>
 
-        <div class="relative max-w-2xl">
-          <p class="mb-4 inline-flex items-center gap-3 text-xs font-medium uppercase tracking-[0.18em] text-sage-100">
-            <span class="h-px w-8 bg-sage-200" aria-hidden="true"></span>
-            Groupes de quartier
-          </p>
-          <h2 class="font-display text-3xl font-medium tracking-tight text-balance sm:text-4xl md:text-5xl">
-            Trouvez un groupe près de chez vous
-          </h2>
-          <p class="mt-6 text-lg leading-relaxed text-sage-50 text-pretty">
-            8 à 12 personnes en moyenne, dans une ambiance simple et chaleureuse, pour prier, louer Dieu et étudier la Bible ensemble. Plusieurs groupes existent à Massy et dans les environs.
-          </p>
-          <div class="mt-10">
-            <a
-              href="/groupes"
-              class="inline-flex h-12 items-center gap-2 rounded-full bg-white px-7 text-base font-medium text-sage-700 shadow-soft-md transition-all duration-300 hover:bg-sand-50 hover:shadow-soft-lg hover:-translate-y-0.5"
-            >
-              Voir la carte des groupes
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
-            </a>
+        <!-- Chronological Timeline Items (8 cols) -->
+        <div class="lg:col-span-8 border-t border-editorial">
+          <div class="divide-y divide-editorial">
+            {sundayActivities.map((act) => (
+              <div class="py-8 grid grid-cols-1 sm:grid-cols-12 sm:gap-8">
+                <div class="sm:col-span-3">
+                  <span class="text-xs font-semibold uppercase tracking-wider text-terracotta-700 dark:text-terracotta-300">
+                    {act.schedule}
+                  </span>
+                </div>
+                <div class="sm:col-span-9 mt-2 sm:mt-0">
+                  <h3 class="font-display text-lg font-medium text-ink-900 dark:text-ink-50">
+                    {act.title}
+                  </h3>
+                  <p class="mt-2 text-sm leading-relaxed text-ink-600 dark:text-ink-400">
+                    {act.description}
+                  </p>
+                  <div class="mt-4 flex flex-wrap gap-4 text-xs text-ink-400 dark:text-ink-500 uppercase tracking-wider">
+                    <span>✦ Public : {act.audience}</span>
+                    {act.location && <span>✦ Lieu : {act.location.split(',')[0]}</span>}
+                  </div>
+                </div>
+              </div>
+            ))}
           </div>
         </div>
+
       </div>
     </Container>
   </section>
+
+  <!-- ============ SECTION 2: EN SEMAINE (NEIGHBORHOOD GROUPS) ============ -->
+  <section class="py-20 md:py-28 border-b border-editorial bg-grain">
+    <Container size="default">
+      <div class="grid grid-cols-1 gap-12 lg:grid-cols-12 lg:gap-16 items-start">
+        
+        <!-- Description block (7 cols) -->
+        <div class="lg:col-span-7">
+          <p class="text-xs font-semibold uppercase tracking-[0.2em] text-terracotta-700 dark:text-terracotta-300">
+            Groupes de quartier
+          </p>
+          <h2 class="mt-4 font-display text-4xl font-light leading-[1.05] tracking-tight text-ink-900 dark:text-ink-50 sm:text-5xl">
+            Tisser des liens fraternels dans les environs
+          </h2>
+          <p class="mt-6 text-base leading-relaxed text-ink-700 dark:text-ink-300 editorial-indent">
+            En milieu de semaine, la vie communautaire continue dans des petits groupes de <strong class="font-medium">8 à 12 personnes</strong>, hébergés dans les foyers de membres. Ces groupes se réunissent à Massy, Palaiseau, Antony, Wissous ou Igny pour prier, partager et étudier ensemble la Bible de manière simple et amicale.
+          </p>
+          <div class="mt-8">
+            <Button href="/groupes" variant="primary" size="md">
+              Voir la carte des groupes
+            </Button>
+          </div>
+        </div>
+
+        <!-- Asymmetric text summary table (Right 5 cols) -->
+        <div class="lg:col-span-5 lg:border-l border-editorial lg:pl-10 lg:mt-6">
+          <h3 class="text-xs font-semibold uppercase tracking-[0.2em] text-ink-900 dark:text-ink-50 border-b border-editorial pb-3">
+            Jours et Horaires des Groupes
+          </h3>
+          <ul class="mt-6 space-y-4 text-sm">
+            <li class="flex items-center gap-3 border-b border-editorial-subtle pb-3">
+              <span class="h-1.5 w-1.5 bg-sage-500 rounded-none" />
+              <span class="font-medium text-ink-850 dark:text-ink-150">Mercredi :</span> 20h00
+            </li>
+            <li class="flex items-center gap-3 border-b border-editorial-subtle pb-3">
+              <span class="h-1.5 w-1.5 bg-sage-500 rounded-none" />
+              <span class="font-medium text-ink-850 dark:text-ink-150">Jeudi :</span> 20h30
+            </li>
+            <li class="flex items-center gap-3">
+              <span class="h-1.5 w-1.5 bg-sage-500 rounded-none" />
+              <span class="font-medium text-ink-850 dark:text-ink-150">Vendredi :</span> 20h00
+            </li>
+          </ul>
+        </div>
+
+      </div>
+    </Container>
+  </section>
+
+  <!-- ============ SECTION 3: LES JEUNES ============ -->
+  {youthActivities.map((youth) => (
+    <section class="py-20 border-b border-editorial bg-grain">
+      <Container size="default">
+        <div class="grid grid-cols-1 gap-12 lg:grid-cols-12 lg:gap-16 items-start">
+          
+          <!-- Large typography age accent (Left 4 cols) -->
+          <div class="lg:col-span-4 border-t border-editorial pt-6">
+            <span class="text-xs uppercase tracking-[0.2em] text-terracotta-700 dark:text-terracotta-300">
+              Groupe Ado / Lycée
+            </span>
+            <p class="mt-4 font-display text-7xl font-light text-ink-900 dark:text-ink-50">
+              15 · 20
+            </p>
+            <p class="text-xs uppercase tracking-wider text-ink-400 dark:text-ink-500 font-semibold mt-1">
+              ans
+            </p>
+          </div>
+
+          <!-- Content block (8 cols) -->
+          <div class="lg:col-span-8 border-t border-editorial pt-6">
+            <p class="text-xs font-semibold uppercase tracking-[0.2em] text-terracotta-700 dark:text-terracotta-300">
+              {youth.schedule}
+            </p>
+            <h2 class="mt-3 font-display text-3xl font-light tracking-tight text-ink-900 dark:text-ink-50 sm:text-4xl">
+              {youth.title}
+            </h2>
+            <p class="mt-6 text-base leading-relaxed text-ink-700 dark:text-ink-300 editorial-indent">
+              {youth.description}
+            </p>
+            <p class="mt-3 text-xs text-ink-500 dark:text-ink-400 uppercase tracking-wider">
+              ✦ Lieu : {youth.location}
+            </p>
+            <div class="mt-8">
+              <Button href="/contact" variant="secondary" size="md">
+                Contacter les animateurs
+              </Button>
+            </div>
+          </div>
+
+        </div>
+      </Container>
+    </section>
+  ))}
+
+  <!-- ============ SECTION 4: BIBLE ET TÉMOIGNAGES (FLAT QUOTES) ============ -->
+  {bibleActivities.map((bible) => (
+    <section class="py-20 bg-grain">
+      <Container size="default">
+        <div class="space-y-16">
+          
+          <!-- Description Block -->
+          <div class="max-w-3xl">
+            <p class="text-xs font-semibold uppercase tracking-[0.2em] text-sage-700 dark:text-sage-300">
+              Étude & Brunch
+            </p>
+            <h2 class="mt-3 font-display text-4xl font-light leading-[1.05] tracking-tight text-ink-900 dark:text-ink-50 sm:text-5xl">
+              {bible.title}
+            </h2>
+            <p class="mt-6 text-base leading-relaxed text-ink-700 dark:text-ink-300 editorial-indent">
+              {bible.description}
+            </p>
+            <p class="mt-3 text-xs text-ink-500 dark:text-ink-400 uppercase tracking-wider">
+              ✦ Horaires : {bible.schedule}
+            </p>
+          </div>
+
+          <!-- Testimonies Carousel/Grid of Quotes -->
+          {bibleTestimonies.length > 0 && (
+            <div class="pt-12 border-t border-editorial">
+              <h3 class="text-xs font-semibold uppercase tracking-[0.2em] text-ink-900 dark:text-ink-50 mb-10">
+                Témoignages des lecteurs
+              </h3>
+              
+              <div class="grid grid-cols-1 gap-12 md:grid-cols-3">
+                {bibleTestimonies.map((test) => (
+                  <div class="flex flex-col justify-between border-l border-editorial-subtle pl-6">
+                    <blockquote class="font-display italic text-base leading-relaxed text-ink-700 dark:text-ink-300">
+                      « {test.text} »
+                    </blockquote>
+                    <div class="mt-6">
+                      <cite class="not-italic text-xs font-semibold uppercase tracking-wider text-ink-900 dark:text-ink-50">
+                        {test.name}
+                      </cite>
+                      <p class="text-[10px] text-ink-400 dark:text-ink-500 uppercase tracking-wider mt-0.5">
+                        Lecteur régulier
+                      </p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+
+        </div>
+      </Container>
+    </section>
+  ))}
+
+  <!-- CTA -->
+  <section class="py-24 border-t border-editorial bg-sand-50/50 dark:bg-ink-950/40">
+    <Container size="narrow" class="text-center">
+      <h2 class="font-display text-4xl font-light text-ink-900 dark:text-ink-50">
+        Une question sur nos rencontres ?
+      </h2>
+      <p class="mt-4 text-base text-ink-600 dark:text-ink-300 max-w-lg mx-auto">
+        Que vous souhaitiez nous rejoindre un dimanche matin, poser une question ou passer découvrir un groupe, nous serons ravis de vous guider.
+      </p>
+      <div class="mt-10 flex justify-center gap-4">
+        <Button href="/contact" variant="primary" size="lg">
+          Nous écrire
+        </Button>
+        <Button href="/premiere-visite" variant="secondary" size="lg">
+          Découvrir le culte
+        </Button>
+      </div>
+    </Container>
+  </section>
+
 </PageLayout>

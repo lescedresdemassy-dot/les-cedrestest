@@ -1,10 +1,10 @@
 ---
 import Logo from './Logo.astro';
 import DarkModeToggle from './DarkModeToggle.astro';
-import Button from './Button.astro';
 
 const navLinks = [
   { href: '/', label: 'Accueil' },
+  { href: '/premiere-visite', label: 'Première visite' },
   { href: '/notre-adn', label: 'Notre ADN' },
   { href: '/activites', label: 'Activités' },
   { href: '/sermons', label: 'Prédications' },
@@ -20,41 +20,39 @@ function isActive(href: string): boolean {
 
 <header
   id="site-header"
-  class="fixed inset-x-0 top-0 z-40 transition-all duration-400 ease-out-expo"
+  class="fixed inset-x-0 top-0 z-40 border-b border-ink-900/5 bg-sand-50/70 backdrop-blur-xl transition-all duration-400 ease-out-expo dark:border-ink-50/5 dark:bg-ink-950/70"
   data-scrolled="false"
 >
   <!-- Skip link accessibility -->
   <a href="#main-content" class="skip-link">Aller au contenu principal</a>
 
   <div
-    class="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 transition-all duration-400 sm:px-6 lg:px-8"
+    class="mx-auto flex h-20 max-w-7xl items-center justify-between px-4 transition-all duration-400 sm:px-6 lg:px-8"
+    id="header-inner"
   >
     <Logo />
 
     <!-- Desktop nav -->
     <nav class="hidden lg:flex" aria-label="Navigation principale">
-      <ul
-        class="flex items-center gap-1 rounded-full border border-ink-900/8 bg-white/60 px-2 py-1.5 backdrop-blur-xl backdrop-saturate-150 dark:border-ink-50/8 dark:bg-ink-900/60"
-      >
+      <ul class="flex items-center gap-8">
         {
-          navLinks.map((link) => (
+          navLinks.map((link, index) => (
             <li>
               <a
                 href={link.href}
                 class:list={[
-                  'relative inline-flex h-9 items-center rounded-full px-4 text-sm font-medium transition-colors duration-200',
+                  'relative inline-flex items-center font-sans text-[11px] uppercase tracking-[0.2em] font-medium transition-colors duration-200 py-1.5',
                   isActive(link.href)
                     ? 'text-terracotta-700 dark:text-terracotta-300'
                     : 'text-ink-700 hover:text-ink-900 dark:text-ink-300 dark:hover:text-ink-100',
                 ]}
                 aria-current={isActive(link.href) ? 'page' : undefined}
               >
-                {isActive(link.href) && (
-                  <span
-                    class="absolute inset-0 -z-10 rounded-full bg-terracotta-100/70 dark:bg-terracotta-950/40"
-                    aria-hidden="true"
-                  />
-                )}
+                {isActive(link.href) ? (
+                  <span class="mr-1 text-[9px] font-light text-terracotta-500/70">
+                    [{String(index + 1).padStart(2, '0')}]
+                  </span>
+                ) : null}
                 {link.label}
               </a>
             </li>
@@ -64,123 +62,130 @@ function isActive(href: string): boolean {
     </nav>
 
     <!-- Right cluster -->
-    <div class="flex items-center gap-2">
+    <div class="flex items-center gap-6">
       <DarkModeToggle />
-      <div class="hidden sm:block">
-        <Button href="/contact" variant="primary" size="sm" icon="arrow">
-          Nous contacter
-        </Button>
-      </div>
+      
+      <a 
+        href="/contact" 
+        class:list={[
+          'hidden sm:inline-block font-sans text-[11px] uppercase tracking-[0.2em] font-semibold border-b pb-0.5 transition-colors',
+          isActive('/contact')
+            ? 'text-terracotta-700 border-terracotta-700/40 dark:text-terracotta-300 dark:border-terracotta-300/40'
+            : 'text-ink-900 border-ink-900/20 hover:text-terracotta-700 hover:border-terracotta-700/40 dark:text-ink-50 dark:border-ink-50/20 dark:hover:text-terracotta-300 dark:hover:border-terracotta-300/40'
+        ]}
+      >
+        Nous contacter &rarr;
+      </a>
 
       <!-- Mobile menu button -->
       <button
         id="mobile-menu-button"
         type="button"
-        class="inline-flex h-10 w-10 items-center justify-center rounded-full border border-ink-900/10 bg-white/60 text-ink-800 backdrop-blur transition-colors hover:bg-white dark:border-ink-50/10 dark:bg-ink-900/60 dark:text-ink-100 dark:hover:bg-ink-900 lg:hidden"
+        class="inline-flex h-9 items-center justify-center font-sans text-[11px] uppercase tracking-[0.2em] font-semibold text-ink-900 dark:text-ink-50 lg:hidden"
         aria-label="Ouvrir le menu"
         aria-expanded="false"
         aria-controls="mobile-menu"
       >
-        <svg
-          class="h-5 w-5"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          stroke-width="2"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          aria-hidden="true"
-        >
-          <line x1="4" x2="20" y1="6" y2="6"></line>
-          <line x1="4" x2="20" y1="12" y2="12"></line>
-          <line x1="4" x2="20" y1="18" y2="18"></line>
-        </svg>
+        [ Menu ]
       </button>
     </div>
   </div>
 
-  <!-- Mobile menu — overlay full screen -->
+  <!-- Mobile menu — full screen typographic directory overlay -->
   <div
     id="mobile-menu"
-    class="invisible fixed inset-0 z-50 opacity-0 transition-all duration-300 lg:hidden"
+    class="invisible fixed inset-0 z-50 opacity-0 transition-all duration-400 ease-out-expo lg:hidden"
     aria-hidden="true"
   >
     <div
       id="mobile-menu-backdrop"
-      class="absolute inset-0 bg-ink-950/40 backdrop-blur-sm"
+      class="absolute inset-0 bg-sand-50/98 backdrop-blur-xl transition-opacity duration-300 dark:bg-ink-950/98"
     >
     </div>
 
-    <div
-      class="absolute right-0 top-0 flex h-full w-full max-w-sm flex-col bg-sand-50 shadow-soft-xl dark:bg-ink-950"
-    >
-      <div class="flex items-center justify-between px-6 py-5">
+    <div class="relative flex h-full flex-col px-6 py-6 sm:px-8">
+      <div class="flex items-center justify-between">
         <Logo />
         <button
           id="mobile-menu-close"
           type="button"
-          class="inline-flex h-10 w-10 items-center justify-center rounded-full text-ink-700 transition-colors hover:bg-sand-100 dark:text-ink-300 dark:hover:bg-ink-900"
+          class="inline-flex h-9 items-center justify-center font-sans text-[11px] uppercase tracking-[0.2em] font-semibold text-ink-900 dark:text-ink-50"
           aria-label="Fermer le menu"
         >
-          <svg
-            class="h-5 w-5"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            aria-hidden="true"
-          >
-            <path d="M18 6 6 18"></path>
-            <path d="m6 6 12 12"></path>
-          </svg>
+          [ Fermer ]
         </button>
       </div>
 
-      <nav class="flex-1 overflow-y-auto px-6 py-4" aria-label="Navigation mobile">
-        <ul class="space-y-1">
+      <nav class="flex flex-1 flex-col justify-center py-12" aria-label="Navigation mobile">
+        <ul class="divide-y divide-ink-900/10 dark:divide-ink-50/10 border-y border-ink-900/10 dark:border-ink-50/10">
           {
-            navLinks.map((link) => (
+            navLinks.map((link, index) => (
               <li>
                 <a
                   href={link.href}
-                  class:list={[
-                    'block rounded-2xl px-4 py-4 text-lg font-medium transition-colors',
-                    isActive(link.href)
-                      ? 'bg-terracotta-100 text-terracotta-800 dark:bg-terracotta-950/40 dark:text-terracotta-200'
-                      : 'text-ink-800 hover:bg-sand-100 dark:text-ink-100 dark:hover:bg-ink-900',
-                  ]}
+                  class="flex items-center justify-between py-5 sm:py-6 group"
                   aria-current={isActive(link.href) ? 'page' : undefined}
                 >
-                  {link.label}
+                  <div class="flex items-baseline gap-4">
+                    <span class="font-sans text-[10px] tracking-wider text-ink-400 dark:text-ink-600">
+                      {String(index + 1).padStart(2, '0')}
+                    </span>
+                    <span class:list={[
+                      'font-display text-2xl sm:text-3xl font-medium tracking-tight transition-colors',
+                      isActive(link.href)
+                        ? 'text-terracotta-700 dark:text-terracotta-300'
+                        : 'text-ink-900 group-hover:text-terracotta-700 dark:text-ink-100 dark:group-hover:text-terracotta-300'
+                    ]}>
+                      {link.label}
+                    </span>
+                  </div>
+                  <span class="text-lg opacity-0 group-hover:opacity-100 transition-opacity text-terracotta-700 dark:text-terracotta-300">
+                    &rarr;
+                  </span>
                 </a>
               </li>
             ))
           }
+          <li>
+            <a
+              href="/contact"
+              class="flex items-center justify-between py-5 sm:py-6 group"
+            >
+              <div class="flex items-baseline gap-4">
+                <span class="font-sans text-[10px] tracking-wider text-ink-400 dark:text-ink-600">
+                  {String(navLinks.length + 1).padStart(2, '0')}
+                </span>
+                <span class:list={[
+                  'font-display text-2xl sm:text-3xl font-medium tracking-tight transition-colors',
+                  isActive('/contact')
+                    ? 'text-terracotta-700 dark:text-terracotta-300'
+                    : 'text-ink-900 group-hover:text-terracotta-700 dark:text-ink-100 dark:group-hover:text-terracotta-300'
+                ]}>
+                  Nous contacter
+                </span>
+              </div>
+              <span class="text-lg opacity-0 group-hover:opacity-100 transition-opacity text-terracotta-700 dark:text-terracotta-300">
+                &rarr;
+              </span>
+            </a>
+          </li>
         </ul>
-
-        <div class="mt-8 border-t border-sand-200 pt-6 dark:border-ink-800">
-          <Button href="/contact" variant="primary" size="lg" icon="arrow" fullWidth>
-            Nous contacter
-          </Button>
-        </div>
       </nav>
     </div>
   </div>
 </header>
 
 <style>
-  #site-header[data-scrolled='true'] > div {
-    @apply border-b border-sand-200/60 bg-sand-50/80 backdrop-blur-xl backdrop-saturate-150 dark:border-ink-800/60 dark:bg-ink-950/80;
+  #site-header[data-scrolled='true'] {
+    @apply bg-sand-50/90 dark:bg-ink-950/90 shadow-sm;
+  }
+  
+  #site-header[data-scrolled='true'] #header-inner {
+    @apply h-16;
   }
 
   #mobile-menu.is-open {
     @apply visible opacity-100;
-  }
-
-  #mobile-menu.is-open #mobile-menu-backdrop {
-    @apply opacity-100;
   }
 </style>
 
@@ -191,7 +196,7 @@ function isActive(href: string): boolean {
 
     // Scroll effect
     const onScroll = () => {
-      const scrolled = window.scrollY > 8;
+      const scrolled = window.scrollY > 12;
       header.dataset.scrolled = scrolled ? 'true' : 'false';
     };
     onScroll();
@@ -235,3 +240,4 @@ function isActive(href: string): boolean {
   if (document.readyState !== 'loading') setupHeader();
   else document.addEventListener('DOMContentLoaded', setupHeader);
 </script>
+

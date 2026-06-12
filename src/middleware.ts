@@ -17,6 +17,11 @@ const SUSPICIOUS_USER_AGENTS = [
 ];
 
 export const onRequest = defineMiddleware(async (context, next) => {
+  // 🌟 BYPASS DE SÉCURITÉ EN MODE LOCAL / DEV
+  if (import.meta.env.DEV) {
+    return next();
+  }
+
   const url = new URL(context.request.url);
 
   // Ne touche QUE les routes API (les pages prérendues ne devraient pas

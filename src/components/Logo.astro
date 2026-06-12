@@ -1,7 +1,6 @@
 ---
 /**
- * Logo EEB Massy — Cèdre stylisé minimal.
- * SVG inline pour zéro requête HTTP.
+ * Logo EEB Massy — Logo original du site.
  */
 interface Props {
   class?: string;
@@ -9,58 +8,21 @@ interface Props {
   href?: string;
 }
 
-const { class: className = '', variant = 'full', href = '/' } = Astro.props;
+const { class: className = '', href = '/' } = Astro.props;
 ---
 
 <a
   href={href}
-  class={`inline-flex items-center gap-3 ${className}`}
+  class={`inline-flex items-center ${className}`}
   aria-label="Église Évangélique Baptiste de Massy — Accueil"
 >
-  <svg
-    width="40"
+  <img
+    src="/logo-original.jpg"
+    alt="Église Évangélique Baptiste de Massy"
+    class="h-10 w-auto object-contain mix-blend-multiply dark:mix-blend-screen dark:invert"
+    width="128"
     height="40"
-    viewBox="0 0 40 40"
-    fill="none"
-    xmlns="http://www.w3.org/2000/svg"
-    aria-hidden="true"
-    class="shrink-0"
-  >
-    <!-- Cèdre stylisé -->
-    <defs>
-      <linearGradient id="cedar-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
-        <stop offset="0%" stop-color="#5d7f58" />
-        <stop offset="100%" stop-color="#3a5239" />
-      </linearGradient>
-      <linearGradient id="trunk-gradient" x1="0%" y1="0%" x2="0%" y2="100%">
-        <stop offset="0%" stop-color="#866d40" />
-        <stop offset="100%" stop-color="#5e4c2d" />
-      </linearGradient>
-    </defs>
-
-    <!-- Tronc -->
-    <rect x="18.5" y="28" width="3" height="8" rx="0.5" fill="url(#trunk-gradient)" />
-
-    <!-- Couronne de l'arbre — 3 niveaux de branches superposées -->
-    <path
-      d="M20 4 L29 16 L26 16 L32 26 L25 26 L28 32 L12 32 L15 26 L8 26 L14 16 L11 16 Z"
-      fill="url(#cedar-gradient)"
-    />
-
-    <!-- Touche de terracotta — une petite flamme/lueur -->
-    <circle cx="20" cy="22" r="1.5" fill="#c44d2a" opacity="0.9" />
-  </svg>
-
-  {
-    variant === 'full' && (
-      <span class="flex flex-col leading-tight">
-        <span class="font-display text-base font-medium text-ink-900 dark:text-ink-50">
-          EEB Massy
-        </span>
-        <span class="text-[10px] uppercase tracking-[0.15em] text-ink-500 dark:text-ink-400">
-          Les Cèdres
-        </span>
-      </span>
-    )
-  }
+    loading="eager"
+  />
 </a>
+

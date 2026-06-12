@@ -3,97 +3,60 @@
 @tailwind utilities;
 
 /* ============================================================================
-   DESIGN TOKENS — exposés en CSS custom properties pour usage hors-Tailwind
+   DESIGN TOKENS — "La Clarté Fraternelle"
    ============================================================================ */
 @layer base {
   :root {
-    /* Couleurs sémantiques light mode */
-    --color-bg: 253 251 246; /* sand-50 */
+    --color-bg: 253 251 246; /* Sand Warm White */
     --color-bg-elevated: 255 255 255;
-    --color-bg-subtle: 250 246 236; /* sand-100 */
-    --color-bg-muted: 243 236 215; /* sand-200 */
+    --color-bg-subtle: 250 246 236; /* Sand Light */
+    --color-bg-muted: 243 236 215;
 
-    --color-text: 26 22 18; /* ink-900 */
-    --color-text-muted: 86 79 68; /* ink-600 */
-    --color-text-subtle: 133 127 112; /* ink-400 */
+    --color-text: 26 22 18; /* Ink Black */
+    --color-text-muted: 86 79 68;
+    --color-text-subtle: 133 127 112;
 
-    --color-border: 232 220 184; /* sand-300 */
-    --color-border-subtle: 243 236 215; /* sand-200 */
+    --color-border: 26 22 18 / 0.12; /* Sharp, thin borders */
+    --color-border-subtle: 26 22 18 / 0.06;
 
-    --color-accent: 196 77 42; /* terracotta-600 */
-    --color-accent-hover: 217 105 68; /* terracotta-500 */
-    --color-accent-fg: 253 251 246; /* sand-50 (sur fond terracotta) */
+    --color-accent: 196 77 42; /* Burnt Terracotta */
+    --color-accent-hover: 217 105 68;
+    --color-accent-fg: 253 251 246;
 
-    --color-secondary: 71 102 69; /* sage-600 */
-    --color-secondary-hover: 93 127 88; /* sage-500 */
-    --color-secondary-fg: 244 247 243; /* sage-50 */
+    --color-secondary: 71 102 69; /* Sauge Green */
+    --color-secondary-hover: 93 127 88;
+    --color-secondary-fg: 244 247 243;
 
-    /* Effets */
-    --shadow-glow: 0 0 32px -4px rgb(196 77 42 / 0.22);
-    --gradient-warm: linear-gradient(
-      135deg,
-      rgb(253 251 246) 0%,
-      rgb(250 246 236) 50%,
-      rgb(243 236 215) 100%
-    );
-    --gradient-hero: radial-gradient(
-        ellipse 60% 80% at 10% 0%,
-        rgba(229, 135, 106, 0.12) 0%,
-        transparent 60%
-      ),
-      radial-gradient(
-        ellipse 60% 80% at 90% 100%,
-        rgba(93, 127, 88, 0.1) 0%,
-        transparent 60%
-      );
-
-    /* Layout */
-    --header-height: 4rem;
-    --content-max-width: 80rem;
+    /* Spacing & Layout */
+    --header-height: 4.5rem;
+    --content-max-width: 82rem;
   }
 
   /* Dark mode */
   :root.dark {
-    --color-bg: 13 10 7; /* ink-950 */
-    --color-bg-elevated: 26 22 18; /* ink-900 */
-    --color-bg-subtle: 42 38 32; /* ink-800 */
-    --color-bg-muted: 64 59 50; /* ink-700 */
+    --color-bg: 13 10 7; /* Ink Black */
+    --color-bg-elevated: 20 17 14;
+    --color-bg-subtle: 28 24 20;
+    --color-bg-muted: 42 38 32;
 
-    --color-text: 245 244 241; /* ink-50 */
-    --color-text-muted: 207 204 193; /* ink-200 */
-    --color-text-subtle: 133 127 112; /* ink-400 */
+    --color-text: 245 244 241; /* Alabaster */
+    --color-text-muted: 207 204 193;
+    --color-text-subtle: 133 127 112;
 
-    --color-border: 64 59 50; /* ink-700 */
-    --color-border-subtle: 42 38 32; /* ink-800 */
+    --color-border: 245 244 241 / 0.12;
+    --color-border-subtle: 245 244 241 / 0.06;
 
-    --color-accent: 229 135 106; /* terracotta-400 */
-    --color-accent-hover: 239 176 148; /* terracotta-300 */
+    --color-accent: 229 135 106;
+    --color-accent-hover: 239 176 148;
     --color-accent-fg: 13 10 7;
 
-    --color-secondary: 167 189 161; /* sage-300 */
-    --color-secondary-hover: 205 217 199; /* sage-200 */
+    --color-secondary: 167 189 161;
+    --color-secondary-hover: 205 217 199;
     --color-secondary-fg: 13 10 7;
-
-    --gradient-warm: linear-gradient(
-      135deg,
-      rgb(13 10 7) 0%,
-      rgb(26 22 18) 50%,
-      rgb(42 38 32) 100%
-    );
-    --gradient-hero: radial-gradient(
-        ellipse 60% 80% at 10% 0%,
-        rgba(229, 135, 106, 0.08) 0%,
-        transparent 60%
-      ),
-      radial-gradient(
-        ellipse 60% 80% at 90% 100%,
-        rgba(167, 189, 161, 0.06) 0%,
-        transparent 60%
-      );
   }
 
   /* ============================================================================
-     RESET TYPOGRAPHIQUE
+     BASE RESET & TYPOGRAPHY
      ============================================================================ */
   html {
     -webkit-text-size-adjust: 100%;
@@ -112,33 +75,16 @@
     @apply font-sans text-base text-ink-900 dark:text-ink-50;
     background: rgb(var(--color-bg));
     min-height: 100vh;
-    /* Subtle paper-like texture */
-    background-image:
-      radial-gradient(
-        circle at 25% 35%,
-        rgba(229, 135, 106, 0.03) 0%,
-        transparent 50%
-      ),
-      radial-gradient(
-        circle at 75% 65%,
-        rgba(93, 127, 88, 0.03) 0%,
-        transparent 50%
-      );
-    background-attachment: fixed;
   }
 
+  /* Selection style */
   ::selection {
-    background: rgba(196, 77, 42, 0.2);
+    background: rgba(196, 77, 42, 0.15);
     color: inherit;
   }
 
-  h1,
-  h2,
-  h3,
-  h4,
-  h5,
-  h6 {
-    @apply font-display font-medium tracking-tight;
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-display tracking-tight text-ink-900 dark:text-ink-50;
     text-wrap: balance;
   }
 
@@ -146,137 +92,113 @@
     text-wrap: pretty;
   }
 
-  /* Focus visible — accessible, premium */
+  /* Accessible focus indicators — sharp, clean, no-code replacement */
   :focus-visible {
-    @apply outline-none ring-2 ring-terracotta-500 ring-offset-2 ring-offset-sand-50 dark:ring-offset-ink-950;
-    border-radius: 0.25rem;
+    @apply outline-none ring-1 ring-terracotta-600 ring-offset-1 ring-offset-sand-50 dark:ring-offset-ink-950;
   }
 
-  /* ============================================================================
-     ACCESSIBILITY — Respect des préférences utilisateur
-     ============================================================================ */
-  @media (prefers-reduced-motion: reduce) {
-    *,
-    *::before,
-    *::after {
-      animation-duration: 0.01ms !important;
-      animation-iteration-count: 1 !important;
-      transition-duration: 0.01ms !important;
-      scroll-behavior: auto !important;
-    }
+  /* MANDATORY ANTI-TEMPLATE RULE: Strictly sharp layouts, zero border-radius globally */
+  *, *::before, *::after {
+    border-radius: 0px !important;
+    box-shadow: none !important; /* Strip all default card-shadow styles */
+  }
+}
+
+/* ============================================================================
+   EDITORIAL COMPONENTS & LAYOUT SYSTEM (ANTI-TEMPLATE)
+   ============================================================================ */
+@layer components {
+  
+  /* Layout prose container */
+  .container-prose {
+    @apply mx-auto w-full max-w-7xl px-6 sm:px-8 lg:px-12;
   }
 
-  /* Sélection texte — touche premium */
+  /* Structural thin lines */
+  .border-editorial {
+    border-color: rgb(var(--color-border));
+  }
+
+  .border-editorial-subtle {
+    border-color: rgb(var(--color-border-subtle));
+  }
+
+  /* Indented paragraph for book-like editorial feel */
+  .editorial-indent {
+    text-indent: 2.5rem;
+  }
+
+  /* Drop-cap for narrative essay openings */
+  .editorial-dropcap::first-letter {
+    font-family: "Fraunces", Georgia, serif;
+    font-size: 3.8rem;
+    font-weight: 300;
+    float: left;
+    line-height: 0.8;
+    margin-right: 0.65rem;
+    margin-top: 0.2rem;
+    color: rgb(var(--color-accent));
+  }
+
+  /* Underline Form Fields */
+  .input-editorial {
+    @apply w-full bg-transparent py-2.5 text-base text-ink-900 dark:text-ink-50 placeholder:text-ink-400 focus:outline-none transition-colors duration-200;
+    border: none;
+    border-bottom: 1px solid rgb(var(--color-border));
+  }
+  .input-editorial:focus {
+    border-bottom-color: rgb(var(--color-accent));
+  }
+
+  /* Link underline with customized visual weight and transition */
+  .link-editorial {
+    @apply relative inline-block text-ink-900 dark:text-ink-50 transition-colors duration-200;
+    background-image: linear-gradient(currentColor, currentColor);
+    background-size: 0% 1px;
+    background-position: 0 100%;
+    background-repeat: no-repeat;
+    transition: background-size 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  
+  .link-editorial:hover {
+    background-size: 100% 1px;
+  }
+
+  .link-editorial-accent {
+    @apply relative inline-block text-terracotta-700 transition-colors duration-200 dark:text-terracotta-300;
+    background-image: linear-gradient(currentColor, currentColor);
+    background-size: 0% 1px;
+    background-position: 0 100%;
+    background-repeat: no-repeat;
+    transition: background-size 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .link-editorial-accent:hover {
+    background-size: 100% 1px;
+  }
+
+  /* Custom scrollbar */
   ::-webkit-scrollbar {
-    width: 12px;
-    height: 12px;
+    width: 8px;
+    height: 8px;
   }
   ::-webkit-scrollbar-track {
     background: transparent;
   }
   ::-webkit-scrollbar-thumb {
     @apply bg-sand-300 dark:bg-ink-700;
-    border-radius: 6px;
-    border: 3px solid transparent;
-    background-clip: content-box;
+    border-radius: 0px !important; /* Sharp corners */
   }
   ::-webkit-scrollbar-thumb:hover {
     @apply bg-sand-400 dark:bg-ink-600;
-    background-clip: content-box;
-  }
-}
-
-/* ============================================================================
-   COMPONENTS — classes utilitaires composées
-   ============================================================================ */
-@layer components {
-  /* Container responsive */
-  .container-prose {
-    @apply mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8;
   }
 
-  .container-narrow {
-    @apply mx-auto w-full max-w-3xl px-4 sm:px-6 lg:px-8;
+  /* Skip link accessibility */
+  .skip-link {
+    @apply absolute left-6 top-4 z-50 -translate-y-20 rounded-none bg-ink-900 text-white px-4 py-2 text-xs font-semibold uppercase tracking-wider focus:translate-y-0 dark:bg-ink-50 dark:text-ink-950;
   }
 
-  /* Liquid Glass — effet Apple */
-  .glass {
-    @apply backdrop-blur-xl backdrop-saturate-150;
-    background: rgba(255, 255, 255, 0.65);
-    border: 1px solid rgba(255, 255, 255, 0.4);
-    box-shadow:
-      0 8px 32px -4px rgba(15, 15, 15, 0.08),
-      inset 0 1px 0 0 rgba(255, 255, 255, 0.5);
-  }
-
-  .dark .glass {
-    background: rgba(26, 22, 18, 0.65);
-    border: 1px solid rgba(245, 244, 241, 0.08);
-    box-shadow:
-      0 8px 32px -4px rgba(0, 0, 0, 0.4),
-      inset 0 1px 0 0 rgba(245, 244, 241, 0.08);
-  }
-
-  /* Card de base */
-  .card-base {
-    @apply rounded-3xl border border-sand-200 bg-white p-6 transition-all duration-400 ease-out-expo dark:border-ink-800 dark:bg-ink-900;
-  }
-
-  .card-hover {
-    @apply hover:-translate-y-1 hover:shadow-soft-lg hover:border-sand-300 dark:hover:border-ink-700;
-  }
-
-  /* Section spacing standard */
-  .section-padding {
-    @apply py-20 sm:py-24 md:py-32;
-  }
-
-  .section-padding-sm {
-    @apply py-12 sm:py-16 md:py-20;
-  }
-
-  /* Texte lien souligné élégant */
-  .link-underline {
-    @apply relative inline-block text-terracotta-700 transition-colors duration-200 hover:text-terracotta-800 dark:text-terracotta-300 dark:hover:text-terracotta-200;
-    background-image: linear-gradient(currentColor, currentColor);
-    background-size: 0% 1px;
-    background-position: 0 100%;
-    background-repeat: no-repeat;
-    transition:
-      background-size 0.3s cubic-bezier(0.16, 1, 0.3, 1),
-      color 0.2s ease;
-  }
-  .link-underline:hover {
-    background-size: 100% 1px;
-  }
-
-  /* Texte gradient pour héros */
-  .text-gradient-warm {
-    background: linear-gradient(
-      135deg,
-      rgb(166 60 34) 0%,
-      rgb(196 77 42) 40%,
-      rgb(168 140 82) 100%
-    );
-    -webkit-background-clip: text;
-    background-clip: text;
-    -webkit-text-fill-color: transparent;
-    color: transparent;
-  }
-
-  .dark .text-gradient-warm {
-    background: linear-gradient(
-      135deg,
-      rgb(239 176 148) 0%,
-      rgb(229 135 106) 40%,
-      rgb(217 198 144) 100%
-    );
-    -webkit-background-clip: text;
-    background-clip: text;
-    -webkit-text-fill-color: transparent;
-  }
-
-  /* Champ "honeypot" caché aux humains, visible aux bots */
+  /* Honeypot */
   .honeypot {
     position: absolute !important;
     left: -9999px !important;
@@ -287,15 +209,10 @@
     pointer-events: none !important;
     tab-index: -1;
   }
-
-  /* Skip link accessibility */
-  .skip-link {
-    @apply absolute left-4 top-4 z-50 -translate-y-20 rounded-lg bg-terracotta-600 px-4 py-2 text-white shadow-soft-lg transition-transform focus:translate-y-0;
-  }
 }
 
 /* ============================================================================
-   UTILITIES
+   ASYNCHRONOUS MOTION & UTILITIES
    ============================================================================ */
 @layer utilities {
   .text-balance {
@@ -306,20 +223,7 @@
     text-wrap: pretty;
   }
 
-  .mask-fade-bottom {
-    mask-image: linear-gradient(to bottom, black 70%, transparent 100%);
-    -webkit-mask-image: linear-gradient(to bottom, black 70%, transparent 100%);
-  }
-
-  .scrollbar-hide {
-    scrollbar-width: none;
-    -ms-overflow-style: none;
-  }
-  .scrollbar-hide::-webkit-scrollbar {
-    display: none;
-  }
-
-  /* Subtle decorative grain */
+  /* Natural grain texture to give a felt/paper human touch */
   .bg-grain {
     position: relative;
   }
@@ -328,7 +232,7 @@
     position: absolute;
     inset: 0;
     pointer-events: none;
-    opacity: 0.03;
-    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    opacity: 0.02;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.95' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
   }
 }

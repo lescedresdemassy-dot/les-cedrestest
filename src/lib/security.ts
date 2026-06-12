@@ -237,7 +237,7 @@ function getCsrfSecret(): string {
     return _cachedSecret;
   }
   _cachedSecret = s;
-  return _cachedSecret;
+  return s;
 }
 
 async function hmac(message: string): Promise<string> {

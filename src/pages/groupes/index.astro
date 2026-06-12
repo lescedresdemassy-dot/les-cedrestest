@@ -1,7 +1,6 @@
 ---
 import PageLayout from '../../layouts/PageLayout.astro';
 import Container from '../../components/Container.astro';
-import Button from '../../components/Button.astro';
 import { homeGroups } from '../../data/groups.ts';
 import { church } from '../../data/church.ts';
 
@@ -14,13 +13,13 @@ export const prerender = true;
 ---
 
 <PageLayout
-  title="Groupes de quartier — Trouvez celui près de chez vous"
-  description="Petits groupes de 8 à 12 personnes pour louer Dieu, prier et étudier la Bible ensemble. Mercredis, jeudis et vendredis soirs, à Massy et dans les environs."
-  eyebrow="Groupes de quartier"
-  pageTitle="Trouvez un groupe près de chez vous"
-  pageLead="Les groupes de quartier rassemblent 8 à 12 personnes pour louer Dieu, prier et étudier la Bible ensemble. Une ambiance chaleureuse et fraternelle, dans le confort d'un domicile, à Massy et dans les environs."
+  title="Groupes de quartier — Trouvez un groupe près de chez vous"
+  description="Rencontres de proximité en semaine pour prier et étudier la Bible ensemble, à Massy et dans les communes limitrophes."
+  eyebrow="Groupes"
+  pageTitle="Groupes de quartier"
+  pageLead="En complément du culte dominical, nos groupes de quartier se réunissent en semaine dans des foyers pour prier, partager et approfondir la Bible ensemble."
 >
-  <!-- Leaflet CSS (chargé seulement sur cette page) -->
+  <!-- Leaflet CSS loaded in head -->
   <slot name="head">
     <link
       rel="stylesheet"
@@ -30,19 +29,18 @@ export const prerender = true;
     />
   </slot>
 
-  <!-- ============ MAP ============ -->
-  <section class="pb-16 pt-8">
+  <!-- ============ INTERACTIVE MAP SECTION ============ -->
+  <section class="py-12 bg-grain">
     <Container size="wide">
       <div
         id="groups-map"
-        class="h-[60vh] min-h-[400px] w-full overflow-hidden rounded-3xl border border-sand-200 bg-sand-100 shadow-soft-md dark:border-ink-800 dark:bg-ink-900"
-        aria-label="Carte des groupes de quartier"
+        class="h-[55vh] min-h-[420px] w-full overflow-hidden rounded-none border border-editorial bg-sand-100 dark:bg-ink-900"
+        aria-label="Carte interactive des groupes de quartier"
       >
-        <!-- Fallback no-JS -->
         <noscript>
-          <div class="flex h-full items-center justify-center p-8 text-center">
-            <p class="max-w-md text-sm text-ink-600">
-              La carte interactive nécessite JavaScript. Vous pouvez consulter la liste des groupes ci-dessous.
+          <div class="flex h-full items-center justify-center p-8 text-center bg-white dark:bg-ink-900">
+            <p class="max-w-md text-sm text-ink-600 dark:text-ink-400">
+              La carte interactive nécessite l'activation de JavaScript. Vous pouvez toujours consulter la liste des groupes ci-dessous.
             </p>
           </div>
         </noscript>
@@ -50,59 +48,62 @@ export const prerender = true;
     </Container>
   </section>
 
-  <!-- ============ GROUPS GRID ============ -->
-  <section class="py-12 md:py-16">
+  <!-- ============ GROUPS LIST & FILTER SECTION ============ -->
+  <section class="py-16 bg-grain">
     <Container size="default">
-      <!-- Filter pills -->
-      <div class="mb-10 flex flex-wrap items-center gap-3">
-        <span class="text-sm font-medium text-ink-700 dark:text-ink-300">Filtrer :</span>
+      
+      <!-- Typographic Filter Bar (No Rounded Pills) -->
+      <div class="mb-12 flex flex-wrap items-center gap-6 border-b border-editorial pb-6">
+        <span class="text-xs font-semibold uppercase tracking-[0.2em] text-ink-500 mr-2">Filtrer par jour :</span>
+        
         <button
           type="button"
           data-filter-day=""
-          class="filter-pill rounded-full border border-terracotta-600 bg-terracotta-600 px-4 py-1.5 text-sm font-medium text-white transition"
+          class="filter-pill border-b-2 border-terracotta-600 pb-1 text-xs font-semibold uppercase tracking-wider text-terracotta-700 transition-all dark:text-terracotta-300"
         >
           Tous
         </button>
         <button
           type="button"
           data-filter-day="mercredi"
-          class="filter-pill rounded-full border border-sand-200 bg-white px-4 py-1.5 text-sm font-medium text-ink-700 transition hover:border-sand-300 dark:border-ink-800 dark:bg-ink-900 dark:text-ink-300"
+          class="filter-pill border-b-2 border-transparent pb-1 text-xs font-semibold uppercase tracking-wider text-ink-600 hover:text-terracotta-700 transition-all dark:text-ink-300"
         >
           Mercredi ({groupsByDay.mercredi.length})
         </button>
         <button
           type="button"
           data-filter-day="jeudi"
-          class="filter-pill rounded-full border border-sand-200 bg-white px-4 py-1.5 text-sm font-medium text-ink-700 transition hover:border-sand-300 dark:border-ink-800 dark:bg-ink-900 dark:text-ink-300"
+          class="filter-pill border-b-2 border-transparent pb-1 text-xs font-semibold uppercase tracking-wider text-ink-600 hover:text-terracotta-700 transition-all dark:text-ink-300"
         >
           Jeudi ({groupsByDay.jeudi.length})
         </button>
         <button
           type="button"
           data-filter-day="vendredi"
-          class="filter-pill rounded-full border border-sand-200 bg-white px-4 py-1.5 text-sm font-medium text-ink-700 transition hover:border-sand-300 dark:border-ink-800 dark:bg-ink-900 dark:text-ink-300"
+          class="filter-pill border-b-2 border-transparent pb-1 text-xs font-semibold uppercase tracking-wider text-ink-600 hover:text-terracotta-700 transition-all dark:text-ink-300"
         >
           Vendredi ({groupsByDay.vendredi.length})
         </button>
       </div>
 
-      <div class="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3" data-groups-grid>
-        {
-          homeGroups.map((g) => (
-            <article
-              data-group-item
-              data-group-day={g.day}
-              data-group-id={g.id}
-              class="group relative flex flex-col rounded-3xl border border-sand-200 bg-white p-6 transition-all duration-400 hover:-translate-y-1 hover:border-sand-300 hover:shadow-soft-lg dark:border-ink-800 dark:bg-ink-900 dark:hover:border-ink-700"
-            >
-              <div class="mb-4 flex items-center justify-between">
-                <span class="inline-flex h-10 items-center rounded-full bg-sage-100 px-3 text-xs font-medium uppercase tracking-wide text-sage-700 dark:bg-sage-950/40 dark:text-sage-300">
-                  {g.day.charAt(0).toUpperCase() + g.day.slice(1)} · {g.time}
+      <!-- Groups Grid (Flat Typographic layout) -->
+      <div class="grid grid-cols-1 gap-x-8 gap-y-16 sm:grid-cols-2 lg:grid-cols-3" data-groups-grid>
+        {homeGroups.map((g) => (
+          <article
+            data-group-item
+            data-group-day={g.day}
+            data-group-id={g.id}
+            class="group relative flex flex-col justify-between border-t border-editorial pt-6"
+          >
+            <div>
+              <div class="flex items-center justify-between text-xs mb-4">
+                <span class="font-semibold uppercase tracking-wider text-terracotta-700 dark:text-terracotta-300">
+                  {g.day} · {g.time}
                 </span>
                 {g.accepting && (
-                  <span class="inline-flex items-center gap-1.5 text-xs font-medium text-sage-700 dark:text-sage-300">
-                    <span class="h-2 w-2 rounded-full bg-sage-500 animate-pulse-soft"/>
-                    Ouvert
+                  <span class="inline-flex items-center gap-1.5 font-medium text-sage-700 dark:text-sage-400">
+                    <span class="h-1.5 w-1.5 bg-sage-500 rounded-none animate-pulse-soft" />
+                    Place disponible
                   </span>
                 )}
               </div>
@@ -110,44 +111,41 @@ export const prerender = true;
               <h3 class="font-display text-xl font-medium tracking-tight text-ink-900 dark:text-ink-50">
                 {g.name}
               </h3>
-              <p class="mt-1 flex items-center gap-1.5 text-sm text-ink-500 dark:text-ink-400">
-                <svg class="h-3.5 w-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 10c0 7-8 13-8 13s-8-6-8-13a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>
-                {g.area}
+              
+              <p class="mt-1.5 text-xs text-ink-500 dark:text-ink-400 uppercase tracking-wider">
+                Secteur : {g.area}
               </p>
 
-              <p class="mt-4 flex-1 text-sm leading-relaxed text-ink-600 dark:text-ink-400">
+              <p class="mt-4 text-sm leading-relaxed text-ink-600 dark:text-ink-400">
                 {g.description}
               </p>
+            </div>
 
-              <div class="mt-6 flex items-center justify-between border-t border-sand-200 pt-4 text-xs dark:border-ink-800">
-                <span class="text-ink-500 dark:text-ink-400">
-                  Animé par <span class="font-medium text-ink-700 dark:text-ink-300">{g.leaderName}</span>
-                </span>
-                <span class="font-medium text-ink-600 dark:text-ink-300">
-                  {g.capacity} pers. max
-                </span>
+            <div class="mt-8">
+              <div class="border-t border-editorial-subtle py-3 text-xs text-ink-500 dark:text-ink-400">
+                Coordonné par <span class="font-medium text-ink-800 dark:text-ink-200">{g.leaderName}</span>
               </div>
-
               <button
                 type="button"
-                class="mt-4 inline-flex items-center justify-center gap-2 rounded-full bg-terracotta-600 px-4 py-2.5 text-sm font-medium text-white transition-all hover:bg-terracotta-700 hover:shadow-soft-md dark:bg-terracotta-500 dark:text-ink-950 dark:hover:bg-terracotta-400"
+                class="inline-flex h-11 w-full items-center justify-center gap-2 rounded-none border border-ink-900 bg-transparent text-xs font-semibold uppercase tracking-[0.15em] text-ink-900 hover:bg-ink-900 hover:text-white dark:border-ink-100 dark:text-ink-100 dark:hover:bg-ink-100 dark:hover:text-ink-950 transition-all duration-200"
                 data-group-join-button
                 data-group-name={g.name}
                 data-group-id={g.id}
               >
                 Rejoindre ce groupe
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true">
                   <path d="M5 12h14"/><path d="m12 5 7 7-7 7"/>
                 </svg>
               </button>
-            </article>
-          ))
-        }
+            </div>
+          </article>
+        ))}
       </div>
+
     </Container>
   </section>
 
-  <!-- ============ Modal Join ============ -->
+  <!-- ============ JOIN MODAL (ACCESSIBLE REDESIGN) ============ -->
   <div
     id="join-modal"
     class="invisible fixed inset-0 z-50 opacity-0 transition-all duration-300"
@@ -156,33 +154,36 @@ export const prerender = true;
     aria-labelledby="join-modal-title"
     aria-modal="true"
   >
-    <div class="absolute inset-0 bg-ink-950/60 backdrop-blur-sm" data-modal-backdrop></div>
+    <div class="absolute inset-0 bg-ink-950/60 backdrop-blur-xs" data-modal-backdrop></div>
     <div class="absolute inset-0 flex items-center justify-center p-4">
-      <div class="relative max-h-[90vh] w-full max-w-lg overflow-y-auto rounded-3xl bg-white p-8 shadow-soft-xl dark:bg-ink-900">
+      <div class="relative max-h-[90vh] w-full max-w-lg overflow-y-auto rounded-none border border-editorial bg-white p-8 dark:bg-ink-900">
+        
+        <!-- Close Button -->
         <button
           type="button"
-          class="absolute right-4 top-4 inline-flex h-10 w-10 items-center justify-center rounded-full text-ink-500 transition-colors hover:bg-sand-100 hover:text-ink-900 dark:text-ink-400 dark:hover:bg-ink-800 dark:hover:text-ink-50"
+          class="absolute right-4 top-4 inline-flex h-10 w-10 items-center justify-center rounded-none text-ink-400 hover:bg-sand-100 hover:text-ink-900 dark:hover:bg-ink-800 dark:hover:text-ink-50 transition-colors"
           data-modal-close
-          aria-label="Fermer"
+          aria-label="Fermer la boîte de dialogue"
         >
           <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
         </button>
 
-        <h2 id="join-modal-title" class="font-display text-2xl font-medium tracking-tight text-ink-900 dark:text-ink-50">
-          Rejoindre <span data-modal-group-name class="text-terracotta-700 dark:text-terracotta-300"></span>
+        <h2 id="join-modal-title" class="font-display text-2xl font-light tracking-tight text-ink-900 dark:text-ink-50">
+          Demande de contact : <br/>
+          <span data-modal-group-name class="text-terracotta-700 dark:text-terracotta-300"></span>
         </h2>
-        <p class="mt-2 text-sm text-ink-600 dark:text-ink-400">
-          L'animateur du groupe vous contactera dans les plus brefs délais.
+        <p class="mt-3 text-sm text-ink-600 dark:text-ink-400">
+          Entrez vos coordonnées pour que l'animateur du groupe puisse vous recontacter.
         </p>
 
-        <form id="join-form" class="mt-6 space-y-4">
+        <form id="join-form" class="mt-6 space-y-6">
           <input type="hidden" name="groupId" data-modal-group-id />
           <input type="hidden" name="csrfToken" data-csrf-token />
           <input type="text" name="website" class="honeypot" tabindex="-1" autocomplete="off" aria-hidden="true" />
 
           <div>
-            <label for="join-name" class="block text-sm font-medium text-ink-800 dark:text-ink-200">
-              Nom complet *
+            <label for="join-name" class="block text-xs font-semibold uppercase tracking-wider text-ink-700 dark:text-ink-200">
+              Votre nom complet *
             </label>
             <input
               type="text"
@@ -191,13 +192,13 @@ export const prerender = true;
               required
               minlength="2"
               maxlength="100"
-              class="mt-1.5 w-full rounded-xl border border-sand-200 bg-white px-4 py-2.5 text-sm text-ink-900 placeholder:text-ink-400 focus:border-terracotta-500 focus:outline-none focus:ring-2 focus:ring-terracotta-500/20 dark:border-ink-800 dark:bg-ink-950 dark:text-ink-50"
+              class="input-editorial mt-1"
             />
           </div>
 
           <div>
-            <label for="join-email" class="block text-sm font-medium text-ink-800 dark:text-ink-200">
-              Email *
+            <label for="join-email" class="block text-xs font-semibold uppercase tracking-wider text-ink-700 dark:text-ink-200">
+              Adresse email *
             </label>
             <input
               type="email"
@@ -205,12 +206,12 @@ export const prerender = true;
               name="email"
               required
               maxlength="254"
-              class="mt-1.5 w-full rounded-xl border border-sand-200 bg-white px-4 py-2.5 text-sm text-ink-900 placeholder:text-ink-400 focus:border-terracotta-500 focus:outline-none focus:ring-2 focus:ring-terracotta-500/20 dark:border-ink-800 dark:bg-ink-950 dark:text-ink-50"
+              class="input-editorial mt-1"
             />
           </div>
 
           <div>
-            <label for="join-phone" class="block text-sm font-medium text-ink-800 dark:text-ink-200">
+            <label for="join-phone" class="block text-xs font-semibold uppercase tracking-wider text-ink-700 dark:text-ink-200">
               Téléphone <span class="font-normal text-ink-500">(facultatif)</span>
             </label>
             <input
@@ -218,39 +219,39 @@ export const prerender = true;
               id="join-phone"
               name="phone"
               maxlength="20"
-              class="mt-1.5 w-full rounded-xl border border-sand-200 bg-white px-4 py-2.5 text-sm text-ink-900 placeholder:text-ink-400 focus:border-terracotta-500 focus:outline-none focus:ring-2 focus:ring-terracotta-500/20 dark:border-ink-800 dark:bg-ink-950 dark:text-ink-50"
+              class="input-editorial mt-1"
             />
           </div>
 
           <div>
-            <label for="join-message" class="block text-sm font-medium text-ink-800 dark:text-ink-200">
-              Un mot pour l'animateur <span class="font-normal text-ink-500">(facultatif)</span>
+            <label for="join-message" class="block text-xs font-semibold uppercase tracking-wider text-ink-700 dark:text-ink-200">
+              Un mot pour présenter votre demande <span class="font-normal text-ink-500">(facultatif)</span>
             </label>
             <textarea
               id="join-message"
               name="message"
               rows="3"
               maxlength="500"
-              class="mt-1.5 w-full rounded-xl border border-sand-200 bg-white px-4 py-2.5 text-sm text-ink-900 placeholder:text-ink-400 focus:border-terracotta-500 focus:outline-none focus:ring-2 focus:ring-terracotta-500/20 dark:border-ink-800 dark:bg-ink-950 dark:text-ink-50"
+              class="input-editorial mt-1 resize-y"
             ></textarea>
           </div>
 
           <div class="flex gap-3 pt-2">
             <button
               type="submit"
-              class="inline-flex flex-1 items-center justify-center gap-2 rounded-full bg-terracotta-600 px-6 py-3 text-sm font-medium text-white transition-all hover:bg-terracotta-700 dark:bg-terracotta-500 dark:text-ink-950 dark:hover:bg-terracotta-400"
+              class="inline-flex h-12 w-full items-center justify-center gap-2 rounded-none bg-ink-900 text-xs font-semibold uppercase tracking-[0.15em] text-white hover:bg-terracotta-700 dark:bg-ink-100 dark:text-ink-950 dark:hover:bg-terracotta-400 transition-all duration-200"
             >
-              Envoyer la demande
+              Envoyer la demande d'inscription
             </button>
           </div>
 
-          <p data-form-result class="hidden text-sm" role="status" aria-live="polite"></p>
+          <p data-form-result class="hidden text-sm font-medium" role="status" aria-live="polite"></p>
         </form>
       </div>
     </div>
   </div>
 
-  <!-- ============ Leaflet + interactivity ============ -->
+  <!-- Leaflet map setup -->
   <script
     src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
     integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
@@ -260,7 +261,6 @@ export const prerender = true;
 
   <script define:vars={{ groups: homeGroups, churchLat: church.address.coordinates.lat, churchLng: church.address.coordinates.lng, churchName: church.name }}>
     function setupMap() {
-      // Wait for leaflet
       if (typeof L === 'undefined') {
         setTimeout(setupMap, 100);
         return;
@@ -269,64 +269,58 @@ export const prerender = true;
       if (!mapEl || mapEl.dataset.initialized === 'true') return;
       mapEl.dataset.initialized = 'true';
 
-      const isDark = document.documentElement.classList.contains('dark');
-
       const map = L.map(mapEl, {
         center: [churchLat, churchLng],
         zoom: 12,
         scrollWheelZoom: false,
       });
 
-      const tileLayer = L.tileLayer(
+      L.tileLayer(
         'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
         {
           attribution: '© OpenStreetMap',
           maxZoom: 18,
         }
-      );
-      tileLayer.addTo(map);
+      ).addTo(map);
 
-      // Custom church icon
+      // Main church marker divIcon
       const churchIcon = L.divIcon({
         className: 'church-marker',
-        html: '<div style="background:#c44d2a;color:white;border-radius:50%;width:36px;height:36px;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 12px rgba(0,0,0,0.2);border:2px solid white;font-size:18px;">✦</div>',
-        iconSize: [36, 36],
-        iconAnchor: [18, 18],
+        html: '<div style="background:#c44d2a;color:white;width:30px;height:30px;display:flex;align-items:center;justify-content:center;border:2px solid white;font-size:14px;font-weight:bold;">✦</div>',
+        iconSize: [30, 30],
+        iconAnchor: [15, 15],
       });
 
       L.marker([churchLat, churchLng], { icon: churchIcon })
         .addTo(map)
-        .bindPopup(`<strong>${churchName}</strong><br/>Bâtiment principal`);
+        .bindPopup(`<strong>${churchName}</strong><br/>Bâtiment principal Les Cèdres`);
 
-      // Group markers
+      // Add group markers
       const markers = {};
       groups.forEach((g) => {
         const groupIcon = L.divIcon({
           className: 'group-marker',
-          html: `<div style="background:#476645;color:white;border-radius:50%;width:28px;height:28px;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 8px rgba(0,0,0,0.15);border:2px solid white;font-size:13px;font-weight:600;font-family:system-ui;">${g.day.charAt(0).toUpperCase()}</div>`,
-          iconSize: [28, 28],
-          iconAnchor: [14, 14],
+          html: `<div style="background:#476645;color:white;width:24px;height:24px;display:flex;align-items:center;justify-content:center;border:2px solid white;font-size:10px;font-weight:700;font-family:system-ui;">${g.day.charAt(0).toUpperCase()}</div>`,
+          iconSize: [24, 24],
+          iconAnchor: [12, 12],
         });
         const marker = L.marker([g.latitude, g.longitude], { icon: groupIcon })
           .addTo(map)
           .bindPopup(
-            `<strong>${g.name}</strong><br/><span style="text-transform:capitalize">${g.day}</span> · ${g.time}<br/><span style="color:#666;font-size:12px">${g.area}</span>`
+            `<strong>${g.name}</strong><br/><span style="text-transform:capitalize">${g.day}</span> · ${g.time}<br/><span style="color:#666;font-size:11px">${g.area}</span>`
           );
         markers[g.id] = marker;
       });
 
-      // Fit bounds
       const allPoints = [
         [churchLat, churchLng],
         ...groups.map((g) => [g.latitude, g.longitude]),
       ];
-      map.fitBounds(allPoints, { padding: [40, 40] });
+      map.fitBounds(allPoints, { padding: [30, 30] });
 
-      // Re-enable scroll on click
       map.on('click', () => map.scrollWheelZoom.enable());
       map.on('mouseout', () => map.scrollWheelZoom.disable());
 
-      // Connect cards <-> markers
       document.querySelectorAll('[data-group-item]').forEach((card) => {
         card.addEventListener('mouseenter', () => {
           const id = card.dataset.groupId;
@@ -341,12 +335,15 @@ export const prerender = true;
       pills.forEach((pill) => {
         pill.addEventListener('click', () => {
           const day = pill.dataset.filterDay ?? '';
+          
           pills.forEach((p) => {
-            p.classList.remove('bg-terracotta-600', 'border-terracotta-600', 'text-white');
-            p.classList.add('bg-white', 'border-sand-200', 'text-ink-700', 'dark:bg-ink-900', 'dark:border-ink-800', 'dark:text-ink-300');
+            p.classList.remove('border-terracotta-600', 'text-terracotta-700', 'dark:text-terracotta-300');
+            p.classList.add('border-transparent', 'text-ink-650', 'dark:text-ink-300');
           });
-          pill.classList.add('bg-terracotta-600', 'border-terracotta-600', 'text-white');
-          pill.classList.remove('bg-white', 'border-sand-200', 'text-ink-700', 'dark:bg-ink-900', 'dark:border-ink-800', 'dark:text-ink-300');
+          
+          pill.classList.add('border-terracotta-600', 'text-terracotta-700', 'dark:text-terracotta-300');
+          pill.classList.remove('border-transparent', 'text-ink-650', 'dark:text-ink-300');
+          
           items.forEach((item) => {
             const itemDay = item.dataset.groupDay;
             item.style.display = !day || itemDay === day ? '' : 'none';
@@ -392,7 +389,7 @@ export const prerender = true;
         if (e.key === 'Escape' && !modal.classList.contains('invisible')) close();
       });
 
-      // Fetch CSRF token
+      // Fetch CSRF
       fetch('/api/csrf')
         .then((r) => r.json())
         .then((d) => {
@@ -405,9 +402,9 @@ export const prerender = true;
         e.preventDefault();
         const formData = Object.fromEntries(new FormData(form).entries());
         if (result) {
-          result.className = 'text-sm text-ink-600 dark:text-ink-400';
+          result.className = 'text-xs font-semibold uppercase tracking-wider text-ink-500';
           result.classList.remove('hidden');
-          result.textContent = 'Envoi en cours...';
+          result.textContent = 'Envoi de la demande...';
         }
         try {
           const res = await fetch('/api/group-join', {
@@ -417,19 +414,19 @@ export const prerender = true;
           });
           const data = await res.json();
           if (result) {
-            if (data.ok) {
-              result.className = 'text-sm text-sage-700 dark:text-sage-300';
-              result.textContent = '✓ Demande envoyée ! L\'animateur vous recontactera bientôt.';
+            if (data.ok || data.success) {
+              result.className = 'text-sm font-medium text-sage-700 dark:text-sage-400';
+              result.textContent = '✓ Demande envoyée ! Nous vous contacterons rapidement.';
               form.reset();
               setTimeout(close, 2000);
             } else {
-              result.className = 'text-sm text-terracotta-700 dark:text-terracotta-300';
-              result.textContent = data.error || 'Une erreur est survenue. Veuillez réessayer.';
+              result.className = 'text-sm font-medium text-terracotta-700 dark:text-terracotta-400';
+              result.textContent = data.error || 'Une erreur s\'est produite. Réessayez.';
             }
           }
         } catch (err) {
           if (result) {
-            result.className = 'text-sm text-terracotta-700 dark:text-terracotta-300';
+            result.className = 'text-sm font-medium text-terracotta-700 dark:text-terracotta-400';
             result.textContent = 'Erreur réseau. Vérifiez votre connexion.';
           }
         }
