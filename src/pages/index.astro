@@ -3,11 +3,22 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import Container from '../components/Container.astro';
 import Button from '../components/Button.astro';
 import { church } from '../data/church.ts';
-import { getFeaturedSermon } from '../data/sermons.ts';
+import { getFeaturedSermon, formatScriptureDisplay } from '../data/sermons.ts';
 import { getHighlightActivities } from '../data/activities.ts';
 
 const featured = getFeaturedSermon();
 const highlights = getHighlightActivities();
+
+// Normaliser le titre s'il est tout en majuscules sans détruire le titre source
+function getDisplayTitle(title: string): string {
+  if (title === title.toUpperCase() && title.length > 5) {
+    const lower = title.toLowerCase();
+    return lower.charAt(0).toUpperCase() + lower.slice(1);
+  }
+  return title;
+}
+
+const featuredDisplayTitle = getDisplayTitle(featured.title);
 
 // Prochain dimanche (calculé côté serveur)
 const today = new Date();
@@ -293,14 +304,14 @@ export const prerender = true;
             {featured.scripture && (
               <>
                 <span>·</span>
-                <span class="font-medium text-terracotta-700 dark:text-terracotta-300">{featured.scripture}</span>
+                <span class="font-medium text-terracotta-700 dark:text-terracotta-300">{formatScriptureDisplay(featured.scripture)}</span>
               </>
             )}
           </div>
 
           <h3 class="mt-4 font-display text-2xl font-light leading-snug tracking-tight text-ink-900 dark:text-ink-50 sm:text-3xl lg:text-4xl">
             <a href={`/sermons/${featured.id}`} class="hover:text-terracotta-700 dark:hover:text-terracotta-300 transition-colors">
-              {featured.title}
+              {featuredDisplayTitle}
             </a>
           </h3>
 
