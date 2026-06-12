@@ -20,8 +20,18 @@ const years = Array.from(
 
 // Livres bibliques uniques
 const books = Array.from(
-  new Set(sermons.map((s) => s.scripture ? s.scripture.split(' ')[0] : ''))
-).filter(Boolean).sort();
+  new Set(
+    sermons
+      .map((s) => {
+        if (!s.scripture) return '';
+        // If scripture starts with a number followed by space and word (e.g. 1 Samuel or 2 Chroniques)
+        const match = s.scripture.match(/^(\d+\s+\w+)/);
+        if (match) return match[1];
+        return s.scripture.split(' ')[0];
+      })
+      .filter(Boolean)
+  )
+).sort();
 
 const speakers = getAllSpeakers();
 
@@ -93,7 +103,9 @@ export const prerender = true;
             </div>
             {featured.durationMinutes && (
               <span class="absolute bottom-4 right-4 bg-ink-950/80 px-2.5 py-0.5 text-[10px] font-semibold text-white tracking-wide">
-                {featured.durationMinutes} min
+                {featured.durationMinutes >= 60 
+                  ? `${Math.floor(featured.durationMinutes / 60)} h ${String(featured.durationMinutes % 60).padStart(2, '0')}`
+                  : `${featured.durationMinutes} min`}
               </span>
             )}
           </a>
@@ -400,7 +412,7 @@ export const prerender = true;
             data-sermon-title={sermon.title.toLowerCase()}
             data-sermon-speaker={sermon.speaker}
             data-sermon-year={sermon.date.substring(0, 4)}
-            data-sermon-book={sermon.scripture ? sermon.scripture.split(' ')[0] : ''}
+            data-sermon-book={sermon.scripture ? (sermon.scripture.match(/^(\d+\s+\w+)/) ? sermon.scripture.match(/^(\d+\s+\w+)/)![1] : sermon.scripture.split(' ')[0]) : ''}
             data-sermon-scripture={sermon.scripture?.toLowerCase() ?? ''}
           >
             <SermonCard sermon={sermon} />

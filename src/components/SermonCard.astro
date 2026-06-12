@@ -61,7 +61,9 @@ const dateFr = new Date(sermon.date).toLocaleDateString('fr-FR', {
 
     {sermon.durationMinutes && (
       <span class="absolute bottom-3 right-3 rounded-none bg-ink-950/80 px-2 py-0.5 text-[10px] font-medium text-white tracking-wide">
-        {sermon.durationMinutes} min
+        {sermon.durationMinutes >= 60 
+          ? `${Math.floor(sermon.durationMinutes / 60)} h ${String(sermon.durationMinutes % 60).padStart(2, '0')}`
+          : `${sermon.durationMinutes} min`}
       </span>
     )}
   </a>

@@ -48,11 +48,6 @@ function isActive(href: string): boolean {
                 ]}
                 aria-current={isActive(link.href) ? 'page' : undefined}
               >
-                {isActive(link.href) ? (
-                  <span class="mr-1 text-[9px] font-light text-terracotta-500/70">
-                    [{String(index + 1).padStart(2, '0')}]
-                  </span>
-                ) : null}
                 {link.label}
               </a>
             </li>
@@ -127,9 +122,6 @@ function isActive(href: string): boolean {
                   aria-current={isActive(link.href) ? 'page' : undefined}
                 >
                   <div class="flex items-baseline gap-4">
-                    <span class="font-sans text-[10px] tracking-wider text-ink-400 dark:text-ink-600">
-                      {String(index + 1).padStart(2, '0')}
-                    </span>
                     <span class:list={[
                       'font-display text-2xl sm:text-3xl font-medium tracking-tight transition-colors',
                       isActive(link.href)
@@ -152,9 +144,6 @@ function isActive(href: string): boolean {
               class="flex items-center justify-between py-5 sm:py-6 group"
             >
               <div class="flex items-baseline gap-4">
-                <span class="font-sans text-[10px] tracking-wider text-ink-400 dark:text-ink-600">
-                  {String(navLinks.length + 1).padStart(2, '0')}
-                </span>
                 <span class:list={[
                   'font-display text-2xl sm:text-3xl font-medium tracking-tight transition-colors',
                   isActive('/contact')

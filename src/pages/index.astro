@@ -123,18 +123,18 @@ export const prerender = true;
         <div class="lg:col-span-8 border-t border-editorial">
           <div class="divide-y divide-editorial">
             {[
-              { time: '10 h 15', title: 'Accueil & Rencontre', desc: 'Les portes s\'ouvrent. Notre équipe d\'accueil vous salue, répond à vos questions et vous indique les places et les espaces pour enfants.' },
-              { time: '10 h 30', title: 'Chants & Prières', desc: 'Début du culte public. Nous célébrons Dieu ensemble au travers de prières et de chants menés par les musiciens de la communauté.' },
-              { time: '11 h', title: 'Enseignement & Enfants', desc: 'Une prédication biblique d\'environ 35 minutes est partagée. Au même moment, les enfants rejoignent leurs groupes d\'âge respectifs pour l\'école du dimanche.' },
-              { time: '12 h', title: 'Convivialité', desc: 'Partage d\'un thé ou d\'un café dans le hall. Un repas fraternel a également lieu chaque 3e dimanche du mois.' }
+              { time: '10 h 15', title: 'Accueil', desc: 'Ouverture des portes et accueil personnalisé par notre équipe.' },
+              { time: '10 h 30', title: 'Culte', desc: 'Début du culte public, prières et chants partagés en communauté.' },
+              { time: '11 h 00', title: 'Temps pour les enfants', desc: 'Prédication pour les adultes et groupes d\'âge pour les enfants et adolescents.' },
+              { time: '12 h 00', title: 'Café & Échanges', desc: 'Boissons chaudes partagées dans le hall pour prolonger la rencontre.' }
             ].map((step) => (
-              <div class="grid grid-cols-1 py-8 sm:grid-cols-12 sm:gap-8">
+              <div class="grid grid-cols-1 py-6 sm:grid-cols-12 sm:gap-8">
                 <div class="sm:col-span-3">
-                  <span class="font-display text-3xl font-light text-terracotta-600 dark:text-terracotta-400">{step.time}</span>
+                  <span class="font-display text-2xl font-light text-terracotta-600 dark:text-terracotta-400">{step.time}</span>
                 </div>
-                <div class="sm:col-span-9 mt-2 sm:mt-0">
-                  <h3 class="font-display text-lg font-medium text-ink-900 dark:text-ink-50">{step.title}</h3>
-                  <p class="mt-2 text-sm leading-relaxed text-ink-600 dark:text-ink-400">{step.desc}</p>
+                <div class="sm:col-span-9 mt-1 sm:mt-0">
+                  <h3 class="font-display text-base font-medium text-ink-900 dark:text-ink-50">{step.title}</h3>
+                  <p class="mt-1 text-sm leading-relaxed text-ink-600 dark:text-ink-400">{step.desc}</p>
                 </div>
               </div>
             ))}
@@ -209,9 +209,6 @@ export const prerender = true;
             
             <!-- Index & Day (3 cols) -->
             <div class="sm:col-span-3 flex items-baseline gap-3">
-              <span class="font-display text-2xl font-light text-ink-400 dark:text-ink-600">
-                {String(idx + 1).padStart(2, '0')}
-              </span>
               <div>
                 <h3 class="font-display text-lg font-medium text-ink-900 dark:text-ink-50">
                   {activity.title}
@@ -273,12 +270,18 @@ export const prerender = true;
             loading="lazy"
             class="absolute inset-0 h-full w-full object-cover"
           />
-          <div class="absolute inset-0 bg-ink-950/10"></div>
           <div class="absolute inset-0 flex items-center justify-center">
             <span class="flex h-14 w-14 items-center justify-center bg-ink-900 text-white dark:bg-ink-100 dark:text-ink-950" aria-hidden="true">
               <svg class="ml-0.5 h-5 w-5" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"></path></svg>
             </span>
           </div>
+          {featured.durationMinutes && (
+            <span class="absolute bottom-4 right-4 bg-ink-950/80 px-2.5 py-0.5 text-[10px] font-semibold text-white tracking-wide">
+              {featured.durationMinutes >= 60 
+                ? `${Math.floor(featured.durationMinutes / 60)} h ${String(featured.durationMinutes % 60).padStart(2, '0')}`
+                : `${featured.durationMinutes} min`}
+            </span>
+          )}
         </a>
 
         <!-- Content details (Right 5 cols) -->
