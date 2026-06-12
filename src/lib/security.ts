@@ -222,7 +222,11 @@ export function sanitizeDeep<T>(data: T): T {
   if (data && typeof data === 'object') {
     const out: Record<string, unknown> = {};
     for (const [k, v] of Object.entries(data as Record<string, unknown>)) {
-      out[k] = sanitizeDeep(v);
+      if (k === 'csrfToken') {
+        out[k] = v;
+      } else {
+        out[k] = sanitizeDeep(v);
+      }
     }
     return out as T;
   }

@@ -21,6 +21,11 @@ export const POST: APIRoute = async ({ request }) => {
     return errorResponse('Origine non autorisée', 403);
   }
 
+  const contentLength = Number(request.headers.get('content-length') || '0');
+  if (contentLength > 50 * 1024) {
+    return errorResponse('Flux de données trop volumineux', 413);
+  }
+
   const ip = getClientIp(request);
   const rl = await checkDatabaseRateLimit(ip, {
     bucket: 'contact',
