@@ -528,12 +528,21 @@ export function getRelatedSermons(sermon: Sermon, limit: number = 3): Sermon[] {
 
 /**
  * Normalise l'affichage d'une référence biblique au format français.
- * Exemple : "Matthieu 7:1-12" -> "Matthieu 7,1-12" (en conservant les tirets/accents corrects)
+ * Exemples : 
+ * - "Matthieu 7:1-12" -> "Matthieu 7,1–12" (en dash)
+ * - "1 Samuel 1:1-18" -> "1 Samuel 1,1–18"
+ * - "Ésaïe 66:5-14" -> "Ésaïe 66,5–14"
+ * - "Jean 3:16" -> "Jean 3,16"
+ * - "Jean 3" -> "Jean 3"
  */
 export function formatScriptureDisplay(scripture?: string): string {
   if (!scripture) return '';
+  
+  // Remplacer les deux-points par une virgule uniquement s'ils séparent des chapitres et versets (chiffres)
+  // et remplacer les tirets par un tiret demi-cadratin (en dash) pour les plages de versets ou chapitres.
   return scripture
-    .replace(/:/g, ',')
-    .replace(/-/g, '–'); // En dash consistent
+    .replace(/(\d+):(\d+)/g, '$1,$2')
+    .replace(/(\d+)\s*-\s*(\d+)/g, '$1–$2')
+    .replace(/–/g, '–'); // s'assurer de l'en dash
 }
 
