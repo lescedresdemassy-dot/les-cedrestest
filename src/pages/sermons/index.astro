@@ -25,10 +25,10 @@ const books = Array.from(
 
 const speakers = getAllSpeakers();
 
-// Séries / Thématiques pour les lignes horizontales
+// Séries / Thématiques pour les lignes horizontales (triées par année réelle)
 const latestSermons = sermons.slice(0, 6);
-const romainsSermons = sermons.filter((s) => s.scripture?.includes('Romains')).slice(0, 6);
-const matthieuSermons = sermons.filter((s) => s.scripture?.includes('Matthieu')).slice(0, 6);
+const sermons2026 = sermons.filter((s) => s.date.startsWith('2026')).slice(0, 6);
+const sermons2025 = sermons.filter((s) => s.date.startsWith('2025')).slice(0, 6);
 
 export const prerender = true;
 ---
@@ -190,22 +190,22 @@ export const prerender = true;
     </Container>
   </section>
 
-  <!-- ============ CURATED ROW 2: ÉPÎTRE AUX ROMAINS ============ -->
-  {romainsSermons.length > 0 && (
+  <!-- ============ CURATED ROW 2: ANNEE 2026 ============ -->
+  {sermons2026.length > 0 && (
     <section class="py-16 border-b border-editorial bg-grain overflow-hidden">
       <Container size="default">
         <div class="mb-8 flex items-baseline justify-between">
           <div>
             <h2 class="font-display text-2xl font-light tracking-tight text-ink-900 dark:text-ink-50">
-              Série · Épître aux Romains
+              Année 2026
             </h2>
             <p class="text-xs text-ink-500 dark:text-ink-400 mt-1">
-              Méditations théologiques et pratiques sur Romains 12
+              Les messages partagés depuis le début de l'année
             </p>
           </div>
           <button
             type="button"
-            data-trigger-filter-book="Romains"
+            data-trigger-filter-year="2026"
             class="link-editorial text-xs font-semibold uppercase tracking-wider"
           >
             Tout voir
@@ -218,7 +218,7 @@ export const prerender = true;
             class="flex gap-6 overflow-x-auto snap-x snap-mandatory py-4 scrollbar-none"
             data-scroll-track
           >
-            {romainsSermons.map((s) => (
+            {sermons2026.map((s) => (
               <div class="snap-start shrink-0 min-w-[280px] w-[280px] sm:min-w-[320px] sm:w-[320px] md:min-w-[360px] md:w-[360px]">
                 <SermonCard sermon={s} />
               </div>
@@ -246,22 +246,22 @@ export const prerender = true;
     </section>
   )}
 
-  <!-- ============ CURATED ROW 3: ÉVANGILE DE MATTHIEU ============ -->
-  {matthieuSermons.length > 0 && (
+  <!-- ============ CURATED ROW 3: ANNEE 2025 ============ -->
+  {sermons2025.length > 0 && (
     <section class="py-16 border-b border-editorial bg-grain overflow-hidden">
       <Container size="default">
         <div class="mb-8 flex items-baseline justify-between">
           <div>
             <h2 class="font-display text-2xl font-light tracking-tight text-ink-900 dark:text-ink-50">
-              Série · Évangile de Matthieu
+              Année 2025
             </h2>
             <p class="text-xs text-ink-500 dark:text-ink-400 mt-1">
-              Enseignements bibliques autour du ministère et de la résurrection du Christ
+              Archives des prédications de l'année précédente
             </p>
           </div>
           <button
             type="button"
-            data-trigger-filter-book="Matthieu"
+            data-trigger-filter-year="2025"
             class="link-editorial text-xs font-semibold uppercase tracking-wider"
           >
             Tout voir
@@ -274,7 +274,7 @@ export const prerender = true;
             class="flex gap-6 overflow-x-auto snap-x snap-mandatory py-4 scrollbar-none"
             data-scroll-track
           >
-            {matthieuSermons.map((s) => (
+            {sermons2025.map((s) => (
               <div class="snap-start shrink-0 min-w-[280px] w-[280px] sm:min-w-[320px] sm:w-[320px] md:min-w-[360px] md:w-[360px]">
                 <SermonCard sermon={s} />
               </div>
@@ -486,12 +486,12 @@ export const prerender = true;
       filters.forEach((f) => f.addEventListener('change', apply));
 
       // Handle horizontal row "Tout voir" quick click triggers
-      document.querySelectorAll('[data-trigger-filter-book]').forEach((btn) => {
+      document.querySelectorAll('[data-trigger-filter-year]').forEach((btn) => {
         btn.addEventListener('click', () => {
-          const b = btn.getAttribute('data-trigger-filter-book') ?? '';
-          const select = document.querySelector<HTMLSelectElement>('[data-sermon-filter="book"]');
+          const y = btn.getAttribute('data-trigger-filter-year') ?? '';
+          const select = document.querySelector<HTMLSelectElement>('[data-sermon-filter="year"]');
           if (select) {
-            select.value = b;
+            select.value = y;
             select.dispatchEvent(new Event('change'));
             const dest = document.getElementById('toutes-les-predications');
             if (dest) dest.scrollIntoView({ behavior: 'smooth' });
