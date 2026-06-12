@@ -512,7 +512,6 @@ export const prerender = true;
     function setupSermonFilters() {
       const search = document.querySelector<HTMLInputElement>('[data-sermon-search]');
       const filters = document.querySelectorAll<HTMLSelectElement>('[data-sermon-filter]');
-      const items = document.querySelectorAll<HTMLElement>('[data-sermon-item]');
       const emptyContainer = document.getElementById('sermon-empty-container');
       const grid = document.querySelector<HTMLElement>('[data-sermon-grid]');
       
@@ -546,6 +545,20 @@ export const prerender = true;
         const book = (document.querySelector('[data-sermon-filter="book"]') as HTMLSelectElement | null)?.value ?? '';
         const speaker = (document.querySelector('[data-sermon-filter="speaker"]') as HTMLSelectElement | null)?.value ?? '';
         const year = (document.querySelector('[data-sermon-filter="year"]') as HTMLSelectElement | null)?.value ?? '';
+        
+        const items = document.querySelectorAll<HTMLElement>('[data-sermon-item]');
+        const isFiltering = Boolean(q || book || speaker || year);
+
+        // If not actively searching/filtering, ensure grid is visible and empty container is cleared
+        if (!isFiltering) {
+          grid.classList.remove('hidden');
+          grid.removeAttribute('aria-hidden');
+          emptyContainer.innerHTML = '';
+          items.forEach((item) => {
+            item.style.display = '';
+          });
+          return;
+        }
 
         let visible = 0;
         items.forEach((item) => {
@@ -638,6 +651,9 @@ export const prerender = true;
           }
         });
       });
+
+      // Run initial application to sync states properly
+      apply(false);
     }
 
     function setupScrollTracks() {
