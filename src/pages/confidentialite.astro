@@ -1,0 +1,127 @@
+---
+import PageLayout from '../layouts/PageLayout.astro';
+import Container from '../components/Container.astro';
+import { church } from '../data/church.ts';
+
+export const prerender = true;
+---
+
+<PageLayout
+  title="Politique de confidentialité — Église Évangélique Baptiste de Massy"
+  description="Politique de traitement et de protection des données personnelles de l'Église Évangélique Baptiste de Massy."
+  eyebrow="Confidentialité"
+  pageTitle="Politique de confidentialité"
+  pageLead="Nous nous engageons à protéger votre vie privée et à traiter vos données personnelles avec transparence et sécurité, conformément au RGPD."
+>
+  <section class="py-16 md:py-24 bg-grain">
+    <Container size="narrow">
+      <div class="prose prose-editorial dark:prose-invert max-w-none space-y-10">
+
+        <div class="border-b border-editorial pb-6">
+          <h2 class="font-display text-2xl font-light text-ink-900 dark:text-ink-50">1. Responsable du traitement</h2>
+          <p class="mt-4 text-sm leading-relaxed text-ink-700 dark:text-ink-300">
+            Le responsable du traitement des données personnelles collectées sur ce site est l'<strong>{church.name}</strong>, association cultuelle sise à l'adresse : {church.address.full}.
+          </p>
+          <p class="mt-2 text-sm leading-relaxed text-ink-700 dark:text-ink-300">
+            Pour toute question concernant vos données ou pour exercer vos droits, vous pouvez nous contacter par email à <a href={`mailto:${church.contact.email}`} class="underline hover:text-terracotta-700">{church.contact.email}</a>.
+          </p>
+        </div>
+
+        <div class="border-b border-editorial pb-6">
+          <h2 class="font-display text-2xl font-light text-ink-900 dark:text-ink-50">2. Données collectées et finalités</h2>
+          <p class="mt-4 text-sm leading-relaxed text-ink-700 dark:text-ink-300">
+            Nous collectons uniquement les données strictement nécessaires aux finalités suivantes :
+          </p>
+          <ul class="mt-4 space-y-3 text-sm text-ink-700 dark:text-ink-300 list-disc list-inside">
+            <li>
+              <strong>Formulaire de contact :</strong> Lorsque vous nous envoyez un message via le site, nous collectons votre nom, votre adresse email, votre sujet de contact, votre message, votre adresse IP (pour la prévention des abus et spams), ainsi que votre éventuel numéro de téléphone. Ces données sont utilisées exclusivement pour traiter et répondre à votre demande.
+            </li>
+            <li>
+              <strong>Demandes de prière et demandes pastorales :</strong> Les messages ou intentions de prière envoyés via le formulaire de contact ou les formulaires de prière sont traités de manière strictement confidentielle et ne sont partagés qu'avec l'équipe pastorale ou de prière de l'église, selon votre choix explicite.
+            </li>
+            <li>
+              <strong>Candidature à un groupe :</strong> Les données soumises pour rejoindre un groupe de partage (nom, email, téléphone, message de motivation) sont exclusivement transmises à l'animateur du groupe concerné.
+            </li>
+            <li>
+              <strong>Inscription à la newsletter :</strong> Si vous choisissez de vous inscrire à notre newsletter, nous collectons uniquement votre adresse email afin de vous envoyer nos actualités régulières.
+            </li>
+          </ul>
+        </div>
+
+        <div class="border-b border-editorial pb-6">
+          <h2 class="font-display text-2xl font-light text-ink-900 dark:text-ink-50">3. Base légale du traitement</h2>
+          <p class="mt-4 text-sm leading-relaxed text-ink-700 dark:text-ink-300">
+            Le traitement de vos données repose soit sur :
+          </p>
+          <ul class="mt-2 space-y-2 text-sm text-ink-700 dark:text-ink-300 list-disc list-inside">
+            <li>Votre <strong>consentement</strong> explicite (ex. inscription à la newsletter, demande de contact initiée par vos soins).</li>
+            <li>L'<strong>intérêt légitime</strong> de l'association (ex. sécurisation du site internet par limitation du taux de requêtes et protection anti-spam).</li>
+          </ul>
+        </div>
+
+        <div class="border-b border-editorial pb-6">
+          <h2 class="font-display text-2xl font-light text-ink-900 dark:text-ink-50">4. Destinataires des données</h2>
+          <p class="mt-4 text-sm leading-relaxed text-ink-700 dark:text-ink-300">
+            Les données collectées sont uniquement destinées aux services habilités de l'<strong>{church.name}</strong>. Elles ne sont <strong>jamais</strong> cédées, vendues, louées ou partagées avec des tiers à des fins commerciales.
+          </p>
+          <p class="mt-2 text-sm leading-relaxed text-ink-700 dark:text-ink-300">
+            Elles transitent ou sont stockées chez nos sous-traitants techniques et prestataires de confiance :
+          </p>
+          <ul class="mt-2 space-y-2 text-sm text-ink-700 dark:text-ink-300 list-disc list-inside">
+            <li>Notre hébergeur : Vercel (pour le fonctionnement de l'infrastructure web).</li>
+            <li>Notre base de données sécurisée : Supabase (pour la sauvegarde des messages de contact).</li>
+          </ul>
+        </div>
+
+        <div class="border-b border-editorial pb-6">
+          <h2 class="font-display text-2xl font-light text-ink-900 dark:text-ink-50">5. Cookies et traceurs</h2>
+          <p class="mt-4 text-sm leading-relaxed text-ink-700 dark:text-ink-300">
+            Ce site utilise uniquement des cookies strictement nécessaires et essentiels au bon fonctionnement technique de l'application (ex. protection de sécurité contre la falsification de requêtes intersites ou CSRF).
+          </p>
+          <p class="mt-2 text-sm leading-relaxed text-ink-700 dark:text-ink-300">
+            Aucun cookie de suivi publicitaire, de ciblage ou de marketing n'est déposé sur votre équipement. Le visionnage des vidéos YouTube et l'accès à la carte Google Maps s'effectuent sans dépôt de cookies tiers non sollicités en amont.
+          </p>
+        </div>
+
+        <div class="border-b border-editorial pb-6">
+          <h2 class="font-display text-2xl font-light text-ink-900 dark:text-ink-50">6. Durée de conservation</h2>
+          <ul class="mt-4 space-y-2 text-sm text-ink-700 dark:text-ink-300 list-disc list-inside">
+            <li><strong>Messages de contact :</strong> Conservés le temps nécessaire pour traiter votre demande, puis archivés ou supprimés dans un délai maximum de 3 ans.</li>
+            <li><strong>Newsletter :</strong> Conservés tant que vous ne manifestez pas votre souhait de vous désinscrire (via le lien de désinscription inclus dans chaque email).</li>
+            <li><strong>Logs de sécurité (ex. adresses IP de prévention de spam) :</strong> Conservés pour une durée maximale de 12 mois.</li>
+          </ul>
+        </div>
+
+        <div class="border-b border-editorial pb-6">
+          <h2 class="font-display text-2xl font-light text-ink-900 dark:text-ink-50">7. Vos droits</h2>
+          <p class="mt-4 text-sm leading-relaxed text-ink-700 dark:text-ink-300">
+            Conformément au RGPD et à la loi Informatique et Libertés, vous disposez des droits suivants sur vos données :
+          </p>
+          <ul class="mt-2 space-y-2 text-sm text-ink-700 dark:text-ink-300 list-disc list-inside">
+            <li>Droit d'accès et de rectification.</li>
+            <li>Droit à l'effacement (« droit à l'oubli »).</li>
+            <li>Droit à la limitation du traitement.</li>
+            <li>Droit d'opposition pour motifs légitimes.</li>
+          </ul>
+          <p class="mt-4 text-sm leading-relaxed text-ink-700 dark:text-ink-300">
+            Pour exercer ces droits, contactez-nous par email à : <a href={`mailto:${church.contact.email}`} class="underline hover:text-terracotta-700">{church.contact.email}</a>.
+          </p>
+          <p class="mt-2 text-sm leading-relaxed text-ink-700 dark:text-ink-300">
+            Si vous estimez, après nous avoir contactés, que vos droits ne sont pas respectés, vous pouvez adresser une réclamation auprès de la CNIL (<a href="https://www.cnil.fr" target="_blank" rel="noopener noreferrer" class="underline hover:text-terracotta-700">cnil.fr</a>).
+          </p>
+        </div>
+
+        <div>
+          <h2 class="font-display text-2xl font-light text-ink-900 dark:text-ink-50">8. Sécurité des données</h2>
+          <p class="mt-4 text-sm leading-relaxed text-ink-700 dark:text-ink-300">
+            Nous mettons en œuvre des mesures de sécurité techniques et organisationnelles appropriées pour protéger vos données contre les accès non autorisés, l'altération, la divulgation ou la destruction (ex. utilisation de protocoles de transfert chiffrés HTTPS, limitation d'accès en lecture aux seules personnes autorisées de l'église, outils de sécurité CSRF et rate limiting).
+          </p>
+          <p class="mt-6 text-xs text-ink-400 dark:text-ink-500">
+            Dernière mise à jour : 12 juin 2026.
+          </p>
+        </div>
+
+      </div>
+    </Container>
+  </section>
+</PageLayout>

@@ -1,0 +1,68 @@
+---
+import PageLayout from '../layouts/PageLayout.astro';
+import Container from '../components/Container.astro';
+import { church } from '../data/church.ts';
+
+export const prerender = true;
+---
+
+<PageLayout
+  title="Mentions légales — Église Évangélique Baptiste de Massy"
+  description="Mentions légales de l'Église Évangélique Baptiste de Massy. Informations d'édition, d'hébergement, et d'utilisation du site."
+  eyebrow="Mentions légales"
+  pageTitle="Mentions légales"
+  pageLead="Informations légales obligatoires concernant l'édition et l'hébergement du site de l'Église Évangélique Baptiste de Massy."
+>
+  <section class="py-16 md:py-24 bg-grain">
+    <Container size="narrow">
+      <div class="prose prose-editorial dark:prose-invert max-w-none space-y-10">
+        
+        <div class="border-b border-editorial pb-6">
+          <h2 class="font-display text-2xl font-light text-ink-900 dark:text-ink-50">1. Éditeur du site</h2>
+          <p class="mt-4 text-sm leading-relaxed text-ink-700 dark:text-ink-300">
+            Le présent site internet est édité par l'<strong>{church.name}</strong>, association cultuelle (loi de 1905).
+          </p>
+          <ul class="mt-4 space-y-2 text-sm text-ink-700 dark:text-ink-300 list-disc list-inside">
+            <li><strong>Adresse du siège :</strong> {church.address.full}</li>
+            <li><strong>Téléphone :</strong> {church.contact.phone}</li>
+            <li><strong>Adresse email :</strong> {church.contact.email}</li>
+            <li><strong>Directeur de la publication :</strong> Pasteur de l'église (représentant légal de l'association cultuelle)</li>
+          </ul>
+        </div>
+
+        <div class="border-b border-editorial pb-6">
+          <h2 class="font-display text-2xl font-light text-ink-900 dark:text-ink-50">2. Hébergement du site</h2>
+          <p class="mt-4 text-sm leading-relaxed text-ink-700 dark:text-ink-300">
+            Le site est hébergé par <strong>Vercel Inc.</strong>
+          </p>
+          <ul class="mt-4 space-y-2 text-sm text-ink-700 dark:text-ink-300 list-disc list-inside">
+            <li><strong>Adresse :</strong> 340 S Lemon Ave #4133, Walnut, CA 91789, États-Unis</li>
+            <li><strong>Site Internet :</strong> <a href="https://vercel.com" target="_blank" rel="noopener noreferrer" class="underline hover:text-terracotta-700">https://vercel.com</a></li>
+          </ul>
+        </div>
+
+        <div class="border-b border-editorial pb-6">
+          <h2 class="font-display text-2xl font-light text-ink-900 dark:text-ink-50">3. Propriété intellectuelle</h2>
+          <p class="mt-4 text-sm leading-relaxed text-ink-700 dark:text-ink-300">
+            L'ensemble des contenus (textes, images, vidéos, logos) présents sur ce site est la propriété exclusive de l'association <strong>{church.name}</strong>, sauf mentions contraires ou contenus issus de tiers. Toute reproduction, représentation ou diffusion, totale ou partielle, de ces éléments est interdite sans autorisation préalable écrite de l'éditeur.
+          </p>
+        </div>
+
+        <div class="border-b border-editorial pb-6">
+          <h2 class="font-display text-2xl font-light text-ink-900 dark:text-ink-50">4. Responsabilité et liens externes</h2>
+          <p class="mt-4 text-sm leading-relaxed text-ink-700 dark:text-ink-300">
+            L'éditeur s'efforce de fournir des informations précises et à jour sur ce site, mais ne saurait être tenu responsable des omissions ou des erreurs. Le site contient des liens vers des sites tiers (ex. YouTube, partenaires). L'éditeur n'exerce aucun contrôle sur le contenu de ces sites et décline toute responsabilité quant à leur contenu ou à leur utilisation de vos données.
+          </p>
+        </div>
+
+        <div>
+          <h2 class="font-display text-2xl font-light text-ink-900 dark:text-ink-50">5. Droit applicable</h2>
+          <p class="mt-4 text-sm leading-relaxed text-ink-700 dark:text-ink-300">
+            Le présent site et ses mentions légales sont régis par le droit français. En cas de litige, et après échec de toute tentative de recherche d'une solution amiable, compétence exclusive est attribuée aux tribunaux français compétents.
+          </p>
+        </div>
+
+      </div>
+    </Container>
+  </section>
+</PageLayout>
