@@ -68,10 +68,10 @@ const dateFr = new Date(sermon.date).toLocaleDateString('fr-FR', {
 
   <!-- Content Block -->
   <div class:list={[
-    'flex flex-col pt-5',
+    'flex flex-col pt-4',
     featured ? 'lg:col-span-5 lg:pt-0' : '',
   ]}>
-    <div class="flex items-center gap-2 text-xs uppercase tracking-wider text-ink-500 dark:text-ink-400">
+    <div class="flex items-center gap-2 text-[10px] uppercase tracking-[0.15em] text-ink-500 dark:text-ink-400">
       <time datetime={sermon.date}>{dateFr}</time>
       {sermon.scripture && (
         <>
@@ -82,16 +82,16 @@ const dateFr = new Date(sermon.date).toLocaleDateString('fr-FR', {
     </div>
 
     <h3 class:list={[
-      'font-display font-medium tracking-tight text-ink-900 dark:text-ink-50 text-balance mt-3',
-      featured ? 'text-2xl sm:text-3xl lg:text-4xl' : 'text-lg group-hover:text-terracotta-700 dark:group-hover:text-terracotta-300 transition-colors',
+      'font-display tracking-tight text-ink-900 dark:text-ink-50 mt-2.5',
+      featured ? 'text-2xl sm:text-3xl lg:text-4xl font-light leading-tight' : 'text-sm font-normal text-ink-600 dark:text-ink-350 group-hover:text-terracotta-700 dark:group-hover:text-terracotta-300 transition-colors',
     ]}>
       <a href={`/sermons/${sermon.id}`}>
         {sermon.title}
       </a>
     </h3>
 
-    <p class="mt-2 text-xs text-ink-500 dark:text-ink-400">
-      Par {sermon.speaker} {sermon.series ? `· Série : ${sermon.series}` : ''}
+    <p class="mt-1 text-[10px] uppercase tracking-wider text-ink-400 dark:text-ink-500 font-medium">
+      {sermon.speaker}
     </p>
 
     {featured && sermon.description && (
@@ -102,7 +102,7 @@ const dateFr = new Date(sermon.date).toLocaleDateString('fr-FR', {
 
     <div class="mt-4 pt-1">
       <span class="inline-flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wider text-terracotta-700 group-hover:text-terracotta-800 dark:text-terracotta-300 dark:group-hover:text-terracotta-200 transition-colors">
-        Écouter le message
+        Regarder
         <svg class="h-3 w-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
       </span>
     </div>
