@@ -32,7 +32,7 @@ export const activities: Activity[] = [
     location: 'Centre Évangélique Les Cèdres, 17 voie de Wissous',
     audience: 'Ouvert à tous — croyants ou en recherche',
     description:
-      'Moment privilégié où nous nous présentons à Dieu, lui rendons honneur et célébrons son œuvre rédemptrice. Prières, chants, et commentaire d’un texte biblique. Réunion publique où tout le monde est le bienvenu.',
+      'Chaque dimanche à 10 h 30, un temps de chants, de prière, de lecture biblique et de partage, ouvert à tous.',
     highlight: true,
     icon: 'sun',
   },
@@ -83,7 +83,7 @@ export const activities: Activity[] = [
     location: 'Salle dédiée aux jeunes — Les Cèdres',
     audience: '15–20 ans',
     description:
-      'Un rendez-vous hebdomadaire pour les adolescents et jeunes adultes. Partages conviviaux, moments de détente et étude de la Bible.',
+      'Un espace de détente, de partage et d’étude biblique pour les 15–20 ans.',
     highlight: true,
     icon: 'youth',
   },
@@ -102,7 +102,7 @@ export const activities: Activity[] = [
     location: 'Chez des particuliers, à Massy et dans les environs',
     audience: 'Groupes de 8 à 12 personnes en moyenne',
     description:
-      'Des rencontres fraternelles en semaine dans différents foyers pour prier, partager et approfondir ensemble les textes bibliques.',
+      'Des rencontres en petit groupe pour prier, lire la Bible et créer des liens près de chez soi.',
     highlight: true,
     icon: 'home',
   },
@@ -128,7 +128,7 @@ export const activities: Activity[] = [
     location: 'Les Cèdres (en commun avec l’Église d’Antony)',
     audience: 'Une quinzaine de participants',
     description:
-      'Une lecture suivie et partagée de toute la Bible sur une année, avec un rendez-vous hebdomadaire convivial autour d’un brunch.',
+      'Un parcours collectif pour découvrir l’ensemble de la Bible, accompagné de rencontres régulières.',
     highlight: true,
     icon: 'book',
   },
