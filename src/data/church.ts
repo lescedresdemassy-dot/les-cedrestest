@@ -70,14 +70,14 @@ export const church = {
   // Horaires des cultes
   services: {
     sunday: {
-      time: '10h30',
+      time: '10 h 30',
       timeISO: '10:30',
       description:
         'Culte protestant ouvert à tous, croyants ou en recherche.',
       features: [
         { label: 'Garderie pour les moins de 3 ans', icon: 'baby' },
         { label: 'École du dimanche pour les enfants', icon: 'children' },
-        { label: 'Repas fraternel le 3ème dimanche du mois', icon: 'meal' },
+        { label: 'Repas fraternel le 3e dimanche du mois', icon: 'meal' },
       ],
     },
   },

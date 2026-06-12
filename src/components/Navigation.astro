@@ -177,7 +177,8 @@ function isActive(href: string): boolean {
 
 <style>
   #site-header[data-scrolled='true'] {
-    @apply bg-sand-50/90 dark:bg-ink-950/90 shadow-sm;
+    @apply bg-sand-50/90 dark:bg-ink-950/90 border-b;
+    border-color: rgb(var(--color-border));
   }
   
   #site-header[data-scrolled='true'] #header-inner {
@@ -239,5 +240,6 @@ function isActive(href: string): boolean {
 
   if (document.readyState !== 'loading') setupHeader();
   else document.addEventListener('DOMContentLoaded', setupHeader);
+  document.addEventListener('astro:page-load', setupHeader);
 </script>
 

@@ -7,19 +7,28 @@ import {
   sermons,
   getFeaturedSermon,
   getAllSpeakers,
-  getAllSeries,
 } from '../../data/sermons.ts';
 import { church } from '../../data/church.ts';
 
 const featured = getFeaturedSermon();
 const otherSermons = sermons.filter((s) => s.id !== featured.id);
-const speakers = getAllSpeakers();
-const series = getAllSeries();
 
 // Année par année pour le filtre
 const years = Array.from(
   new Set(sermons.map((s) => s.date.substring(0, 4)))
 ).sort((a, b) => b.localeCompare(a));
+
+// Livres bibliques uniques
+const books = Array.from(
+  new Set(sermons.map((s) => s.scripture ? s.scripture.split(' ')[0] : ''))
+).filter(Boolean).sort();
+
+const speakers = getAllSpeakers();
+
+// Séries / Thématiques pour les lignes horizontales
+const latestSermons = sermons.slice(0, 6);
+const romainsSermons = sermons.filter((s) => s.scripture?.includes('Romains')).slice(0, 6);
+const matthieuSermons = sermons.filter((s) => s.scripture?.includes('Matthieu')).slice(0, 6);
 
 export const prerender = true;
 ---
@@ -53,22 +62,259 @@ export const prerender = true;
     </div>
   </slot>
 
-  <!-- ============ FEATURED SERMON SECTION ============ -->
+  <!-- ============ FEATURED SERMON SECTION (ASYMMETRICAL DISPOSITION) ============ -->
   <section class="py-16 md:py-24 border-b border-editorial bg-grain">
     <Container size="default">
-      <div class="mb-10">
-        <p class="text-xs font-semibold uppercase tracking-[0.2em] text-terracotta-700 dark:text-terracotta-300">
-          À la une
-        </p>
+      <div class="mb-10 flex items-center gap-3 text-[10px] uppercase tracking-[0.25em] text-terracotta-700 dark:text-terracotta-300">
+        <span class="h-1.5 w-1.5 bg-terracotta-600 dark:bg-terracotta-400"></span>
+        <span>À la une · Dernier message</span>
       </div>
-      <SermonCard sermon={featured} featured={true} />
+
+      <div class="grid grid-cols-1 gap-12 lg:grid-cols-12 lg:gap-16 items-center">
+        <!-- Visual (Left 7 Cols) -->
+        <div class="lg:col-span-7">
+          <a
+            href={`/sermons/${featured.id}`}
+            class="group relative block aspect-video w-full bg-sand-100 dark:bg-ink-850 border border-editorial overflow-hidden"
+            aria-label={`Regarder : ${featured.title}`}
+          >
+            <img
+              src={`https://i.ytimg.com/vi/${featured.youtubeId}/maxresdefault.jpg`}
+              onerror={`this.onerror=null;this.src='https://i.ytimg.com/vi/${featured.youtubeId}/hqdefault.jpg';`}
+              alt=""
+              loading="eager"
+              class="absolute inset-0 h-full w-full object-cover transition-transform duration-700 ease-out-expo group-hover:scale-102"
+            />
+            <div class="absolute inset-0 bg-ink-950/10"></div>
+            <div class="absolute inset-0 flex items-center justify-center">
+              <span class="flex h-14 w-14 items-center justify-center bg-ink-900 text-white dark:bg-ink-100 dark:text-ink-950" aria-hidden="true">
+                <svg class="ml-0.5 h-6 w-6" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"></path></svg>
+              </span>
+            </div>
+            {featured.durationMinutes && (
+              <span class="absolute bottom-4 right-4 bg-ink-950/80 px-2.5 py-0.5 text-[10px] font-semibold text-white tracking-wide">
+                {featured.durationMinutes} min
+              </span>
+            )}
+          </a>
+        </div>
+
+        <!-- Content details (Right 5 Cols) -->
+        <div class="lg:col-span-5 flex flex-col justify-center">
+          <div class="flex items-center gap-2.5 text-xs text-ink-500 dark:text-ink-400 uppercase tracking-wider font-semibold">
+            <time datetime={featured.date}>
+              {new Date(featured.date).toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' })}
+            </time>
+            {featured.scripture && (
+              <>
+                <span>·</span>
+                <span class="font-medium text-terracotta-700 dark:text-terracotta-300">{featured.scripture}</span>
+              </>
+            )}
+          </div>
+
+          <h3 class="mt-4 font-display text-3xl font-light leading-tight tracking-tight text-ink-900 dark:text-ink-50 sm:text-4xl">
+            <a href={`/sermons/${featured.id}`} class="hover:text-terracotta-700 dark:hover:text-terracotta-300 transition-colors">
+              {featured.title}
+            </a>
+          </h3>
+
+          <p class="mt-3 text-xs text-ink-550 dark:text-ink-400 font-medium">
+            Par {featured.speaker} {featured.series ? `· Série : ${featured.series}` : ''}
+          </p>
+
+          <p class="mt-6 text-sm leading-relaxed text-ink-700 dark:text-ink-300">
+            {featured.description || "Retrouvez l'enseignement biblique partagé ce dimanche au Centre Les Cèdres."}
+          </p>
+
+          <div class="mt-8 flex flex-wrap gap-4">
+            <Button href={`/sermons/${featured.id}`} variant="primary" size="md">
+              Regarder le message
+            </Button>
+            <a href="#toutes-les-predications" class="link-editorial text-xs font-semibold uppercase tracking-wider self-center ml-2">
+              Rechercher une autre vidéo
+            </a>
+          </div>
+        </div>
+      </div>
     </Container>
   </section>
 
-  <!-- ============ FILTER BAR & GRID ============ -->
-  <section class="py-16 md:py-24 bg-grain">
+  <!-- ============ CURATED ROW 1: DERNIERES PREDICATIONS ============ -->
+  <section class="py-16 border-b border-editorial bg-grain overflow-hidden">
+    <Container size="default">
+      <div class="mb-8 flex items-baseline justify-between">
+        <div>
+          <h2 class="font-display text-2xl font-light tracking-tight text-ink-900 dark:text-ink-50">
+            Dernières prédications
+          </h2>
+          <p class="text-xs text-ink-500 dark:text-ink-400 mt-1">
+            Les derniers cultes et messages dominicaux
+          </p>
+        </div>
+        <a href="#toutes-les-predications" class="link-editorial text-xs font-semibold uppercase tracking-wider">
+          Tout voir
+        </a>
+      </div>
+
+      <div class="relative group/row">
+        <!-- Horizontal Scroll Container -->
+        <div
+          class="flex gap-6 overflow-x-auto snap-x snap-mandatory py-4 scrollbar-none"
+          data-scroll-track
+        >
+          {latestSermons.map((s) => (
+            <div class="snap-start shrink-0 min-w-[280px] w-[280px] sm:min-w-[320px] sm:w-[320px] md:min-w-[360px] md:w-[360px]">
+              <SermonCard sermon={s} />
+            </div>
+          ))}
+        </div>
+        <!-- Desktop controls -->
+        <button
+          type="button"
+          class="absolute -left-4 top-[35%] -translate-y-1/2 z-10 hidden lg:flex items-center justify-center h-10 w-10 border border-editorial bg-sand-50 dark:bg-ink-950 text-ink-900 dark:text-ink-50 hover:bg-terracotta-700 hover:text-white transition-colors"
+          data-scroll-btn="prev"
+          aria-label="Précédent"
+        >
+          <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="m15 18-6-6 6-6"/></svg>
+        </button>
+        <button
+          type="button"
+          class="absolute -right-4 top-[35%] -translate-y-1/2 z-10 hidden lg:flex items-center justify-center h-10 w-10 border border-editorial bg-sand-50 dark:bg-ink-950 text-ink-900 dark:text-ink-50 hover:bg-terracotta-700 hover:text-white transition-colors"
+          data-scroll-btn="next"
+          aria-label="Suivant"
+        >
+          <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="m9 18 6-6-6-6"/></svg>
+        </button>
+      </div>
+    </Container>
+  </section>
+
+  <!-- ============ CURATED ROW 2: ÉPÎTRE AUX ROMAINS ============ -->
+  {romainsSermons.length > 0 && (
+    <section class="py-16 border-b border-editorial bg-grain overflow-hidden">
+      <Container size="default">
+        <div class="mb-8 flex items-baseline justify-between">
+          <div>
+            <h2 class="font-display text-2xl font-light tracking-tight text-ink-900 dark:text-ink-50">
+              Série · Épître aux Romains
+            </h2>
+            <p class="text-xs text-ink-500 dark:text-ink-400 mt-1">
+              Méditations théologiques et pratiques sur Romains 12
+            </p>
+          </div>
+          <button
+            type="button"
+            data-trigger-filter-book="Romains"
+            class="link-editorial text-xs font-semibold uppercase tracking-wider"
+          >
+            Tout voir
+          </button>
+        </div>
+
+        <div class="relative group/row">
+          <!-- Horizontal Scroll Container -->
+          <div
+            class="flex gap-6 overflow-x-auto snap-x snap-mandatory py-4 scrollbar-none"
+            data-scroll-track
+          >
+            {romainsSermons.map((s) => (
+              <div class="snap-start shrink-0 min-w-[280px] w-[280px] sm:min-w-[320px] sm:w-[320px] md:min-w-[360px] md:w-[360px]">
+                <SermonCard sermon={s} />
+              </div>
+            ))}
+          </div>
+          <!-- Desktop controls -->
+          <button
+            type="button"
+            class="absolute -left-4 top-[35%] -translate-y-1/2 z-10 hidden lg:flex items-center justify-center h-10 w-10 border border-editorial bg-sand-50 dark:bg-ink-950 text-ink-900 dark:text-ink-50 hover:bg-terracotta-700 hover:text-white transition-colors"
+            data-scroll-btn="prev"
+            aria-label="Précédent"
+          >
+            <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="m15 18-6-6 6-6"/></svg>
+          </button>
+          <button
+            type="button"
+            class="absolute -right-4 top-[35%] -translate-y-1/2 z-10 hidden lg:flex items-center justify-center h-10 w-10 border border-editorial bg-sand-50 dark:bg-ink-950 text-ink-900 dark:text-ink-50 hover:bg-terracotta-700 hover:text-white transition-colors"
+            data-scroll-btn="next"
+            aria-label="Suivant"
+          >
+            <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="m9 18 6-6-6-6"/></svg>
+          </button>
+        </div>
+      </Container>
+    </section>
+  )}
+
+  <!-- ============ CURATED ROW 3: ÉVANGILE DE MATTHIEU ============ -->
+  {matthieuSermons.length > 0 && (
+    <section class="py-16 border-b border-editorial bg-grain overflow-hidden">
+      <Container size="default">
+        <div class="mb-8 flex items-baseline justify-between">
+          <div>
+            <h2 class="font-display text-2xl font-light tracking-tight text-ink-900 dark:text-ink-50">
+              Série · Évangile de Matthieu
+            </h2>
+            <p class="text-xs text-ink-500 dark:text-ink-400 mt-1">
+              Enseignements bibliques autour du ministère et de la résurrection du Christ
+            </p>
+          </div>
+          <button
+            type="button"
+            data-trigger-filter-book="Matthieu"
+            class="link-editorial text-xs font-semibold uppercase tracking-wider"
+          >
+            Tout voir
+          </button>
+        </div>
+
+        <div class="relative group/row">
+          <!-- Horizontal Scroll Container -->
+          <div
+            class="flex gap-6 overflow-x-auto snap-x snap-mandatory py-4 scrollbar-none"
+            data-scroll-track
+          >
+            {matthieuSermons.map((s) => (
+              <div class="snap-start shrink-0 min-w-[280px] w-[280px] sm:min-w-[320px] sm:w-[320px] md:min-w-[360px] md:w-[360px]">
+                <SermonCard sermon={s} />
+              </div>
+            ))}
+          </div>
+          <!-- Desktop controls -->
+          <button
+            type="button"
+            class="absolute -left-4 top-[35%] -translate-y-1/2 z-10 hidden lg:flex items-center justify-center h-10 w-10 border border-editorial bg-sand-50 dark:bg-ink-950 text-ink-900 dark:text-ink-50 hover:bg-terracotta-700 hover:text-white transition-colors"
+            data-scroll-btn="prev"
+            aria-label="Précédent"
+          >
+            <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="m15 18-6-6 6-6"/></svg>
+          </button>
+          <button
+            type="button"
+            class="absolute -right-4 top-[35%] -translate-y-1/2 z-10 hidden lg:flex items-center justify-center h-10 w-10 border border-editorial bg-sand-50 dark:bg-ink-950 text-ink-900 dark:text-ink-50 hover:bg-terracotta-700 hover:text-white transition-colors"
+            data-scroll-btn="next"
+            aria-label="Suivant"
+          >
+            <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="m9 18 6-6-6-6"/></svg>
+          </button>
+        </div>
+      </Container>
+    </section>
+  )}
+
+  <!-- ============ COMPLETE LIBRARY SECTION ============ -->
+  <section id="toutes-les-predications" class="py-16 md:py-24 bg-grain scroll-mt-20">
     <Container size="default">
       
+      <div class="mb-10">
+        <h2 class="font-display text-3xl font-light tracking-tight text-ink-900 dark:text-ink-50">
+          Toutes les prédications
+        </h2>
+        <p class="text-xs text-ink-500 dark:text-ink-400 mt-1">
+          Explorez et filtrez l'intégralité de nos archives d'enseignements
+        </p>
+      </div>
+
       <!-- Custom Typographic Filter Bar (No rounded search box or templates) -->
       <div class="mb-16 flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between border-b border-editorial pb-10">
         
@@ -103,11 +349,11 @@ export const prerender = true;
         <div class="flex flex-wrap gap-4">
           <select
             class="bg-transparent border-b border-editorial py-2.5 text-xs font-semibold uppercase tracking-wider text-ink-700 focus:outline-none focus:border-terracotta-500 dark:text-ink-300"
-            data-sermon-filter="series"
-            aria-label="Filtrer par série"
+            data-sermon-filter="book"
+            aria-label="Filtrer par livre biblique"
           >
-            <option value="" class="dark:bg-ink-950">Toutes les séries</option>
-            {series.map((s) => <option value={s} class="dark:bg-ink-950">{s}</option>)}
+            <option value="" class="dark:bg-ink-950">Tous les livres</option>
+            {books.map((b) => <option value={b} class="dark:bg-ink-950">{b}</option>)}
           </select>
 
           <select
@@ -153,8 +399,8 @@ export const prerender = true;
             data-sermon-item
             data-sermon-title={sermon.title.toLowerCase()}
             data-sermon-speaker={sermon.speaker}
-            data-sermon-series={sermon.series ?? ''}
             data-sermon-year={sermon.date.substring(0, 4)}
+            data-sermon-book={sermon.scripture ? sermon.scripture.split(' ')[0] : ''}
             data-sermon-scripture={sermon.scripture?.toLowerCase() ?? ''}
           >
             <SermonCard sermon={sermon} />
@@ -164,6 +410,17 @@ export const prerender = true;
 
     </Container>
   </section>
+
+  <!-- CSS override to hide scrollbars from horizontal tracks -->
+  <style is:inline>
+    .scrollbar-none::-webkit-scrollbar {
+      display: none;
+    }
+    .scrollbar-none {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
+  </style>
 
   <!-- JS search client-side script -->
   <script>
@@ -181,9 +438,9 @@ export const prerender = true;
 
       const apply = () => {
         const q = search.value.trim().toLowerCase();
-        const series =
+        const book =
           (document.querySelector(
-            '[data-sermon-filter="series"]'
+            '[data-sermon-filter="book"]'
           ) as HTMLSelectElement | null)?.value ?? '';
         const speaker =
           (document.querySelector(
@@ -198,7 +455,7 @@ export const prerender = true;
         items.forEach((item) => {
           const title = item.dataset.sermonTitle ?? '';
           const itemSpeaker = item.dataset.sermonSpeaker ?? '';
-          const itemSeries = item.dataset.sermonSeries ?? '';
+          const itemBook = item.dataset.sermonBook ?? '';
           const itemYear = item.dataset.sermonYear ?? '';
           const scripture = item.dataset.sermonScripture ?? '';
 
@@ -206,13 +463,12 @@ export const prerender = true;
             !q ||
             title.includes(q) ||
             itemSpeaker.toLowerCase().includes(q) ||
-            itemSeries.toLowerCase().includes(q) ||
             scripture.includes(q);
-          const matchSeries = !series || itemSeries === series;
+          const matchBook = !book || itemBook === book;
           const matchSpeaker = !speaker || itemSpeaker === speaker;
           const matchYear = !year || itemYear === year;
 
-          const show = matchQ && matchSeries && matchSpeaker && matchYear;
+          const show = matchQ && matchBook && matchSpeaker && matchYear;
           item.style.display = show ? '' : 'none';
           if (show) visible++;
         });
@@ -228,10 +484,51 @@ export const prerender = true;
 
       search.addEventListener('input', apply);
       filters.forEach((f) => f.addEventListener('change', apply));
+
+      // Handle horizontal row "Tout voir" quick click triggers
+      document.querySelectorAll('[data-trigger-filter-book]').forEach((btn) => {
+        btn.addEventListener('click', () => {
+          const b = btn.getAttribute('data-trigger-filter-book') ?? '';
+          const select = document.querySelector<HTMLSelectElement>('[data-sermon-filter="book"]');
+          if (select) {
+            select.value = b;
+            select.dispatchEvent(new Event('change'));
+            const dest = document.getElementById('toutes-les-predications');
+            if (dest) dest.scrollIntoView({ behavior: 'smooth' });
+          }
+        });
+      });
     }
 
-    if (document.readyState !== 'loading') setupSermonFilters();
-    else document.addEventListener('DOMContentLoaded', setupSermonFilters);
-    document.addEventListener('astro:page-load', setupSermonFilters);
+    function setupScrollTracks() {
+      document.querySelectorAll('[data-scroll-track]').forEach((track) => {
+        const parent = track.closest('.relative');
+        if (!parent) return;
+        const prevBtn = parent.querySelector('[data-scroll-btn="prev"]');
+        const nextBtn = parent.querySelector('[data-scroll-btn="next"]');
+        if (!prevBtn || !nextBtn) return;
+
+        const cardWidth = track.firstElementChild
+          ? track.firstElementChild.getBoundingClientRect().width + 24
+          : 340; // card width + gap
+
+        prevBtn.addEventListener('click', () => {
+          track.scrollBy({ left: -cardWidth, behavior: 'smooth' });
+        });
+
+        nextBtn.addEventListener('click', () => {
+          track.scrollBy({ left: cardWidth, behavior: 'smooth' });
+        });
+      });
+    }
+
+    function init() {
+      setupSermonFilters();
+      setupScrollTracks();
+    }
+
+    if (document.readyState !== 'loading') init();
+    else document.addEventListener('DOMContentLoaded', init);
+    document.addEventListener('astro:page-load', init);
   </script>
 </PageLayout>
