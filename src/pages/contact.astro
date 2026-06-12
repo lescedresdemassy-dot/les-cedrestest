@@ -19,16 +19,6 @@ export const prerender = true;
         <!-- Contact Form (Left 7 Cols) -->
         <div class="lg:col-span-7">
           <form id="contact-form" class="space-y-6" novalidate>
-            <input type="hidden" name="csrfToken" data-csrf-token />
-            <input
-              type="text"
-              name="website"
-              class="honeypot"
-              tabindex="-1"
-              autocomplete="off"
-              aria-hidden="true"
-            />
-
             <div class="grid grid-cols-1 gap-6 sm:grid-cols-2">
               <div>
                 <label
@@ -244,7 +234,6 @@ export const prerender = true;
       const result = document.querySelector<HTMLElement>('[data-form-result]');
       const charCount = document.querySelector<HTMLElement>('[data-char-count]');
       const messageEl = document.getElementById('message') as HTMLTextAreaElement | null;
-      const csrfInput = document.querySelector<HTMLInputElement>('[data-csrf-token]');
       if (!form || !result) return;
 
       // Message Char Count
@@ -254,42 +243,15 @@ export const prerender = true;
         });
       }
 
-      // CSRF request
-      fetch('/api/csrf')
-        .then((r) => r.json())
-        .then((d) => {
-          if (csrfInput && d.token) csrfInput.value = d.token;
-        })
-        .catch(() => {});
-
-      form.addEventListener('submit', async (e) => {
+      form.addEventListener('submit', (e) => {
         e.preventDefault();
-        const formData = Object.fromEntries(new FormData(form).entries());
         
-        result.className = 'text-xs font-semibold uppercase tracking-wider text-ink-500';
+        // Prevent submission and show clear honest message
+        result.className = 'text-sm font-semibold text-terracotta-700 dark:text-terracotta-400 mt-4 p-4 border border-editorial bg-grain w-full block';
+        result.innerHTML = "L’envoi en ligne est temporairement indisponible. Vous pouvez nous contacter directement par e-mail (<strong>contact@eglise-massy.fr</strong>) ou par téléphone (<strong>01 69 20 54 84</strong>).";
         result.classList.remove('hidden');
-        result.textContent = 'Envoi du message...';
-
-        try {
-          const res = await fetch('/api/contact', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(formData),
-          });
-          const data = await res.json();
-          if (data.success || data.ok) {
-            result.className = 'text-sm font-medium text-sage-700 dark:text-sage-400';
-            result.textContent = '✓ Message envoyé ! Nous vous répondrons rapidement.';
-            form.reset();
-            if (charCount) charCount.textContent = '0';
-          } else {
-            result.className = 'text-sm font-medium text-terracotta-700 dark:text-terracotta-400';
-            result.textContent = data.error || 'Erreur lors de l\'envoi. Réessayez.';
-          }
-        } catch (err) {
-          result.className = 'text-sm font-medium text-terracotta-700 dark:text-terracotta-400';
-          result.textContent = 'Erreur de connexion. Vérifiez votre réseau.';
-        }
+        
+        // We DO NOT reset the form or transmit any data anywhere, preserving the user's input.
       });
     }
 
