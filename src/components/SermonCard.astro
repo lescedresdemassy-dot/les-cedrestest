@@ -1,5 +1,6 @@
 ---
 import type { Sermon } from '../data/sermons';
+import { formatScriptureDisplay } from '../data/sermons';
 
 interface Props {
   sermon: Sermon;
@@ -8,6 +9,18 @@ interface Props {
 }
 
 const { sermon, featured = false, class: className = '' } = Astro.props;
+
+// Normaliser le titre s'il est tout en majuscules sans détruire le titre source
+function getDisplayTitle(title: string): string {
+  if (title === title.toUpperCase() && title.length > 5) {
+    // Conversion simple et sûre pour le français : première lettre en majuscule, le reste en minuscules.
+    const lower = title.toLowerCase();
+    return lower.charAt(0).toUpperCase() + lower.slice(1);
+  }
+  return title;
+}
+
+const displayTitle = getDisplayTitle(sermon.title);
 
 // YouTube thumbnail (high quality)
 const thumbnail = `https://i.ytimg.com/vi/${sermon.youtubeId}/maxresdefault.jpg`;
@@ -78,7 +91,7 @@ const dateFr = new Date(sermon.date).toLocaleDateString('fr-FR', {
       {sermon.scripture && (
         <>
           <span>·</span>
-          <span class="font-medium text-terracotta-700 dark:text-terracotta-300">{sermon.scripture}</span>
+          <span class="font-medium text-terracotta-700 dark:text-terracotta-300">{formatScriptureDisplay(sermon.scripture)}</span>
         </>
       )}
     </div>
@@ -88,7 +101,7 @@ const dateFr = new Date(sermon.date).toLocaleDateString('fr-FR', {
       featured ? 'text-2xl sm:text-3xl lg:text-4xl' : 'text-lg group-hover:text-terracotta-700 dark:group-hover:text-terracotta-300 transition-colors',
     ]}>
       <a href={`/sermons/${sermon.id}`}>
-        {sermon.title}
+        {displayTitle}
       </a>
     </h3>
 

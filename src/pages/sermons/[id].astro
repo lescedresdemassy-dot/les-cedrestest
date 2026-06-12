@@ -4,7 +4,7 @@ import Container from '../../components/Container.astro';
 import Button from '../../components/Button.astro';
 import SermonCard from '../../components/SermonCard.astro';
 import YouTubeEmbed from '../../components/YouTubeEmbed.astro';
-import { sermons, getRelatedSermons } from '../../data/sermons.ts';
+import { sermons, getRelatedSermons, formatScriptureDisplay } from '../../data/sermons.ts';
 import { church } from '../../data/church.ts';
 
 export function getStaticPaths() {
@@ -16,6 +16,17 @@ export function getStaticPaths() {
 
 const { sermon } = Astro.props;
 const related = getRelatedSermons(sermon, 3);
+
+// Normaliser le titre s'il est tout en majuscules sans détruire le titre source
+function getDisplayTitle(title: string): string {
+  if (title === title.toUpperCase() && title.length > 5) {
+    const lower = title.toLowerCase();
+    return lower.charAt(0).toUpperCase() + lower.slice(1);
+  }
+  return title;
+}
+
+const displayTitle = getDisplayTitle(sermon.title);
 
 const dateFr = new Date(sermon.date).toLocaleDateString('fr-FR', {
   weekday: 'long',
@@ -66,7 +77,7 @@ export const prerender = true;
             <a href="/sermons" class="hover:text-terracotta-700 dark:hover:text-terracotta-300">Prédications</a>
           </li>
           <li class="opacity-40">/</li>
-          <li class="truncate text-ink-750 dark:text-ink-300">{sermon.title}</li>
+          <li class="truncate text-ink-750 dark:text-ink-300">{displayTitle}</li>
         </ol>
       </nav>
 
@@ -78,7 +89,7 @@ export const prerender = true;
         )}
 
         <h1 class="font-display text-3xl font-light leading-[1.15] tracking-tight text-ink-900 text-balance dark:text-ink-50 sm:text-4xl md:text-5xl">
-          {sermon.title}
+          {displayTitle}
         </h1>
 
         <div class="mt-6 flex flex-wrap items-center gap-x-6 gap-y-3 text-sm text-ink-600 dark:text-ink-400">
@@ -93,7 +104,7 @@ export const prerender = true;
           {sermon.scripture && (
             <span class="flex items-center gap-2">
               <svg class="h-4 w-4 text-terracotta-600 dark:text-terracotta-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20"/></svg>
-              Scripture : <span class="font-medium text-terracotta-700 dark:text-terracotta-300">{sermon.scripture}</span>
+              Texte : <span class="font-medium text-terracotta-700 dark:text-terracotta-300">{formatScriptureDisplay(sermon.scripture)}</span>
             </span>
           )}
           {sermon.durationMinutes && (

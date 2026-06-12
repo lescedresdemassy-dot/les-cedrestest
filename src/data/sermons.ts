@@ -525,3 +525,15 @@ export function getRelatedSermons(sermon: Sermon, limit: number = 3): Sermon[] {
     })
     .slice(0, limit);
 }
+
+/**
+ * Normalise l'affichage d'une référence biblique au format français.
+ * Exemple : "Matthieu 7:1-12" -> "Matthieu 7,1-12" (en conservant les tirets/accents corrects)
+ */
+export function formatScriptureDisplay(scripture?: string): string {
+  if (!scripture) return '';
+  return scripture
+    .replace(/:/g, ',')
+    .replace(/-/g, '–'); // En dash consistent
+}
+
