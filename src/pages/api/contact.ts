@@ -1,7 +1,7 @@
 import type { APIRoute } from 'astro';
 import { supabaseAdmin } from '../../lib/supabase';
 import {
-  checkRateLimit,
+  checkDatabaseRateLimit,
   getClientIp,
   isAllowedOrigin,
   validate,
@@ -9,6 +9,7 @@ import {
   checkHoneypot,
   errorResponse,
   successResponse,
+  jsonResponse,
 } from '../../lib/security.ts';
 import { ContactFormSchema } from '../../lib/schemas.ts';
 
@@ -21,13 +22,22 @@ export const POST: APIRoute = async ({ request }) => {
   }
 
   const ip = getClientIp(request);
-  const rl = checkRateLimit(ip, {
+  const rl = await checkDatabaseRateLimit(ip, {
     bucket: 'contact',
     limit: 5,
     windowMs: 60 * 1000, // 5 requêtes par minute max
   });
   if (!rl.success) {
-    return errorResponse('Trop de demandes. Réessayez dans une minute.', 429);
+    const secondsToReset = Math.ceil((rl.resetAt - Date.now()) / 1000);
+    return jsonResponse(
+      { ok: false, error: 'Trop de demandes. Réessayez dans une minute.' },
+      {
+        status: 429,
+        headers: {
+          'Retry-After': String(secondsToReset),
+        },
+      }
+    );
   }
 
   let body: unknown;

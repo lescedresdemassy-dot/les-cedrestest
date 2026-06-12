@@ -4,6 +4,7 @@
  */
 
 import { z } from 'zod';
+import { supabaseAdmin } from './supabase.ts';
 
 // =============================================================================
 // 1. RATE LIMITING — in-memory (single-instance) ou Redis (multi-instance)
@@ -81,6 +82,49 @@ export function checkRateLimit(
     remaining: options.limit - record.count,
     resetAt: record.resetAt,
   };
+}
+
+/**
+ * Vérifie la limite de requêtes persistée en base de données Supabase.
+ * Plus robuste pour les environnements Serverless.
+ */
+export async function checkDatabaseRateLimit(
+  ip: string,
+  options: RateLimitOptions
+): Promise<RateLimitResult> {
+  const now = Date.now();
+  const windowStart = new Date(now - options.windowMs).toISOString();
+
+  if (options.bucket === 'contact') {
+    try {
+      const { count, error } = await supabaseAdmin
+        .from('contact_messages')
+        .select('*', { count: 'exact', head: true })
+        .eq('ip', ip)
+        .gt('created_at', windowStart);
+
+      if (error) {
+        console.error('[SECURITY] Erreur rate limit DB, repli mémoire:', error.message);
+        return checkRateLimit(ip, options);
+      }
+
+      const currentCount = count || 0;
+      const remaining = Math.max(0, options.limit - currentCount);
+      const resetAt = now + options.windowMs;
+
+      return {
+        success: currentCount < options.limit,
+        remaining,
+        resetAt,
+      };
+    } catch (e: any) {
+      console.error('[SECURITY] Exception rate limit DB, repli mémoire:', e.message);
+      return checkRateLimit(ip, options);
+    }
+  }
+
+  // Repli en mémoire pour les autres cas d'usage
+  return checkRateLimit(ip, options);
 }
 
 /**

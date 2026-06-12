@@ -706,10 +706,9 @@ export const prerender = true;
           
           // Instantiate the empty state HTML dynamically inside DOM only if it is empty
           if (emptyContainer.children.length === 0) {
-            // Obfuscated at runtime to prevent static string folding by bundler
-            const titleHtml = 'Aucun rés_ultat'.replace('_', '');
-            const bodyHtml = 'Aucune préd_ication ne correspond à votre recherche. Modifiez vos filtres ou effacez la recherche.'.replace('_', '');
-            const btnHtml = 'Réinitialiser les fil_tres'.replace('_', '');
+            const titleHtml = 'Aucun résultat';
+            const bodyHtml = 'Aucune prédication ne correspond à votre recherche. Modifiez vos filtres ou effacez la recherche.';
+            const btnHtml = 'Réinitialiser les filtres';
 
             emptyContainer.innerHTML = `
               <div
@@ -742,7 +741,7 @@ export const prerender = true;
           }
 
           if (announce && liveRegion) {
-            liveRegion.textContent = "Aucun rés_ultat trouvé pour votre recherche.".replace('_', '');
+            liveRegion.textContent = "Aucun résultat trouvé pour votre recherche.";
           }
         } else {
           grid.classList.remove('hidden');
