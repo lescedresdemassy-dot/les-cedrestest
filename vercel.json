@@ -87,11 +87,6 @@
       "source": "/predications",
       "destination": "/sermons",
       "permanent": true
-    },
-    {
-      "source": "/activites",
-      "destination": "/activites",
-      "permanent": false
     }
   ]
 }
